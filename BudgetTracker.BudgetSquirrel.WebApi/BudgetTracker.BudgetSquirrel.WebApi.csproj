@@ -18,10 +18,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetTracker.BudgetSquirrel.Application\BudgetTracker.BudgetSquirrel.Application.csproj" />
-    <ProjectReference Include="..\BudgetTracker.Business\BudgetTracker.Business.csproj" />
-    <ProjectReference Include="..\BudgetTracker.Common\BudgetTracker.Common.csproj" />
-    <ProjectReference Include="..\BudgetTracker.Data.EntityFramework\BudgetTracker.Data.EntityFramework.csproj" />
-    <ProjectReference Include="..\GateKeeper\GateKeeper.csproj" />
+    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Business\BudgetTracker.Business.csproj" />
+    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Common\BudgetTracker.Common.csproj" />
+    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Data.EntityFramework\BudgetTracker.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\BudgetTracker\GateKeeper\GateKeeper.csproj" />
   </ItemGroup>
 
 </Project>
