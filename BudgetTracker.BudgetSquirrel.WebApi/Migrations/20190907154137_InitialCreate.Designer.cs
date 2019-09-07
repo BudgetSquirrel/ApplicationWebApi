@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190821014854_InitialCreate")]
+    [Migration("20190907154137_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,8 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                     b.Property<DateTime>("CreatedDate");
 
                     b.Property<Guid>("DurationId");
+
+                    b.Property<decimal>("FundBalance");
 
                     b.Property<string>("Name");
 

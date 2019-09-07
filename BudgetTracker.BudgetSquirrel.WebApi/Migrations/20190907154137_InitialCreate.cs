@@ -51,6 +51,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                     SetAmount = table.Column<decimal>(nullable: true),
                     BudgetStart = table.Column<DateTime>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
+                    FundBalance = table.Column<decimal>(nullable: false),
                     OwnerId = table.Column<Guid>(nullable: false),
                     ParentBudgetId = table.Column<Guid>(nullable: true),
                     DurationId = table.Column<Guid>(nullable: false)

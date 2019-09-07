@@ -49,6 +49,8 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
 
                     b.Property<Guid>("DurationId");
 
+                    b.Property<decimal>("FundBalance");
+
                     b.Property<string>("Name");
 
                     b.Property<Guid>("OwnerId");
