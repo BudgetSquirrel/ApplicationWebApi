@@ -90,6 +90,33 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                     b.ToTable("BudgetPeriods");
                 });
 
+            modelBuilder.Entity("BudgetTracker.Data.EntityFramework.Models.TransactionModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Amount");
+
+                    b.Property<Guid>("BudgetId");
+
+                    b.Property<string>("CheckNumber");
+
+                    b.Property<DateTime>("DateOfTransaction");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("VendorName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BudgetId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("BudgetTracker.Data.EntityFramework.Models.UserModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -134,6 +161,14 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                     b.HasOne("BudgetTracker.Data.EntityFramework.Models.BudgetModel", "RootBudget")
                         .WithMany()
                         .HasForeignKey("RootBudgetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BudgetTracker.Data.EntityFramework.Models.TransactionModel", b =>
+                {
+                    b.HasOne("BudgetTracker.Data.EntityFramework.Models.BudgetModel", "Budget")
+                        .WithMany()
+                        .HasForeignKey("BudgetId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

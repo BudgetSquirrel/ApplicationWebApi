@@ -99,6 +99,30 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    VendorName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Amount = table.Column<decimal>(nullable: false),
+                    DateOfTransaction = table.Column<DateTime>(nullable: false),
+                    CheckNumber = table.Column<string>(nullable: true),
+                    Notes = table.Column<string>(maxLength: 200, nullable: true),
+                    BudgetId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Budgets_BudgetId",
+                        column: x => x.BudgetId,
+                        principalTable: "Budgets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BudgetPeriods_RootBudgetId",
                 table: "BudgetPeriods",
@@ -118,12 +142,20 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                 name: "IX_Budgets_ParentBudgetId",
                 table: "Budgets",
                 column: "ParentBudgetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_BudgetId",
+                table: "Transactions",
+                column: "BudgetId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "BudgetPeriods");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Budgets");

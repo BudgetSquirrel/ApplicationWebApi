@@ -1,4 +1,3 @@
-using BudgetTracker.BudgetSquirrel.Application;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.Business.Converters.BudgetConverters;
 using BudgetTracker.BudgetSquirrel.Application.Messages.BudgetApi;
@@ -22,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace BudgetTracker.BudgetSquirrel.Application
 {
-    public class BudgetApi :  ApiBase<User>, IBudgetApi
+    public class BudgetApi : ApiBase<User>, IBudgetApi
     {
 
         private readonly IBudgetRepository _budgetRepository;
@@ -48,7 +47,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
                 BudgetResponseMessage response = GeneralBudgetApiConverter.ToGeneralResponseMessage(createdBudget);
                 return new ApiResponse(response);
             }
-            catch (RepositoryException ex)
+            catch (Exception ex)
             {
                 return new ApiResponse(ex.Message);
             }
