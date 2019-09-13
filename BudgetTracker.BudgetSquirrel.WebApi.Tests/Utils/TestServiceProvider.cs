@@ -1,3 +1,4 @@
+using BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.TestUtils.Auth;
 using BudgetTracker.TestUtils.Budgeting;
@@ -25,10 +26,12 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration config)
         {
-            services.AddScoped<BudgetBuilderFactory<Budget>>();
-            services.AddScoped<TransactionBuilderFactory>();
-            services.AddScoped<UserFactory>();
-            services.AddScoped<BasicSeed>();
+            services.AddSingleton<IConfiguration>(config);
+            services.AddTransient<BudgetBuilderFactory<Budget>>();
+            services.AddTransient<TransactionBuilderFactory>();
+            services.AddTransient<UserFactory>();
+            services.AddTransient<BasicSeed>();
+            services.AddTransient<EncryptionHelper>();
         }
     }
 }

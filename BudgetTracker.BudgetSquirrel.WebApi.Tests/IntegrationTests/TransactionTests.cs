@@ -5,11 +5,14 @@ using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Transactions;
 using BudgetTracker.Business.Ports.Repositories;
 using BudgetTracker.Data.EntityFramework;
+using BudgetTracker.Data.EntityFramework.Models;
 using BudgetTracker.TestUtils.Seeds;
 using BudgetTracker.TestUtils.Transactions;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,19 +23,17 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
     {
         private BasicSeed _seeder;
         private TransactionBuilderFactory _transactionBuilderFactory;
-        private BudgetTrackerContext _dbContext;
         private IBudgetRepository _budgetRepository;
         private IUserRepository _userRepository;
         private ITransactionRepository _transactionRepository;
 
         public TransactionTests() : base()
         {
-            _seeder = _startup.Services.GetService(typeof(BasicSeed)) as BasicSeed;
-            _transactionBuilderFactory = _startup.Services.GetService(typeof(TransactionBuilderFactory)) as TransactionBuilderFactory;
-            _dbContext = _startup.Server.Host.Services.GetService(typeof(BudgetTrackerContext)) as BudgetTrackerContext;
-            _budgetRepository = _startup.Server.Host.Services.GetService(typeof(IBudgetRepository)) as IBudgetRepository;
-            _userRepository = _startup.Server.Host.Services.GetService(typeof(IUserRepository)) as IUserRepository;
-            _transactionRepository = _startup.Server.Host.Services.GetService(typeof(ITransactionRepository)) as ITransactionRepository;
+            _seeder = GetTestUtilService<BasicSeed>();
+            _transactionBuilderFactory = GetTestUtilService<TransactionBuilderFactory>();
+            _budgetRepository = GetTestServerService<IBudgetRepository>();
+            _userRepository = GetTestServerService<IUserRepository>();
+            _transactionRepository = GetTestServerService<ITransactionRepository>();
         }
 
         [Fact]
@@ -46,13 +47,19 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
                                                     .SetBudgetId(budgetForTransaction.Id)
                                                     .SetAmount(30)
                                                     .Build();
+            decimal expectedNewFundBalance = budgetForTransaction.FundBalance + message.Amount;
 
             string requestData = JsonConvert.SerializeObject(message);
-            string messageStr = $"{{'user': {{ 'username': {root.Owner.Username}, 'password': {root.Owner.Password} }}," +
-                                $"'arguments': {requestData} }}";
-            ApiRequest request = (ApiRequest) JsonConvert.DeserializeObject(messageStr);
-            Console.WriteLine(messageStr);
+            string userPassword = _encryptionHelper.Decrypt(root.Owner.Password);
+            string messageStr = $"{{'user': {{ 'username': '{root.Owner.Username}', 'password': '{userPassword}' }}," +
+                                $"'arguments': {{ 'transaction-values': {requestData} }} }}";
+            ApiRequest request = JsonConvert.DeserializeObject<ApiRequest>(messageStr);
             HttpResponseMessage response = await _startup.SendJsonMessage(BudgetSquirrelUri.TRANSACTIONS_LOG, request, "POST");
+            response.EnsureSuccessStatusCode();
+            ResetServerServiceScope();
+
+            BudgetModel updatedBudget = await _dbContext.Budgets.Where(b => b.Id == budgetForTransaction.Id).SingleAsync();
+            Assert.Equal(expectedNewFundBalance, updatedBudget.FundBalance);
         }
     }
 }

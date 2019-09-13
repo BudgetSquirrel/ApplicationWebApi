@@ -20,6 +20,13 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
         private IConfiguration _config;
         private TestServer _server;
         private HttpClient _client;
+
+        /// <summary>
+        /// Services for the tests. This only contains test utilities.
+        /// The _server has it's own set of services such as the DbContext
+        /// and repositories. This service provider is configured in the
+        /// TestStartup.
+        /// </summary>
         private IServiceProvider _services;
 
         /// <summary>
