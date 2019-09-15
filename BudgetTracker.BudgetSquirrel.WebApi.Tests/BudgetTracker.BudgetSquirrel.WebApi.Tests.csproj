@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq" Version="4.13.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -23,6 +24,7 @@
     <ProjectReference Include="..\BudgetTracker.BudgetSquirrel.Application\BudgetTracker.BudgetSquirrel.Application.csproj" />
     <ProjectReference Include="..\BudgetTracker.BudgetSquirrel.WebApi\BudgetTracker.BudgetSquirrel.WebApi.csproj" />
     <ProjectReference Include="..\BudgetTracker\Tests\BudgetTracker.TestUtils\BudgetTracker.TestUtils.csproj" />
+    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Business\BudgetTracker.Business.csproj" />
   </ItemGroup>
 
   <ItemGroup>

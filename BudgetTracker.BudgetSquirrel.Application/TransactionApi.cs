@@ -49,7 +49,6 @@ namespace BudgetTracker.BudgetSquirrel.Application
                 }
                 catch (RepositoryException e)
                 {
-                    Console.WriteLine(e);
                     return new ApiResponse("That budget cannot be found.");
                 }
 
@@ -65,7 +64,6 @@ namespace BudgetTracker.BudgetSquirrel.Application
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 return new ApiResponse(ex.Message);
             }
         }

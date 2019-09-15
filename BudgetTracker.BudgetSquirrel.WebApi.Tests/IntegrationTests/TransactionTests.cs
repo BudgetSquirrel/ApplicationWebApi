@@ -1,5 +1,6 @@
 using BudgetTracker.BudgetSquirrel.Application;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
+using BudgetTracker.BudgetSquirrel.WebApi.Tests.ApiMessages;
 using BudgetTracker.Business.Auth;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Transactions;
@@ -49,11 +50,8 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
                                                     .Build();
             decimal expectedNewFundBalance = budgetForTransaction.FundBalance + message.Amount;
 
-            string requestData = JsonConvert.SerializeObject(message);
             string userPassword = _encryptionHelper.Decrypt(root.Owner.Password);
-            string messageStr = $"{{'user': {{ 'username': '{root.Owner.Username}', 'password': '{userPassword}' }}," +
-                                $"'arguments': {{ 'transaction-values': {requestData} }} }}";
-            ApiRequest request = JsonConvert.DeserializeObject<ApiRequest>(messageStr);
+            ApiRequest request = ApiRequestHelper.ToMessage(root.Owner.Username, userPassword, message);
             HttpResponseMessage response = await _startup.SendJsonMessage(BudgetSquirrelUri.TRANSACTIONS_LOG, request, "POST");
             response.EnsureSuccessStatusCode();
             ResetServerServiceScope();

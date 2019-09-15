@@ -21,5 +21,10 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
         {
             return _cryptor.Decrypt(val, _gateKeeperConfig.EncryptionKey, _gateKeeperConfig.Salt);
         }
+
+        public string Encrypt(string val)
+        {
+            return _cryptor.Encrypt(val, _gateKeeperConfig.EncryptionKey, _gateKeeperConfig.Salt);
+        }
     }
 }
