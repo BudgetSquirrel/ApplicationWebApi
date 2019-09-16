@@ -109,7 +109,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                     Amount = table.Column<decimal>(nullable: false),
                     DateOfTransaction = table.Column<DateTime>(nullable: false),
                     CheckNumber = table.Column<string>(nullable: true),
-                    Notes = table.Column<string>(maxLength: 200, nullable: true),
+                    Notes = table.Column<string>(maxLength: 500, nullable: true),
                     BudgetId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>

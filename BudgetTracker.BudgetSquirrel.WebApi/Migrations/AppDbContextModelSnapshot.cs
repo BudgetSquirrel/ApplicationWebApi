@@ -106,7 +106,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("Notes")
-                        .HasMaxLength(200);
+                        .HasMaxLength(500);
 
                     b.Property<string>("VendorName");
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190908001502_InitialCreate")]
+    [Migration("20190916010909_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,7 +108,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("Notes")
-                        .HasMaxLength(200);
+                        .HasMaxLength(500);
 
                     b.Property<string>("VendorName");
 

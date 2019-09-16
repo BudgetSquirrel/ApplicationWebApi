@@ -47,7 +47,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
                 {
                     budgetForTransaction = await _budgetRepository.GetBudget(transactionRequest.TransactionValues.BudgetId);
                 }
-                catch (RepositoryException e)
+                catch (RepositoryException)
                 {
                     return new ApiResponse("That budget cannot be found.");
                 }
