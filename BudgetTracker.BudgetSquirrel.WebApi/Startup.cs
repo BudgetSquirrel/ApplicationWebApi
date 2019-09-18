@@ -56,12 +56,14 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
                 options.UseSqlite(Configuration.GetConnectionString("Default"));
             });
 
-            services.AddScoped<IAuthenticationApi, AuthenticationApi>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IGateKeeperUserRepository<User>, UserRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IGateKeeperUserRepository<User>, UserRepository>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
+            services.AddTransient<IBudgetRepository, BudgetRepository>();
 
-            services.AddScoped<IBudgetRepository, BudgetRepository>();
-            services.AddScoped<IBudgetApi, BudgetApi>();
+            services.AddTransient<IAuthenticationApi, AuthenticationApi>();
+            services.AddTransient<IBudgetApi, BudgetApi>();
+            services.AddTransient<ITransactionApi, TransactionApi>();
 
             services.AddSwaggerGen(c =>
             {
@@ -113,9 +115,6 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-
-
         }
     }
 }
