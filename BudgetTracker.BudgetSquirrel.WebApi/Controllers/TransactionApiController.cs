@@ -34,5 +34,17 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
                 return Forbid();
             }
         }
+
+        [HttpPost()]
+        public async Task<IActionResult> FetchTransactions(ApiRequest request)
+        {
+            try
+            {
+                return new JsonResult(await _transactionApi.FetchTransactions(request));
+            }
+            catch (AuthenticationException) {
+                return Forbid();
+            }
+        }
     }
 }
