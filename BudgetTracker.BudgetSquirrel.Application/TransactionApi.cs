@@ -92,9 +92,9 @@ namespace BudgetTracker.BudgetSquirrel.Application
             }
 
             await _budgetRepository.LoadSubBudgets(budget, true);
-            List<Transaction> transactions = await budget.GetTransactions(fetchParameters.FromDate, fetchParameters.ToDate, _transactionRepository);
+            IEnumerable<Transaction> transactions = await budget.GetTransactions(fetchParameters.FromDate, fetchParameters.ToDate, _transactionRepository);
 
-            List<TransactionMessage> responseData = TransactionConverters.Convert(transactions);
+            IEnumerable<TransactionMessage> responseData = TransactionConverters.Convert(transactions);
             return new ApiResponse(responseData);
         }
     }
