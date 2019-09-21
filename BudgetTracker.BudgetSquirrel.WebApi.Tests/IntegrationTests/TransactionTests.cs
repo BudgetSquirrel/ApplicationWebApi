@@ -48,10 +48,15 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
                                                     .SetBudgetId(budgetForTransaction.Id)
                                                     .SetAmount(30)
                                                     .Build();
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "transaction-values", message }
+            };
+
             decimal expectedNewFundBalance = budgetForTransaction.FundBalance + message.Amount;
 
             string userPassword = _encryptionHelper.Decrypt(root.Owner.Password);
-            ApiRequest request = ApiRequestHelper.ToMessage(root.Owner.Username, userPassword, message);
+            ApiRequest request = ApiRequestHelper.ToMessage(root.Owner.Username, userPassword, data);
             HttpResponseMessage response = await _startup.SendJsonMessage(BudgetSquirrelUri.TRANSACTIONS_LOG, request, "POST");
             response.EnsureSuccessStatusCode();
             ResetServerServiceScope();

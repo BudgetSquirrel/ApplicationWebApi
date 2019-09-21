@@ -91,6 +91,11 @@ namespace BudgetTracker.BudgetSquirrel.Application
                 return new ApiResponse("That budget cannot be found.");
             }
 
+            if (!budget.IsOwnedBy(user))
+            {
+                return new ApiResponse("User does not own this budget.");
+            }
+
             await _budgetRepository.LoadSubBudgets(budget, true);
             IEnumerable<Transaction> transactions = await budget.GetTransactions(fetchParameters.FromDate, fetchParameters.ToDate, _transactionRepository);
 

@@ -20,7 +20,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.ApiMessages
         {
             string requestData = JsonConvert.SerializeObject(data);
             string messageStr = $"{{'user': {{ 'username': '{username}', 'password': '{password}' }}," +
-                                $"'arguments': {{ 'transaction-values': {requestData} }} }}";
+                                $"'arguments': {requestData} }}";
             ApiRequest request = JsonConvert.DeserializeObject<ApiRequest>(messageStr);
             return request;
         }
