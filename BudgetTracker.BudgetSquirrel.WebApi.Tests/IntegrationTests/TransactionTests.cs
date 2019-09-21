@@ -24,6 +24,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
     {
         private BasicSeed _seeder;
         private TransactionBuilderFactory _transactionBuilderFactory;
+        private TransactionFactory _transactionFactory;
         private IBudgetRepository _budgetRepository;
         private IUserRepository _userRepository;
         private ITransactionRepository _transactionRepository;
@@ -32,6 +33,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
         {
             _seeder = GetTestUtilService<BasicSeed>();
             _transactionBuilderFactory = GetTestUtilService<TransactionBuilderFactory>();
+            _transactionFactory = GetTestUtilService<TransactionFactory>();
             _budgetRepository = GetTestServerService<IBudgetRepository>();
             _userRepository = GetTestServerService<IUserRepository>();
             _transactionRepository = GetTestServerService<ITransactionRepository>();
@@ -40,8 +42,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
         [Fact]
         public async Task Test_BudgetFundUpdated_When_TransactionLogged()
         {
-            Budget root;
-            root = await _seeder.Seed(_userRepository, _budgetRepository);
+            Budget root = await _seeder.Seed(_userRepository, _budgetRepository);
 
             Budget budgetForTransaction = root.SubBudgets[1];
             TransactionMessage message = _transactionBuilderFactory.GetMessageBuilder()
@@ -63,6 +64,22 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
 
             BudgetModel updatedBudget = await _dbContext.Budgets.Where(b => b.Id == budgetForTransaction.Id).SingleAsync();
             Assert.Equal(expectedNewFundBalance, updatedBudget.FundBalance);
+        }
+
+        [Fact]
+        public async Task Test_CorrectTransactionsReturned_When_Fetched()
+        {
+            Budget root = await _seeder.Seed(_userRepository, _budgetRepository);
+            Budget budgetForTransactionFetch = root.SubBudgets.Single(b => b.SubBudgets != null && b.SubBudgets.Count() > 0);
+            Budget randomOtherBudget = root.SubBudgets.Where(b => b.SetAmount > 0).First(b => b.SubBudgets == null || b.SubBudgets.Count() == 0);
+
+            await _transactionFactory.CreateTransactionFor(budgetForTransactionFetch, _transactionRepository, _budgetRepository);
+            await _transactionFactory.CreateTransactionFor(budgetForTransactionFetch.SubBudgets[0], _transactionRepository, _budgetRepository);
+
+            // Create transaction that is for a completely different budget.
+            await _transactionFactory.CreateTransactionFor(randomOtherBudget, _transactionRepository, _budgetRepository);
+
+            // Now test...
         }
     }
 }
