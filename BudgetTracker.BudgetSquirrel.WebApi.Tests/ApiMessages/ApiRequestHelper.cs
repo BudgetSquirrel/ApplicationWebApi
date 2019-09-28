@@ -2,6 +2,7 @@ using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.Business.Auth;
 using Newtonsoft.Json;
 using System;
+using System.Net.Http;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.ApiMessages
 {
@@ -20,9 +21,16 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.ApiMessages
         {
             string requestData = JsonConvert.SerializeObject(data);
             string messageStr = $"{{'user': {{ 'username': '{username}', 'password': '{password}' }}," +
-                                $"'arguments': {{ 'transaction-values': {requestData} }} }}";
+                                $"'arguments': {requestData} }}";
             ApiRequest request = JsonConvert.DeserializeObject<ApiRequest>(messageStr);
             return request;
+        }
+
+        public static ApiResponse FromHttpResponse(HttpResponseMessage responseRaw)
+        {
+            string responseContent = responseRaw.Content.ReadAsStringAsync().Result;
+            ApiResponse responseMessage = JsonConvert.DeserializeObject<ApiResponse>(responseContent);
+            return responseMessage;
         }
     }
 }

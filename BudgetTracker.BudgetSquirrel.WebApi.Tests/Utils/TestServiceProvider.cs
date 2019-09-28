@@ -29,6 +29,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
             services.AddSingleton<IConfiguration>(config);
             services.AddTransient<BudgetBuilderFactory<Budget>>();
             services.AddTransient<TransactionBuilderFactory>();
+            services.AddTransient<TransactionFactory>();
             services.AddTransient<UserFactory>();
             services.AddTransient<BasicSeed>();
             services.AddTransient<EncryptionHelper>();
