@@ -24,6 +24,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using BudgetTracker.Business.Budgeting;
+using BudgetTracker.Business.Converters.BudgetConverters;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi
 {
@@ -64,6 +66,11 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
             services.AddTransient<IAuthenticationApi, AuthenticationApi>();
             services.AddTransient<IBudgetApi, BudgetApi>();
             services.AddTransient<ITransactionApi, TransactionApi>();
+
+            services.AddTransient<BudgetValidator>();
+            services.AddTransient<BudgetCreation>();
+
+            services.AddTransient<BudgetMessageConverter>();
 
             services.AddSwaggerGen(c =>
             {
