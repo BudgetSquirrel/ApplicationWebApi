@@ -12,13 +12,6 @@ namespace BudgetTracker.BudgetSquirrel.Application
         /// </summary>
         Task<ApiResponse> Register(ApiRequest request);
 
-        /// <summary>
-        /// <p>
-        /// Authenticates the user, returning it in the response if authorized.
-        /// </p>
-        /// </summary>
-        Task<ApiResponse> AuthenticateUser(ApiRequest request);
-
         Task<ApiResponse> DeleteUser(ApiRequest request);
     }
 }

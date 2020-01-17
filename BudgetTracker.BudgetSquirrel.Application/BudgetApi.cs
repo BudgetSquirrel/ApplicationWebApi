@@ -22,18 +22,21 @@ namespace BudgetTracker.BudgetSquirrel.Application
     public class BudgetApi : ApiBase<User>, IBudgetApi
     {
         private readonly IBudgetRepository _budgetRepository;
-        private readonly BudgetCreation _budgetCreator;
+        private readonly BudgetCreator _budgetCreator;
+        private readonly BudgetUpdater _budgetUpdater;
         private readonly BudgetValidator _budgetValidator;
         private readonly BudgetMessageConverter _budgetMessageConverter;
 
         public BudgetApi(IBudgetRepository budgetRepository, IConfiguration appConfig,
-            IGateKeeperUserRepository<User> userRepository, BudgetCreation budgetCreator,
+            IGateKeeperUserRepository<User> userRepository, BudgetCreator budgetCreator,
+            BudgetUpdater budgetUpdater,
             BudgetValidator budgetValidator, BudgetMessageConverter budgetMessageConverter)
             : base(userRepository, new Rfc2898Encryptor(),
                     ConfigurationReader.FromAppConfiguration(appConfig))
         {
             _budgetRepository = budgetRepository;
             _budgetCreator = budgetCreator;
+            _budgetUpdater = budgetUpdater;
             _budgetValidator = budgetValidator;
             _budgetMessageConverter = budgetMessageConverter;
         }
@@ -42,14 +45,12 @@ namespace BudgetTracker.BudgetSquirrel.Application
         {
             User user = await Authenticate(request);
             CreateBudgetArgumentApiMessage budgetRequest = request.Arguments<CreateBudgetArgumentApiMessage>();
+            CreateBudgetRequestMessage budgetValues = budgetRequest.BudgetValues;
 
-            if(!_budgetValidator.IsCreateBudgetRequestValid(budgetRequest.BudgetValues))
-                return new ApiResponse(Constants.Budget.ApiResponseErrorCodes.INVALID_ARGUMENTS);
             try
             {
-                Budget createdBudget = await _budgetCreator.CreateBudgetForUser(budgetRequest.BudgetValues, user);
-                BudgetResponseMessage response = _budgetMessageConverter.ToGeneralResponseMessage(createdBudget);
-                return new ApiResponse(response);
+                Budget createdBudget = await _budgetCreator.CreateBudgetForUser(budgetValues, user);
+                return new ApiResponse(new { success = true });
             }
             catch (Exception ex)
             {
@@ -61,19 +62,14 @@ namespace BudgetTracker.BudgetSquirrel.Application
         {
             await Authenticate(request);
             UpdateBudgetArgumentApiMessage budgetRequest = request.Arguments<UpdateBudgetArgumentApiMessage>();
-            Budget budgetChanges = _budgetMessageConverter.ToModel(budgetRequest.BudgetValues);
-
-            if(!_budgetValidator.IsUpdateBudgetRequestValid(budgetRequest.BudgetValues))
-                return new ApiResponse(Constants.Budget.ApiResponseErrorCodes.INVALID_ARGUMENTS);
+            UpdateBudgetRequestMessage updateValues = budgetRequest.BudgetValues;
 
             try
             {
-                budgetChanges.SetAmount = budgetChanges.CalculateBudgetSetAmount();
-                Budget updatedBudget = await _budgetRepository.UpdateBudget(budgetChanges);
-                BudgetResponseMessage response = _budgetMessageConverter.ToGeneralResponseMessage(updatedBudget);
-                return new ApiResponse(response);
+                Budget updatedBudget = await _budgetUpdater.UpdateBudget(updateValues);
+                return new ApiResponse(new { success = true });
             }
-            catch (RepositoryException ex)
+            catch (Exception ex)
             {
                 return new ApiResponse(ex.Message);
             }

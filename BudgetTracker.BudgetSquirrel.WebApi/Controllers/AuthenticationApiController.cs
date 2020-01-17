@@ -37,19 +37,6 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
             return await _authApi.Register(request);
         }
 
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate(ApiRequest request)
-        {
-            try
-            {
-                return new JsonResult(await _authApi.AuthenticateUser(request));
-            }
-            catch(AuthenticationException)
-            {
-                return Forbid();
-            }
-        }
-
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteUser(ApiRequest request)
         {

@@ -8,10 +8,10 @@ namespace BudgetTracker.BudgetSquirrel.Application.Messages.AuthenticationApi
     {
         /// <summary>
         /// Contains the username and password for logging in.
-        /// All other properties on the <see cref="UserRequestApiMessage" />
+        /// All other properties on the <see cref="RegisterUserMessage" />
         /// will be ignored.
         /// </summary>
         [JsonProperty("credentials")]
-        public UserRequestApiMessage Credentials { get; set; }
+        public RegisterUserMessage Credentials { get; set; }
     }
 }

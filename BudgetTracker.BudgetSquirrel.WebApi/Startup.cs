@@ -68,9 +68,12 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
             services.AddTransient<ITransactionApi, TransactionApi>();
 
             services.AddTransient<BudgetValidator>();
-            services.AddTransient<BudgetCreation>();
+            services.AddTransient<BudgetCreator>();
 
             services.AddTransient<BudgetMessageConverter>();
+
+            ConfigureAuthServices(services);
+            ConfigureBudgetServices(services);
 
             services.AddSwaggerGen(c =>
             {
@@ -87,6 +90,16 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
                 // of course you also need to register that scheme, e.g. using
                 options.AddScheme<BasicAuthenticationHandler>("basic-authentication-scheme", "scheme display name");
             });
+        }
+
+        protected virtual void ConfigureAuthServices(IServiceCollection services)
+        {
+            services.AddTransient<AccountCreator>();
+        }
+
+        protected virtual void ConfigureBudgetServices(IServiceCollection services)
+        {
+            services.AddTransient<BudgetUpdater>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

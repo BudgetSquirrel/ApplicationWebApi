@@ -28,13 +28,15 @@ namespace BudgetTracker.BudgetSquirrel.Application
     public class AuthenticationApi : ApiBase<User>, IAuthenticationApi
     {
         IUserRepository _userRepository;
+        private AccountCreator _accountCreator;
 
         public AuthenticationApi(IGateKeeperUserRepository<User> gateKeeperUserRepository, IUserRepository userRepository,
-            IConfiguration appConfig)
+            IConfiguration appConfig, AccountCreator accountCreator)
             : base(gateKeeperUserRepository, new Rfc2898Encryptor(),
                     ConfigurationReader.FromAppConfiguration(appConfig))
         {
             _userRepository = userRepository;
+            _accountCreator = accountCreator;
         }
 
         /// <summary>
@@ -45,48 +47,17 @@ namespace BudgetTracker.BudgetSquirrel.Application
         public async Task<ApiResponse> Register(ApiRequest request)
         {
             UserRegistrationArgumentApiMessage arguments = request.Arguments<UserRegistrationArgumentApiMessage>();
-            UserRequestApiMessage userValues = arguments.UserValues;
-            IUserRepository userRepo = _userRepository as IUserRepository;
-            User userModel = UserApiConverter.ToModel(userValues);
-            ApiResponse response;
+            RegisterUserMessage userValues = arguments.UserValues;
 
-            if (!User.IsAccountRegistrationRequestValid(userValues))
+            try
             {
-                response = new ApiResponse(Constants.Authentication.ApiResponseErrorCodes.PASSWORD_CONFIRM_INCORRECT);
-                return response;
+                await _accountCreator.Register(userValues);
+                return new ApiResponse(new ApiResponse(new { success = true }));
             }
-            if (await User.IsAccountRegistrationDuplicate(userValues.UserName, userRepo))
+            catch (Exception e)
             {
-                response = new ApiResponse(Constants.Authentication.ApiResponseErrorCodes.DUPLICATE_USERNAME);
-                return response;
+                return new ApiResponse(e.Message);
             }
-            if (await userRepo.Register(userModel))
-            {
-                userModel = await _userRepository.GetByUsername(userModel.Username);
-                UserResponseApiMessage responseData = UserApiConverter.ToResponseMessage(userModel);
-                response = new ApiResponse(responseData);
-            }
-            else
-            {
-                response = new ApiResponse(Constants.Authentication.ApiResponseErrorCodes.UNKNOWN);
-            }
-
-            return response;
-        }
-
-        /// <summary>
-        /// <p>
-        /// Authenticates the user, returning it in the response if authorized.
-        /// </p>
-        /// </summary>
-        public async Task<ApiResponse> AuthenticateUser(ApiRequest request)
-        {
-            ApiResponse response;
-            User authenticatedUser = await Authenticate(request);
-
-            UserResponseApiMessage responseData = UserApiConverter.ToResponseMessage(authenticatedUser);
-            response = new ApiResponse(responseData);
-            return response;
         }
 
         public async Task<ApiResponse> DeleteUser(ApiRequest request)
