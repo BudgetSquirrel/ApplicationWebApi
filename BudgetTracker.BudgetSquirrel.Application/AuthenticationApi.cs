@@ -25,15 +25,14 @@ namespace BudgetTracker.BudgetSquirrel.Application
     /// this API, one can register new users, login, logout and more.
     /// </p>
     /// </summary>
-    public class AuthenticationApi : ApiBase<User>, IAuthenticationApi
+    public class AuthenticationApi : ApiBase, IAuthenticationApi
     {
         IUserRepository _userRepository;
         private AccountCreator _accountCreator;
 
-        public AuthenticationApi(IGateKeeperUserRepository<User> gateKeeperUserRepository, IUserRepository userRepository,
-            IConfiguration appConfig, AccountCreator accountCreator)
-            : base(gateKeeperUserRepository, new Rfc2898Encryptor(),
-                    ConfigurationReader.FromAppConfiguration(appConfig))
+        public AuthenticationApi(IAuthenticationService authenticationService,
+            IUserRepository userRepository, AccountCreator accountCreator)
+            : base(authenticationService)
         {
             _userRepository = userRepository;
             _accountCreator = accountCreator;
@@ -63,7 +62,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
         public async Task<ApiResponse> DeleteUser(ApiRequest request)
         {
             ApiResponse response;
-            User authenticatedUser = await Authenticate(request);
+            User authenticatedUser = await Authenticate();
 
             try
             {

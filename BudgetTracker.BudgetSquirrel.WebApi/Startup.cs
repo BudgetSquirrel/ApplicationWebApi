@@ -5,7 +5,7 @@ using BudgetTracker.Data.EntityFramework;
 using BudgetTracker.Business.Ports.Repositories;
 using BudgetTracker.Data.EntityFramework.Models;
 using BudgetTracker.Data.EntityFramework.Repositories;
-using BudgetTracker.BudgetSquirrel.WebApi.Authorization;
+using BudgetTracker.BudgetSquirrel.WebApi.Auth;
 using BudgetTracker.BudgetSquirrel.WebApi.Data;
 using BudgetTracker.BudgetSquirrel.WebApi.Models;
 using GateKeeper.Repositories;
@@ -26,6 +26,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Converters.BudgetConverters;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi
 {
@@ -80,21 +84,34 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultChallengeScheme = "basic-authentication-scheme";
-
-                // you can also skip this to make the challenge scheme handle the forbid as well
-                options.DefaultForbidScheme = "basic-authentication-scheme";
-
-                // of course you also need to register that scheme, e.g. using
-                options.AddScheme<BasicAuthenticationHandler>("basic-authentication-scheme", "scheme display name");
-            });
+            services.AddAuthentication();
         }
 
         protected virtual void ConfigureAuthServices(IServiceCollection services)
         {
             services.AddTransient<AccountCreator>();
+
+            AuthConfig authConfig = Configuration.GetSection("Auth").Get<AuthConfig>();
+            services.AddSingleton<AuthConfig>(authConfig);
+
+            services.AddTransient<BudgetSquirrel.Application.IAuthenticationService, BudgetSquirrel.WebApi.Auth.AuthenticationService>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options => {
+                        string securityKey = authConfig.JWTSecurityKey;
+                        SymmetricSecurityKey symSecKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+
+                        options.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateIssuerSigningKey = true,
+
+                            ValidIssuer = authConfig.JWTIssuer,
+                            ValidAudience = authConfig.JWTAudience,
+                            IssuerSigningKey = symSecKey
+                        };
+                    });
         }
 
         protected virtual void ConfigureBudgetServices(IServiceCollection services)
@@ -119,6 +136,9 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
+            // app.UseAuthorization();
 
             app.UseSwagger();
 

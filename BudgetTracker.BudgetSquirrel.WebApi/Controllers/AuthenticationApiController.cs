@@ -8,6 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using BudgetTracker.BudgetSquirrel.WebApi.Auth;
+using BudgetTracker.Business.Auth;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
 {
@@ -25,10 +32,15 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
     public class AuthenticationApiController : ControllerBase
     {
         IAuthenticationApi _authApi;
+        AuthConfig _authConfig;
+        IAuthenticationService _authenticationService;
 
-        public AuthenticationApiController(IAuthenticationApi authApi)
+        public AuthenticationApiController(IAuthenticationApi authApi,
+            AuthConfig authConfig, IAuthenticationService authenticationService)
         {
             _authApi = authApi;
+            _authConfig = authConfig;
+            _authenticationService = authenticationService;
         }
 
         [HttpPost("register")]
@@ -48,6 +60,49 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
             {
                 return Forbid();
             }
+        }
+
+        /// <summary>
+        /// Returns a new token with claims information for the user specified
+        /// in the request. This token should be attached as a bearer token in
+        /// sub-sequent requests that require authentication.
+        /// </summary>
+        /// <param name="data">
+        /// A JSON object that contains 2 keys:
+        /// - username
+        /// - password
+        /// These are used to authenticate the user for which this token is generated.
+        /// </param>
+        /// <returns>
+        /// A JWT Token with claims information for the authenticated user. If
+        /// the user cannot be authenticated, a 403 will be thrown.
+        /// </returns>
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate(Dictionary<string, string> data)
+        {
+            User authenticatedUser;
+            try
+            {
+                authenticatedUser = await _authenticationService.Authenticate(data["username"], data["password"]);
+            }
+            catch (AuthenticationException)
+            {
+                return this.Forbid();
+            }
+
+            string securityKey = _authConfig.JWTSecurityKey;
+            SymmetricSecurityKey symSecKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+            SigningCredentials creds = new SigningCredentials(symSecKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, authenticatedUser.Username));
+            
+            JwtSecurityToken token = new JwtSecurityToken(issuer: _authConfig.JWTIssuer,
+                                            audience: _authConfig.JWTAudience,
+                                            expires: DateTime.Now.AddHours(_authConfig.JWTDuration),
+                                            signingCredentials: creds,
+                                            claims: claims);
+            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }

@@ -1,4 +1,5 @@
 using BudgetTracker.BudgetSquirrel.Application.Messages;
+using BudgetTracker.Business.Auth;
 using GateKeeper;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
@@ -9,30 +10,26 @@ using System.Threading.Tasks;
 
 namespace BudgetTracker.BudgetSquirrel.Application
 {
-    public class ApiBase<U> where U : IUser
+    public class ApiBase
     {
-        protected IGateKeeperUserRepository<U> _gateKeeperUserRepository;
+        protected IGateKeeperUserRepository<User> _gateKeeperUserRepository;
         protected ICryptor _cryptor;
 
         protected GateKeeperConfig _gateKeeperConfig;
+        IAuthenticationService _authenticationService;
 
-        public ApiBase(IGateKeeperUserRepository<U> gateKeeperUserRepository, ICryptor cryptor,
-            GateKeeperConfig gateKeeperConfig)
+        public ApiBase(IAuthenticationService authenticationService)
         {
-            _gateKeeperUserRepository = gateKeeperUserRepository;
-            _cryptor = cryptor;
-            _gateKeeperConfig = gateKeeperConfig;
+            _authenticationService = authenticationService;
         }
 
         /// <summary>
         /// Authenticates the user login, returning that user if authorized. Otherwise,
         /// this will throw a <see cref="AuthenticationException" />.
         /// </summary>
-        public async Task<U> Authenticate(ApiRequest request)
+        public Task<User> Authenticate()
         {
-            U user = await GateKeeper.Authentication.Authenticate(request.User.UserName, request.User.Password,
-                _gateKeeperUserRepository, _cryptor, _gateKeeperConfig);
-            return user;
+            return _authenticationService.GetCurrentUser();
         }
     }
 }
