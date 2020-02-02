@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GateKeeper.Configuration;
+using GateKeeper.Cryptogrophy;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi
 {
@@ -45,6 +47,8 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -93,6 +97,10 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
 
             AuthConfig authConfig = Configuration.GetSection("Auth").Get<AuthConfig>();
             services.AddSingleton<AuthConfig>(authConfig);
+
+            GateKeeperConfig gateKeeperConfig = ConfigurationReader.FromAppConfiguration(Configuration);
+            services.AddSingleton<GateKeeperConfig>(gateKeeperConfig);
+            services.AddTransient<ICryptor, Rfc2898Encryptor>();
 
             services.AddTransient<BudgetSquirrel.Application.IAuthenticationService, BudgetSquirrel.WebApi.Auth.AuthenticationService>();
 

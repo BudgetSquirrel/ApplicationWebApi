@@ -9,6 +9,7 @@ using GateKeeper.Cryptogrophy;
 using GateKeeper.Repositories;
 using GateKeeper.Exceptions;
 using Microsoft.AspNetCore.Http;
+using BudgetTracker.Business.Ports.Repositories;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi.Auth
 {
@@ -18,16 +19,17 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Auth
         protected ICryptor _cryptor;
 
         protected GateKeeperConfig _gateKeeperConfig;
-        private HttpContext _httpContext;
-        private UserRepository _userRepository;
+        private IHttpContextAccessor _httpContextAccessor;
+        private IUserRepository _userRepository;
 
         public AuthenticationService(IGateKeeperUserRepository<User> gateKeeperUserRepository, ICryptor cryptor,
-            GateKeeperConfig gateKeeperConfig, HttpContext httpContext)
+            GateKeeperConfig gateKeeperConfig, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
         {
             _gateKeeperUserRepository = gateKeeperUserRepository;
             _cryptor = cryptor;
             _gateKeeperConfig = gateKeeperConfig;
-            _httpContext = httpContext;
+            _httpContextAccessor = httpContextAccessor;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -43,11 +45,12 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Auth
 
         public async Task<User> GetCurrentUser()
         {
-            Claim usernameClaim = _httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            string username = usernameClaim.Value;
+            Claim usernameClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
 
-            if (string.IsNullOrEmpty(username))
+            if (usernameClaim == null || string.IsNullOrEmpty(usernameClaim.Value))
                 throw new AuthenticationException("No user associated with request");
+
+            string username = usernameClaim.Value;
 
             User user = await _userRepository.GetByUsername(username);
 
