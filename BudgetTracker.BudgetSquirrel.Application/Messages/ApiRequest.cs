@@ -14,9 +14,6 @@ namespace BudgetTracker.BudgetSquirrel.Application.Messages
     /// </summary>
     public class ApiRequest
     {
-        [JsonProperty("user")]
-        public RegisterUserMessage User { get; set; }
-
         [JsonProperty("arguments")]
         public Dictionary<string, object> ArgumentsDict { get; set; }
 
