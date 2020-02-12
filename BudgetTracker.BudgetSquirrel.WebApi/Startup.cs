@@ -43,10 +43,19 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
         }
 
         public IConfiguration Configuration { get; }
+        private readonly string AllowDevOrigin = "_allowDevOrigin";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => {
+                options.AddPolicy(AllowDevOrigin,
+                builder => {
+                    builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                });
+            });
             services.AddHttpContextAccessor();
             
             services.Configure<CookiePolicyOptions>(options =>
@@ -147,6 +156,8 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
 
             app.UseAuthentication();
             // app.UseAuthorization();
+
+            app.UseCors(AllowDevOrigin);
 
             app.UseSwagger();
 
