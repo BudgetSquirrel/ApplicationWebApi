@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using BudgetTracker.BudgetSquirrel.WebApi.Auth;
 using BudgetTracker.Business.Auth;
+using System.Net;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
 {
@@ -87,9 +88,11 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
                 authenticatedUser = await _authenticationService.Authenticate(data["username"], data["password"]);
                 userResponse = new UserResponseMessage(authenticatedUser);
             }
-            catch (AuthenticationException)
+            catch (AuthenticationException e)
             {
-                return this.Forbid();
+                return new JsonResult(new {
+                    error = e.Message
+                });
             }
 
             string securityKey = _authConfig.JWTSecurityKey;
