@@ -81,9 +81,11 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
         public async Task<IActionResult> Authenticate(Dictionary<string, string> data)
         {
             User authenticatedUser;
+            UserResponseMessage userResponse;
             try
             {
                 authenticatedUser = await _authenticationService.Authenticate(data["username"], data["password"]);
+                userResponse = new UserResponseMessage(authenticatedUser);
             }
             catch (AuthenticationException)
             {
@@ -104,7 +106,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
                                             signingCredentials: creds,
                                             claims: claims);
             return new JsonResult(new {
-                user = authenticatedUser,
+                user = userResponse,
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expires = expiration
             });
