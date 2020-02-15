@@ -97,12 +97,17 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, authenticatedUser.Username));
             
+            DateTime expiration = DateTime.Now.AddHours(_authConfig.JWTDuration);
             JwtSecurityToken token = new JwtSecurityToken(issuer: _authConfig.JWTIssuer,
                                             audience: _authConfig.JWTAudience,
-                                            expires: DateTime.Now.AddHours(_authConfig.JWTDuration),
+                                            expires: expiration,
                                             signingCredentials: creds,
                                             claims: claims);
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            return new JsonResult(new {
+                user = authenticatedUser,
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expires = expiration
+            });
         }
     }
 }
