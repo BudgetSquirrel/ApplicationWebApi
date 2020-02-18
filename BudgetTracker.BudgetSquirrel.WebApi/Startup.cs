@@ -1,24 +1,14 @@
 using BudgetTracker.BudgetSquirrel.Application;
-using BudgetTracker.Common;
 using BudgetTracker.Business.Auth;
 using BudgetTracker.Data.EntityFramework;
 using BudgetTracker.Business.Ports.Repositories;
-using BudgetTracker.Data.EntityFramework.Models;
 using BudgetTracker.Data.EntityFramework.Repositories;
 using BudgetTracker.BudgetSquirrel.WebApi.Auth;
 using BudgetTracker.BudgetSquirrel.WebApi.Data;
-using BudgetTracker.BudgetSquirrel.WebApi.Models;
 using GateKeeper.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,12 +16,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Converters.BudgetConverters;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi
 {
@@ -57,6 +47,8 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
                 });
             });
             services.AddHttpContextAccessor();
+
+            ConfigureFrontEnd(services);
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -98,6 +90,15 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
             });
 
             services.AddAuthentication();
+        }
+
+        protected virtual void ConfigureFrontEnd(IServiceCollection services)
+        {
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
         protected virtual void ConfigureAuthServices(IServiceCollection services)
@@ -152,6 +153,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
@@ -173,6 +175,16 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

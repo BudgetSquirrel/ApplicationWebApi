@@ -1,0 +1,48 @@
+$colorMain: #FAEAD6;
+$colorMainMedium: #886F59;
+$colorMainDark: #7D5F4A;
+
+$colorBlack: #394648;
+$colorWhite: #FFF;
+$colorWashLight: #EEF1F1;
+$colorWashDark: #D5D7D8;
+
+$colorAction: #69995D;
+$colorActionDark: #5A8A4E;
+
+:export {
+    main: $colorMain;
+    mainMedium: $colorMainMedium;
+    mainDark: $colorMainDark;
+
+    black: $colorBlack;
+    white: $colorWhite;
+}
+
+.color {
+    &-bg {
+        &__main { background-color: $colorMain; }
+    }
+
+    &-txt {
+        &__main {
+            color: $colorMain;
+
+            &-dark {
+                color: $colorMainDark;
+            }
+        }
+    }
+}
+
+.color-wash-bg {
+    &--light {
+        background-color: $colorWashLight;
+        fill: $colorWashLight;
+    }
+
+    &--dark {
+        background-color: $colorWashDark;
+        fill: $colorWashDark;
+    }
+}
