@@ -1,21 +1,16 @@
 using BudgetTracker.BudgetSquirrel.Application;
 using BudgetTracker.BudgetSquirrel.Application.Messages.AuthenticationApi;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
-using GateKeeper.Cryptogrophy;
+using BudgetTracker.BudgetSquirrel.WebApi.Models.Requests;
 using GateKeeper.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using BudgetTracker.BudgetSquirrel.WebApi.Auth;
 using BudgetTracker.Business.Auth;
-using System.Net;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
 {
@@ -33,14 +28,11 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
     public class AuthenticationApiController : ControllerBase
     {
         IAuthenticationApi _authApi;
-        AuthConfig _authConfig;
-        IAuthenticationService _authenticationService;
+        Application.IAuthenticationService _authenticationService;
 
-        public AuthenticationApiController(IAuthenticationApi authApi,
-            AuthConfig authConfig, IAuthenticationService authenticationService)
+        public AuthenticationApiController(IAuthenticationApi authApi, Application.IAuthenticationService authenticationService)
         {
             _authApi = authApi;
-            _authConfig = authConfig;
             _authenticationService = authenticationService;
         }
 
@@ -64,55 +56,46 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns a new token with claims information for the user specified
-        /// in the request. This token should be attached as a bearer token in
-        /// sub-sequent requests that require authentication.
+        /// Returns a new cookie with claims information for the user specified
+        /// in the request. This cookie will persistent until the user logs out
+        /// or the session times out.
         /// </summary>
-        /// <param name="data">
-        /// A JSON object that contains 2 keys:
-        /// - username
-        /// - password
-        /// These are used to authenticate the user for which this token is generated.
-        /// </param>
+        /// <param name="credentials">The username password used for the attempt to login <see cref="Credentials"/></param>
         /// <returns>
-        /// A JWT Token with claims information for the authenticated user. If
+        /// A Cookie with claims information for the authenticated user. If
         /// the user cannot be authenticated, a 403 will be thrown.
         /// </returns>
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate(Dictionary<string, string> data)
+        public async Task<IActionResult> Authenticate(Credentials credentials)
         {
             User authenticatedUser;
             UserResponseMessage userResponse;
             try
             {
-                authenticatedUser = await _authenticationService.Authenticate(data["username"], data["password"]);
+                authenticatedUser = await _authenticationService.Authenticate(credentials.Username, credentials.Password);
                 userResponse = new UserResponseMessage(authenticatedUser);
             }
             catch (AuthenticationException e)
             {
-                return new JsonResult(new {
+                return this.BadRequest(new JsonResult(new {
                     error = e.Message
-                });
+                }));
             }
 
-            string securityKey = _authConfig.JWTSecurityKey;
-            SymmetricSecurityKey symSecKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
-            SigningCredentials creds = new SigningCredentials(symSecKey, SecurityAlgorithms.HmacSha256);
+            if (authenticatedUser != null)
+            {
+                var cliamsIdenity = new ClaimsIdentity(authenticatedUser.CreateUserClaims(), CookieAuthenticationDefaults.AuthenticationScheme);
 
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, authenticatedUser.Username));
-            
-            DateTime expiration = DateTime.Now.AddHours(_authConfig.JWTDuration);
-            JwtSecurityToken token = new JwtSecurityToken(issuer: _authConfig.JWTIssuer,
-                                            audience: _authConfig.JWTAudience,
-                                            expires: expiration,
-                                            signingCredentials: creds,
-                                            claims: claims);
-            return new JsonResult(new {
-                user = userResponse,
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expires = expiration
-            });
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(cliamsIdenity),
+                    new AuthenticationProperties { IsPersistent = true});
+
+                return this.Ok(authenticatedUser);
+            }
+
+            return this.BadRequest(new JsonResult(new {
+                error = $"Unable to find User with the username {credentials.Username}"
+            }));
         }
     }
 }

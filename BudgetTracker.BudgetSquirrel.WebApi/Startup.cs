@@ -22,6 +22,8 @@ using System.Text;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi
 {
@@ -105,31 +107,24 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
         {
             services.AddTransient<AccountCreator>();
 
-            AuthConfig authConfig = Configuration.GetSection("Auth").Get<AuthConfig>();
-            services.AddSingleton<AuthConfig>(authConfig);
-
             GateKeeperConfig gateKeeperConfig = ConfigurationReader.FromAppConfiguration(Configuration);
             services.AddSingleton<GateKeeperConfig>(gateKeeperConfig);
             services.AddTransient<ICryptor, Rfc2898Encryptor>();
 
             services.AddTransient<BudgetSquirrel.Application.IAuthenticationService, BudgetSquirrel.WebApi.Auth.AuthenticationService>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options => {
-                        string securityKey = authConfig.JWTSecurityKey;
-                        SymmetricSecurityKey symSecKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
-
-                        options.TokenValidationParameters = new TokenValidationParameters()
-                        {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateIssuerSigningKey = true,
-
-                            ValidIssuer = authConfig.JWTIssuer,
-                            ValidAudience = authConfig.JWTAudience,
-                            IssuerSigningKey = symSecKey
-                        };
-                    });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.Events.OnRedirectToLogin = context => 
+                    {
+                        // Returns a 401 if the user attempts to access the site unauthenticated.
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                    // Can set the time out here. 
+                    // options.ExpireTimeSpan = new System.TimeSpan();
+                }
+            );
         }
 
         protected virtual void ConfigureBudgetServices(IServiceCollection services)
