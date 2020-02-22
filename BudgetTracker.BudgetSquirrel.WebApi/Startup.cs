@@ -3,7 +3,6 @@ using BudgetTracker.Business.Auth;
 using BudgetTracker.Data.EntityFramework;
 using BudgetTracker.Business.Ports.Repositories;
 using BudgetTracker.Data.EntityFramework.Repositories;
-using BudgetTracker.BudgetSquirrel.WebApi.Auth;
 using BudgetTracker.BudgetSquirrel.WebApi.Data;
 using GateKeeper.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -16,14 +15,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Converters.BudgetConverters;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
+using BudgetTracker.BudgetSquirrel.WebApi.Auth;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi
 {
@@ -105,13 +103,12 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
 
         protected virtual void ConfigureAuthServices(IServiceCollection services)
         {
-            services.AddTransient<AccountCreator>();
-
             GateKeeperConfig gateKeeperConfig = ConfigurationReader.FromAppConfiguration(Configuration);
             services.AddSingleton<GateKeeperConfig>(gateKeeperConfig);
             services.AddTransient<ICryptor, Rfc2898Encryptor>();
 
-            services.AddTransient<BudgetSquirrel.Application.IAuthenticationService, BudgetSquirrel.WebApi.Auth.AuthenticationService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<AccountCreator>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => {

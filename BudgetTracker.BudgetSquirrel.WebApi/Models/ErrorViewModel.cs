@@ -1,5 +1,3 @@
-using System;
-
 namespace BudgetTracker.BudgetSquirrel.WebApi.Models
 {
     public class ErrorViewModel

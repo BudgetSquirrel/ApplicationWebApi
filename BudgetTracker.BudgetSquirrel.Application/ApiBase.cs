@@ -1,3 +1,4 @@
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.Business.Auth;
 using GateKeeper;

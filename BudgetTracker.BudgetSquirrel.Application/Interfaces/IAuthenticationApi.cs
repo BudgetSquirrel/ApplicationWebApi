@@ -1,7 +1,8 @@
-using BudgetTracker.BudgetSquirrel.Application.Messages;
 using System.Threading.Tasks;
+using BudgetTracker.BudgetSquirrel.Application.Messages;
+using BudgetTracker.Business.Auth.Messages;
 
-namespace BudgetTracker.BudgetSquirrel.Application
+namespace BudgetTracker.BudgetSquirrel.Application.Interfaces
 {
     public interface IAuthenticationApi
     {
@@ -10,7 +11,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
         /// Allows a user to register a new account.
         /// </p>
         /// </summary>
-        Task<ApiResponse> Register(ApiRequest request);
+        Task<ApiResponse> Register(RegisterUser request);
 
         Task<ApiResponse> DeleteUser(ApiRequest request);
     }

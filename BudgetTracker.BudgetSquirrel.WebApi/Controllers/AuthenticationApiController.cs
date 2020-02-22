@@ -1,7 +1,5 @@
-using BudgetTracker.BudgetSquirrel.Application;
 using BudgetTracker.BudgetSquirrel.Application.Messages.AuthenticationApi;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
-using BudgetTracker.BudgetSquirrel.WebApi.Models.Requests;
 using GateKeeper.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +9,8 @@ using BudgetTracker.BudgetSquirrel.WebApi.Auth;
 using BudgetTracker.Business.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
+using BudgetTracker.Business.Auth.Messages;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
 {
@@ -28,18 +28,25 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
     public class AuthenticationApiController : ControllerBase
     {
         IAuthenticationApi _authApi;
-        Application.IAuthenticationService _authenticationService;
+        Application.Interfaces.IAuthenticationService _authenticationService;
 
-        public AuthenticationApiController(IAuthenticationApi authApi, Application.IAuthenticationService authenticationService)
+        public AuthenticationApiController(IAuthenticationApi authApi, Application.Interfaces.IAuthenticationService authenticationService)
         {
             _authApi = authApi;
             _authenticationService = authenticationService;
         }
 
+        /// <summary>
+        /// Will register a new user in the database and return a new cookie session
+        ///
+        /// </summary>
+        /// <param name="register">The user to be registered <see cref="Register"/></param>
+        /// <returns>The newly authenticated users and a cookie for future requests</returns>
         [HttpPost("register")]
-        public async Task<ApiResponse> Register(ApiRequest request)
+        public async Task<IActionResult> Register(RegisterUser register)
         {
-            return await _authApi.Register(request);
+            //await _authApi.Register()
+            return this.Ok();
         }
 
         [HttpPost("delete")]
@@ -77,9 +84,9 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
             }
             catch (AuthenticationException e)
             {
-                return this.BadRequest(new JsonResult(new {
-                    error = e.Message
-                }));
+                // Potential logging here since this is an exception instead of a user issue.
+                // still going to return a 400 so the user can't tell the difference
+                return this.BadRequest();
             }
 
             if (authenticatedUser != null)
@@ -93,9 +100,7 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
                 return this.Ok(authenticatedUser);
             }
 
-            return this.BadRequest(new JsonResult(new {
-                error = $"Unable to find User with the username {credentials.Username}"
-            }));
+            return this.BadRequest();
         }
     }
 }
