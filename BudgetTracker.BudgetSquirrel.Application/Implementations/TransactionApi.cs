@@ -2,23 +2,14 @@ using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.BudgetSquirrel.Application.Messages.TransactionApi;
 using BudgetTracker.Business.Auth;
 using BudgetTracker.Business.Budgeting;
-using BudgetTracker.Business.BudgetPeriods;
 using BudgetTracker.Business.Converters;
 using BudgetTracker.Business.Transactions;
 using BudgetTracker.Business.Ports.Exceptions;
 using BudgetTracker.Business.Ports.Repositories;
-using BudgetTracker.Common.Exceptions;
-
-using GateKeeper.Configuration;
-using GateKeeper.Cryptogrophy;
-using GateKeeper.Repositories;
-
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 
 namespace BudgetTracker.BudgetSquirrel.Application
 {

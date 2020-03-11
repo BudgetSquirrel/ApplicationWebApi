@@ -1,20 +1,10 @@
-using BudgetTracker.BudgetSquirrel.Application;
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.BudgetSquirrel.Application.Messages.AuthenticationApi;
-using BudgetTracker.Business.Converters;
 using BudgetTracker.Business.Auth;
-using BudgetTracker.Business;
-using BudgetTracker.Common;
+using BudgetTracker.Business.Auth.Messages;
 using BudgetTracker.Business.Ports.Repositories;
-using GateKeeper.Configuration;
-using GateKeeper.Cryptogrophy;
-using GateKeeper.Exceptions;
-using GateKeeper.Repositories;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BudgetTracker.BudgetSquirrel.Application
@@ -43,14 +33,11 @@ namespace BudgetTracker.BudgetSquirrel.Application
         /// Allows a user to register a new account.
         /// </p>
         /// </summary>
-        public async Task<ApiResponse> Register(ApiRequest request)
+        public async Task<ApiResponse> Register(RegisterUser registerUser)
         {
-            UserRegistrationArgumentApiMessage arguments = request.Arguments<UserRegistrationArgumentApiMessage>();
-            RegisterUserMessage userValues = arguments.UserValues;
-
             try
             {
-                await _accountCreator.Register(userValues);
+                await _accountCreator.Register(registerUser);
                 return new ApiResponse(new ApiResponse(new { success = true }));
             }
             catch (Exception e)

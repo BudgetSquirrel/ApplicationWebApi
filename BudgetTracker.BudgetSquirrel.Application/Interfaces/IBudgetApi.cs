@@ -2,7 +2,7 @@ using BudgetTracker.BudgetSquirrel.Application.Messages;
 
 using System.Threading.Tasks;
 
-namespace BudgetTracker.BudgetSquirrel.Application
+namespace BudgetTracker.BudgetSquirrel.Application.Interfaces
 {
     public interface IBudgetApi
     {

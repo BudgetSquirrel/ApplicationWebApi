@@ -1,3 +1,4 @@
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.BudgetSquirrel.Application.Messages.BudgetApi;
 using BudgetTracker.Business.Auth;
@@ -5,14 +6,6 @@ using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Converters.BudgetConverters;
 using BudgetTracker.Business.Ports.Exceptions;
 using BudgetTracker.Business.Ports.Repositories;
-using BudgetTracker.Common;
-
-using GateKeeper.Configuration;
-using GateKeeper.Cryptogrophy;
-using GateKeeper.Repositories;
-
-using Microsoft.Extensions.Configuration;
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

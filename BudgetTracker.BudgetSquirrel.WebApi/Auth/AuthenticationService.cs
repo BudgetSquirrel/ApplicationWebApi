@@ -1,15 +1,14 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BudgetTracker.BudgetSquirrel.Application;
 using BudgetTracker.Business.Auth;
-using BudgetTracker.Data.EntityFramework.Repositories;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
 using GateKeeper.Repositories;
 using GateKeeper.Exceptions;
 using Microsoft.AspNetCore.Http;
 using BudgetTracker.Business.Ports.Repositories;
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 
 namespace BudgetTracker.BudgetSquirrel.WebApi.Auth
 {
