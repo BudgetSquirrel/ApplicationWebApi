@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Authorization
+namespace BudgetSquirrel.Api.Authorization
 {
     public class BasicAuthenticationHandler : IAuthenticationHandler
     {

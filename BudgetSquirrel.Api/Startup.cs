@@ -1,33 +1,19 @@
 using BudgetTracker.BudgetSquirrel.Application;
-using BudgetTracker.Common;
-using BudgetTracker.Business.Auth;
-using BudgetTracker.Data.EntityFramework;
-using BudgetTracker.Business.Ports.Repositories;
-using BudgetTracker.Data.EntityFramework.Models;
-using BudgetTracker.Data.EntityFramework.Repositories;
-using BudgetTracker.BudgetSquirrel.WebApi.Authorization;
-using BudgetTracker.BudgetSquirrel.WebApi.Data;
-using BudgetTracker.BudgetSquirrel.WebApi.Models;
+using BudgetSquirrel.Api.Authorization;
+using BudgetSquirrel.Api.Data;
 using GateKeeper.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
-using BudgetTracker.Business.Budgeting;
-using BudgetTracker.Business.Converters.BudgetConverters;
+using BudgetSquirrel.Data.EntityFramework;
+using BudgetSquirrel.Business.Auth;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi
+namespace BudgetSquirrel.Api
 {
     public class Startup
     {
@@ -53,27 +39,18 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<BudgetTrackerContext, AppDbContext>(options =>
+            services.AddDbContext<BudgetSquirrelContext, AppDbContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("Default"));
             });
 
-            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IGateKeeperUserRepository<User>, UserRepository>();
-            services.AddTransient<ITransactionRepository, TransactionRepository>();
-            services.AddTransient<IBudgetRepository, BudgetRepository>();
 
             services.AddTransient<IAuthenticationApi, AuthenticationApi>();
             services.AddTransient<IBudgetApi, BudgetApi>();
             services.AddTransient<ITransactionApi, TransactionApi>();
 
-            services.AddTransient<BudgetValidator>();
-            services.AddTransient<BudgetCreator>();
-
-            services.AddTransient<BudgetMessageConverter>();
-
             ConfigureAuthServices(services);
-            ConfigureBudgetServices(services);
 
             services.AddSwaggerGen(c =>
             {
@@ -95,11 +72,6 @@ namespace BudgetTracker.BudgetSquirrel.WebApi
         protected virtual void ConfigureAuthServices(IServiceCollection services)
         {
             services.AddTransient<AccountCreator>();
-        }
-
-        protected virtual void ConfigureBudgetServices(IServiceCollection services)
-        {
-            services.AddTransient<BudgetUpdater>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

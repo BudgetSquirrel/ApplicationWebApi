@@ -1,7 +1,4 @@
-﻿using BudgetTracker.Common;
-using BudgetTracker.Data.EntityFramework;
-using BudgetTracker.Data.EntityFramework.Models;
-using BudgetTracker.BudgetSquirrel.Application;
+﻿using BudgetTracker.BudgetSquirrel.Application;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.BudgetSquirrel.Application.Messages.AuthenticationApi;
 using System;
@@ -13,9 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using BudgetTracker.BudgetSquirrel.WebApi.Models;
+using BudgetSquirrel.Api.Models;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Controllers
+namespace BudgetSquirrel.Api.Controllers
 {
     public class HomeController : Controller
     {

@@ -19,9 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetTracker.BudgetSquirrel.Application\BudgetTracker.BudgetSquirrel.Application.csproj" />
-    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Business\BudgetTracker.Business.csproj" />
-    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Common\BudgetTracker.Common.csproj" />
-    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Data.EntityFramework\BudgetTracker.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\BudgetTracker\BudgetSquirrel.Business\BudgetSquirrel.Business.csproj" />
+    <ProjectReference Include="..\BudgetTracker\BudgetSquirrel.Data.EntityFramework\BudgetSquirrel.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\BudgetTracker\GateKeeper\GateKeeper.csproj" />
   </ItemGroup>
 

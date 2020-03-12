@@ -1,8 +1,8 @@
-using BudgetTracker.Data.EntityFramework;
+using BudgetSquirrel.Data.EntityFramework;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Data
+namespace BudgetSquirrel.Api.Data
 {
     /// <summary>
     /// <p>
@@ -15,15 +15,10 @@ namespace BudgetTracker.BudgetSquirrel.WebApi.Data
     /// <p>
     /// Solution: The web project will use this proxy class that acts as a DbContext extending the
     /// real DbContext in the data assembly. This class should not have anything in it.
-    /// Any logic that needs to go in the DbContext should go in <see cref="BudgetTrackerContext"/>.
+    /// Any logic that needs to go in the DbContext should go in <see cref="BudgetSquirrelContext"/>.
     /// </p>
     /// </summary>
-    public class AppDbContext : BudgetTrackerContext
+    public class AppDbContext : BudgetSquirrelContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            :base(options)
-        {
-
-        }
     }
 }
