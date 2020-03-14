@@ -15,7 +15,7 @@ namespace BudgetSquirrel.Api
         {
             IWebHost host = CreateWebHostBuilder(args).Build();
 
-            Task seedTask = PerormPreflightOperations(host, args);
+            Task preflightOperationsTask = PerormPreflightOperations(host, args);
 
             host.Run();
         }
@@ -24,7 +24,7 @@ namespace BudgetSquirrel.Api
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
-        public static async Task PerormPreflightOperations(IWebHost host, string[] args)
+        private static async Task PerormPreflightOperations(IWebHost host, string[] args)
         {
             if (args.Contains("--seed") || args.Contains("-s"))
             {

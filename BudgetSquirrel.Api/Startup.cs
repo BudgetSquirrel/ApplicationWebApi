@@ -23,10 +23,23 @@ namespace BudgetSquirrel.Api
         }
 
         public IConfiguration Configuration { get; }
+        private readonly string AllowDevOrigin = "_allowDevOrigin";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => {
+                options.AddPolicy(AllowDevOrigin,
+                builder => {
+                    builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                });
+            });
+            services.AddHttpContextAccessor();
+
+            ConfigureFrontEnd(services);
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -57,21 +70,39 @@ namespace BudgetSquirrel.Api
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            services.AddAuthentication(options =>
+            services.AddAuthentication();
+        }
+
+        protected virtual void ConfigureFrontEnd(IServiceCollection services)
+        {
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
             {
-                options.DefaultChallengeScheme = "basic-authentication-scheme";
-
-                // you can also skip this to make the challenge scheme handle the forbid as well
-                options.DefaultForbidScheme = "basic-authentication-scheme";
-
-                // of course you also need to register that scheme, e.g. using
-                options.AddScheme<BasicAuthenticationHandler>("basic-authentication-scheme", "scheme display name");
+                configuration.RootPath = "ClientApp/build";
             });
         }
 
         protected virtual void ConfigureAuthServices(IServiceCollection services)
         {
+            GateKeeperConfig gateKeeperConfig = ConfigurationReader.FromAppConfiguration(Configuration);
+            services.AddSingleton<GateKeeperConfig>(gateKeeperConfig);
+            services.AddTransient<ICryptor, Rfc2898Encryptor>();
+
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<AccountCreator>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.Events.OnRedirectToLogin = context => 
+                    {
+                        // Returns a 401 if the user attempts to access the site unauthenticated.
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+                    // Can set the time out here. 
+                    // options.ExpireTimeSpan = new System.TimeSpan();
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,7 +121,13 @@ namespace BudgetSquirrel.Api
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
+            // app.UseAuthorization();
+
+            app.UseCors(AllowDevOrigin);
 
             app.UseSwagger();
 
@@ -106,6 +143,16 @@ namespace BudgetSquirrel.Api
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

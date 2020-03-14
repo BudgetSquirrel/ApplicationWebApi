@@ -1,12 +1,8 @@
 using BudgetTracker.BudgetSquirrel.Application.Messages;
-using BudgetTracker.BudgetSquirrel.Application;
 using GateKeeper.Exceptions;
-
 using Microsoft.AspNetCore.Mvc;
-
 using System.Threading.Tasks;
-using System;
-using BudgetTracker.BudgetSquirrel.Application.Messages.BudgetApi;
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 
 namespace BudgetSquirrel.Api.Controllers
 {

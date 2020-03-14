@@ -2,36 +2,25 @@ using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.BudgetSquirrel.Application.Messages.TransactionApi;
 using BudgetTracker.Business.Auth;
 using BudgetTracker.Business.Budgeting;
-using BudgetTracker.Business.BudgetPeriods;
 using BudgetTracker.Business.Converters;
 using BudgetTracker.Business.Transactions;
 using BudgetTracker.Business.Ports.Exceptions;
 using BudgetTracker.Business.Ports.Repositories;
-using BudgetTracker.Common.Exceptions;
-
-using GateKeeper.Configuration;
-using GateKeeper.Cryptogrophy;
-using GateKeeper.Repositories;
-
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 
 namespace BudgetTracker.BudgetSquirrel.Application
 {
-    public class TransactionApi : ApiBase<User>, ITransactionApi
+    public class TransactionApi : ApiBase, ITransactionApi
     {
         private IBudgetRepository _budgetRepository;
         private ITransactionRepository _transactionRepository;
 
         public TransactionApi(ITransactionRepository transactionRepository,
-            IBudgetRepository budgetRepository, IConfiguration appConfig,
-            IGateKeeperUserRepository<User> userRepository)
-        : base(userRepository, new Rfc2898Encryptor(),
-                ConfigurationReader.FromAppConfiguration(appConfig))
+            IBudgetRepository budgetRepository, IAuthenticationService authenticationService)
+        : base(authenticationService)
         {
             _budgetRepository = budgetRepository;
             _transactionRepository = transactionRepository;
@@ -39,7 +28,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> LogTransaction(ApiRequest request)
         {
-            User user = await Authenticate(request);
+            User user = await Authenticate();
             LogTransactionArgumentApiMessage transactionRequest = request.Arguments<LogTransactionArgumentApiMessage>();
 
             try {
@@ -71,7 +60,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> FetchTransactions(ApiRequest request)
         {
-            User user = await Authenticate(request);
+            User user = await Authenticate();
             FetchTransactionsArgumentApiMessage fetchParameters = request.Arguments<FetchTransactionsArgumentApiMessage>();
 
             DateTime toDate = fetchParameters.ToDate ?? DateTime.Now;

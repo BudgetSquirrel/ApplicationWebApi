@@ -1,0 +1,60 @@
+@import '../../Colors.scss';
+
+.header {
+    display: flex;
+    background-color: $colorMain;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+
+    &__section {
+        color: $colorMainDark;
+
+        &__left {
+            padding-left: var(--page-side-padding);
+        }
+
+        &__right {
+            margin-left: auto;
+            padding-right: var(--page-side-padding);
+        }
+    }
+
+    &__button {
+        height: 100%;
+        background-color: inherit;
+        border: none;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        color: $colorAction;
+        font-size: 16px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+
+        &:hover {
+            cursor: pointer;
+            background-color: $colorMainDark;
+        }
+
+        &:focus {
+            outline-color: $colorMainDark;
+            // background-color: $colorMainDark;
+        }
+    }
+
+    &__item {
+        height: 100%;
+        background-color: inherit;
+        border: none;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        color: $colorAction;
+        font-size: 16px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

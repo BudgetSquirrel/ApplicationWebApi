@@ -1,3 +1,4 @@
+using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
 using BudgetTracker.BudgetSquirrel.Application.Messages.BudgetApi;
 using BudgetTracker.Business.Auth;
@@ -5,21 +6,13 @@ using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Converters.BudgetConverters;
 using BudgetTracker.Business.Ports.Exceptions;
 using BudgetTracker.Business.Ports.Repositories;
-using BudgetTracker.Common;
-
-using GateKeeper.Configuration;
-using GateKeeper.Cryptogrophy;
-using GateKeeper.Repositories;
-
-using Microsoft.Extensions.Configuration;
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BudgetTracker.BudgetSquirrel.Application
 {
-    public class BudgetApi : ApiBase<User>, IBudgetApi
+    public class BudgetApi : ApiBase, IBudgetApi
     {
         private readonly IBudgetRepository _budgetRepository;
         private readonly BudgetCreator _budgetCreator;
@@ -27,12 +20,11 @@ namespace BudgetTracker.BudgetSquirrel.Application
         private readonly BudgetValidator _budgetValidator;
         private readonly BudgetMessageConverter _budgetMessageConverter;
 
-        public BudgetApi(IBudgetRepository budgetRepository, IConfiguration appConfig,
-            IGateKeeperUserRepository<User> userRepository, BudgetCreator budgetCreator,
-            BudgetUpdater budgetUpdater,
-            BudgetValidator budgetValidator, BudgetMessageConverter budgetMessageConverter)
-            : base(userRepository, new Rfc2898Encryptor(),
-                    ConfigurationReader.FromAppConfiguration(appConfig))
+        public BudgetApi(IBudgetRepository budgetRepository, BudgetCreator budgetCreator,
+            BudgetUpdater budgetUpdater, BudgetValidator budgetValidator,
+            BudgetMessageConverter budgetMessageConverter,
+            IAuthenticationService authenticationService)
+            : base(authenticationService)
         {
             _budgetRepository = budgetRepository;
             _budgetCreator = budgetCreator;
@@ -43,7 +35,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> CreateBudget(ApiRequest request)
         {
-            User user = await Authenticate(request);
+            User user = await Authenticate();
             CreateBudgetArgumentApiMessage budgetRequest = request.Arguments<CreateBudgetArgumentApiMessage>();
             CreateBudgetRequestMessage budgetValues = budgetRequest.BudgetValues;
 
@@ -60,7 +52,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> UpdateBudget(ApiRequest request)
         {
-            await Authenticate(request);
+            await Authenticate();
             UpdateBudgetArgumentApiMessage budgetRequest = request.Arguments<UpdateBudgetArgumentApiMessage>();
             UpdateBudgetRequestMessage updateValues = budgetRequest.BudgetValues;
 
@@ -77,7 +69,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> DeleteBudgets(ApiRequest request)
         {
-            await Authenticate(request);
+            await Authenticate();
 
             ApiResponse response = null;
 
@@ -97,7 +89,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> GetBudget(ApiRequest request)
         {
-            User user = await Authenticate(request);
+            User user = await Authenticate();
 
             GetBudgetArgumentApiMessage getBudget = request.Arguments<GetBudgetArgumentApiMessage>();
 
@@ -126,7 +118,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> GetRootBudgets(ApiRequest request)
         {
-            User user = await Authenticate(request);
+            User user = await Authenticate();
             ApiResponse response;
 
             List<Budget> rootBudgets = await _budgetRepository.GetRootBudgets(user.Id.Value);
@@ -142,7 +134,7 @@ namespace BudgetTracker.BudgetSquirrel.Application
 
         public async Task<ApiResponse> FetchBudgetTree(ApiRequest request)
         {
-            User user = await Authenticate(request);
+            User user = await Authenticate();
             ApiResponse response = null;
 
             Guid rootBudgetId = request.Arguments<FetchBudgetTreeArgumentsApiMessage>().RootBudgetId;
