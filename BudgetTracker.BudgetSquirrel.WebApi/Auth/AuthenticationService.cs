@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using BudgetTracker.Business.Ports.Repositories;
 using BudgetTracker.BudgetSquirrel.Application.Interfaces;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Auth
+namespace BudgetSquirrel.Api.Auth
 {
     public class AuthenticationService : IAuthenticationService
     {

@@ -1,4 +1,4 @@
-using BudgetTracker.BudgetSquirrel.WebApi;
+using BudgetSquirrel.Api;
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
+namespace BudgetSquirrel.Api.Tests.Utils
 {
     public class TestClientProvider
     {

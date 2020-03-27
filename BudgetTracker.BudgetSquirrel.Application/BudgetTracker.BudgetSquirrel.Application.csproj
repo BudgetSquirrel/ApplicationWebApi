@@ -11,8 +11,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Business\BudgetTracker.Business.csproj" />
-    <ProjectReference Include="..\BudgetTracker\BudgetTracker.Common\BudgetTracker.Common.csproj" />
+    <ProjectReference Include="..\BudgetTracker\BudgetSquirrel.Business\BudgetSquirrel.Business.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-using BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils;
+using BudgetSquirrel.Api.Tests.Utils;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.TestUtils.Auth;
 using BudgetTracker.TestUtils.Seeds;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.UnitTests
+namespace BudgetSquirrel.Api.Tests.UnitTests
 {
     /// <summary>
     /// Startup logic for Unit Tests.

@@ -4,7 +4,7 @@ using System.Linq;
 using BudgetTracker.Business.Auth;
 using System;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Auth
+namespace BudgetSquirrel.Api.Auth
 {
     public static class ClaimsHelper
     {

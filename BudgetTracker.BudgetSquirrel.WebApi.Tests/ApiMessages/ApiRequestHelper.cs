@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.ApiMessages
+namespace BudgetSquirrel.Api.Tests.ApiMessages
 {
     public class ApiRequestHelper
     {

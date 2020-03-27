@@ -5,12 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Security.Claims;
-using BudgetTracker.BudgetSquirrel.WebApi.Auth;
-using BudgetTracker.Business.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using BudgetTracker.BudgetSquirrel.Application.Interfaces;
-using BudgetTracker.Business.Auth.Messages;
 
 namespace BudgetSquirrel.Api.Controllers
 {

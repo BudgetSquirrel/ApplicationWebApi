@@ -12,7 +12,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
+namespace BudgetSquirrel.Api.Tests.Utils
 {
     public class TestStartup
     {

@@ -4,7 +4,7 @@ using GateKeeper.Cryptogrophy;
 using GateKeeper.Exceptions;
 using Microsoft.Extensions.Configuration;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
+namespace BudgetSquirrel.Api.Tests.Utils
 {
     public class EncryptionHelper
     {

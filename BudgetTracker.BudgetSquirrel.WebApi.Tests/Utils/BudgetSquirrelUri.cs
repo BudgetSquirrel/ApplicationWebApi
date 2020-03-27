@@ -1,6 +1,6 @@
 using System;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests
+namespace BudgetSquirrel.Api.Tests
 {
     public class BudgetSquirrelUri
     {

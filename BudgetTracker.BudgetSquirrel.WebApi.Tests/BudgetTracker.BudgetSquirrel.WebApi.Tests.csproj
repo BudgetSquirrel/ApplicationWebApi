@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetTracker.BudgetSquirrel.Application\BudgetTracker.BudgetSquirrel.Application.csproj" />
-    <ProjectReference Include="..\BudgetTracker.BudgetSquirrel.WebApi\BudgetTracker.BudgetSquirrel.WebApi.csproj" />
+    <ProjectReference Include="..\BudgetSquirrel.Api\BudgetSquirrel.Api.csproj" />
     <ProjectReference Include="..\BudgetTracker\Tests\BudgetTracker.TestUtils\BudgetTracker.TestUtils.csproj" />
     <ProjectReference Include="..\BudgetTracker\BudgetTracker.Business\BudgetTracker.Business.csproj" />
   </ItemGroup>

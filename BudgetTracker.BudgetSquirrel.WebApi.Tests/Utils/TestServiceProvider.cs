@@ -1,4 +1,4 @@
-using BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils;
+using BudgetSquirrel.Api.Tests.Utils;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.TestUtils.Auth;
 using BudgetTracker.TestUtils.Budgeting;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils
+namespace BudgetSquirrel.Api.Tests.Utils
 {
     public class TestServiceProvider
     {

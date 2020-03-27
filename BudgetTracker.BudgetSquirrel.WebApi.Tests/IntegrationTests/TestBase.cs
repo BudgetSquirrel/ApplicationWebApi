@@ -1,9 +1,9 @@
-using BudgetTracker.BudgetSquirrel.WebApi.Tests.Utils;
+using BudgetSquirrel.Api.Tests.Utils;
 using BudgetTracker.Data.EntityFramework;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
+namespace BudgetSquirrel.Api.Tests.IntegrationTests
 {
     public class TestBase : IDisposable
     {

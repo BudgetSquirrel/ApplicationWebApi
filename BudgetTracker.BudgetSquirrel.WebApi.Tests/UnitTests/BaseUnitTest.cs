@@ -1,8 +1,8 @@
-using BudgetTracker.BudgetSquirrel.WebApi.Tests.UnitTests;
+using BudgetSquirrel.Api.Tests.UnitTests;
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.UnitTests
+namespace BudgetSquirrel.Api.Tests.UnitTests
 {
     public class BaseUnitTest
     {

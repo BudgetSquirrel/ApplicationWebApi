@@ -1,6 +1,6 @@
 using BudgetTracker.BudgetSquirrel.Application;
 using BudgetTracker.BudgetSquirrel.Application.Messages;
-using BudgetTracker.BudgetSquirrel.WebApi.Tests.ApiMessages;
+using BudgetSquirrel.Api.Tests.ApiMessages;
 using BudgetTracker.Business.Auth;
 using BudgetTracker.Business.Budgeting;
 using BudgetTracker.Business.Transactions;
@@ -19,7 +19,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace BudgetTracker.BudgetSquirrel.WebApi.Tests.IntegrationTests
+namespace BudgetSquirrel.Api.Tests.IntegrationTests
 {
     public class TransactionTests : TestBase
     {
