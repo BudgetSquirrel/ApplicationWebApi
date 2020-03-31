@@ -1,3 +1,5 @@
+using BudgetSquirrel.Services.Implementations;
+using BudgetSquirrel.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +28,11 @@ namespace BudgetSquirrel.Api
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            // Services
+            services.AddTransient<IAuthService, AuthService>();
+
+            // Repositories
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
