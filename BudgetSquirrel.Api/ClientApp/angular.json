@@ -126,6 +126,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "budgetsquirrel"
+    }
+  },
+  "defaultProject": "budgetsquirrel",
+  "cli": {
+    "analytics": "537de755-4968-472c-9095-25ee505c78ae"
+  }
 }
