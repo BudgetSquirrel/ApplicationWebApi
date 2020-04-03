@@ -41,7 +41,7 @@ namespace BudgetSquirrel.Api
         protected void ConfigureAuthenticationServices(IServiceCollection services)
         {
             ConfigureGateKeeperServices(services);
-            services.AddTransient<IAuthService, AuthService>();
+            //services.AddTransient<IAuthService, AuthService>();
         }
 
         protected void ConfigureGateKeeperServices(IServiceCollection services)
