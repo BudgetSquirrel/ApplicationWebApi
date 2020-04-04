@@ -1,4 +1,4 @@
-using BudgetSquirrel.Api.EntityFrameworkTooling;
+using System;
 using BudgetSquirrel.Data.EntityFramework;
 using BudgetSquirrel.Services.Implementations;
 using BudgetSquirrel.Services.Interfaces;
@@ -36,6 +36,7 @@ namespace BudgetSquirrel.Api
             services.AddSingleton<IConfiguration>(Configuration);
 
             ConfigureAuthenticationServices(services);
+            ConfigureDataLayer(services);
         }
 
         protected void ConfigureAuthenticationServices(IServiceCollection services)
@@ -54,7 +55,7 @@ namespace BudgetSquirrel.Api
 
         protected void ConfigureDataLayer(IServiceCollection services)
         {
-            services.AddDbContext<BudgetSquirrelContext, AppDbContext>(options =>
+            services.AddDbContext<BudgetSquirrelContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("Default"));
             });
