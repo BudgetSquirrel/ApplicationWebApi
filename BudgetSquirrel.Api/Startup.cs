@@ -1,12 +1,10 @@
-using System;
 using BudgetSquirrel.Data.EntityFramework;
-using BudgetSquirrel.Services.Implementations;
-using BudgetSquirrel.Services.Interfaces;
+using BudgetSquirrel.Api.Services.Implementations;
+using BudgetSquirrel.Api.Services.Interfaces;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +40,12 @@ namespace BudgetSquirrel.Api
         protected void ConfigureAuthenticationServices(IServiceCollection services)
         {
             ConfigureGateKeeperServices(services);
-            //services.AddTransient<IAuthService, AuthService>();
+            
+            // Services
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IAccountService, AccountService>();
+
+            // Repositories
         }
 
         protected void ConfigureGateKeeperServices(IServiceCollection services)

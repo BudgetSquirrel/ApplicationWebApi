@@ -1,12 +1,13 @@
+using System;
 using System.Threading.Tasks;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Business.Auth;
-using BudgetSquirrel.Data.EntityFramework.Models;
 
 namespace BudgetSquirrel.Api.Services.Interfaces
 {
-    public interface IAuthService
+    public interface IAccountService
     {
-        Task<User> Authenticate(LoginRequest credentials);
+        Task<User> CreateUser(RegisterRequest newUser);
+        Task DeleteUser(Guid id);
     }
 }

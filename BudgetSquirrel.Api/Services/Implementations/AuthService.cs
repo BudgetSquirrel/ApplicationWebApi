@@ -1,15 +1,14 @@
-using System;
 using System.Threading.Tasks;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Data.EntityFramework;
-using BudgetSquirrel.Services.Interfaces;
-using BudgetSqurrel.Data.EntityFramework.Models;
+using BudgetSquirrel.Api.Services.Interfaces;
+using BudgetSquirrel.Data.EntityFramework.Models;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
 using Microsoft.EntityFrameworkCore;
 
-namespace BudgetSquirrel.Services.Implementations
+namespace BudgetSquirrel.Api.Services.Implementations
 {
     public class AuthService : IAuthService
     {
@@ -24,7 +23,7 @@ namespace BudgetSquirrel.Services.Implementations
             this.gateKeeperConfig = gateKeeperConfig;
         }
 
-        public async Task<UserRecord> Authenticate(LoginRequest credentials)
+        public async Task<User> Authenticate(LoginRequest credentials)
         {
             UserRecord user = await this.dbConext.Users.SingleOrDefaultAsync(x => x.Username == credentials.Username);
 
@@ -35,7 +34,7 @@ namespace BudgetSquirrel.Services.Implementations
                     user = null;
             }
 
-            return user;
+            return new User(user.Id, user.Username, user.FirstName, user.LastName, user.Email);
         }
     }
 }

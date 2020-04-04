@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BudgetSquirrel.Api.Helpers;
 using BudgetSquirrel.Api.RequestModels;
-using BudgetSquirrel.Services.Interfaces;
+using BudgetSquirrel.Api.Services.Interfaces;
 using GateKeeper.Exceptions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

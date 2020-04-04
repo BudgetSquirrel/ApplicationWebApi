@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using BudgetSquirrel.Business.Auth;
-using BudgetSqurrel.Data.EntityFramework.Models;
+using BudgetSquirrel.Data.EntityFramework.Models;
 
 namespace BudgetSquirrel.Api.Helpers
 {

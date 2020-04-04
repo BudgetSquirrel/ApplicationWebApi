@@ -12,4 +12,4 @@ export const EMPTY_USER: User = {
     lastName: null,
     username: null,
     email: null
-}
+};

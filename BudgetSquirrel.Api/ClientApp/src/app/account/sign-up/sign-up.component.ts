@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { AccountService } from "src/app/shared/services/account.service";
 
 @Component({
   selector: "bs-sign-up",
@@ -11,7 +12,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit() {
   }
