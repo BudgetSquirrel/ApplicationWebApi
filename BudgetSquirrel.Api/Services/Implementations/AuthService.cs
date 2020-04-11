@@ -3,10 +3,10 @@ using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Data.EntityFramework;
 using BudgetSquirrel.Api.Services.Interfaces;
-using BudgetSquirrel.Data.EntityFramework.Models;
 using GateKeeper.Configuration;
 using GateKeeper.Cryptogrophy;
 using Microsoft.EntityFrameworkCore;
+using BudgetSquirrel.Data.EntityFramework.Models;
 
 namespace BudgetSquirrel.Api.Services.Implementations
 {
@@ -23,7 +23,7 @@ namespace BudgetSquirrel.Api.Services.Implementations
             this.gateKeeperConfig = gateKeeperConfig;
         }
 
-        public async Task<User> Authenticate(LoginRequest credentials)
+        public async Task<UserRecord> Authenticate(LoginRequest credentials)
         {
             UserRecord user = await this.dbConext.Users.SingleOrDefaultAsync(x => x.Username == credentials.Username);
 
@@ -34,7 +34,7 @@ namespace BudgetSquirrel.Api.Services.Implementations
                     user = null;
             }
 
-            return new User(user.Id, user.Username, user.FirstName, user.LastName, user.Email);
+            return user;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace BudgetSquirrel.Api.Services.Implementations
                     throw new Exception("Something went wrong creating the user.");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log exception and rethrow?
                 throw;
