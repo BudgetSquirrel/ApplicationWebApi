@@ -3,49 +3,38 @@ using System.Threading.Tasks;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business.Auth;
+using BudgetSquirrel.Data.EntityFramework.Models;
 using BudgetSquirrel.Data.EntityFramework.Repositories.Interfaces;
+using GateKeeper.Configuration;
+using GateKeeper.Cryptogrophy;
 
 namespace BudgetSquirrel.Api.Services.Implementations
 {
     public class AccountService : IAccountService
     {
-        private readonly IAccountRepository accountRepository;
-        public AccountService(IAccountRepository accountRepository)
+        private readonly IUserRepository userRepository;
+
+        private readonly ICryptor cryptor;
+        private GateKeeperConfig gateKeeperConfig;
+
+        public AccountService(IUserRepository userRepository, ICryptor cryptor, GateKeeperConfig gateKeeperConfig)
         {
-            this.accountRepository = accountRepository;
+            this.userRepository = userRepository;
+            this.cryptor = cryptor;
+            this.gateKeeperConfig = gateKeeperConfig;
         }
 
-        public async Task<User> CreateUser(RegisterRequest newUser)
+        public async Task CreateUser(RegisterRequest newUser)
         {
-            User user = null;
-            try
-            {
-                var userRecord = await this.accountRepository.CreateUser(new User(Guid.NewGuid(),
-                                newUser.Username,
+            // TODO: Need to check if username already exists
+
+            User user = new User(newUser.Username,
                                 newUser.FirstName,
                                 newUser.LastName,
-                                newUser.Email));
+                                newUser.Email);
 
-                if (userRecord != null)
-                {
-                    user = new User(userRecord.Id,
-                                    userRecord.Username,
-                                    userRecord.FirstName,
-                                    userRecord.LastName,
-                                    userRecord.Email);
-                }
-                else
-                {
-                    throw new Exception("Something went wrong creating the user.");
-                }
-            }
-            catch (Exception)
-            {
-                // Log exception and rethrow?
-                throw;
-            }
-
-            return user;
+            string encryptedPassword = this.cryptor.Encrypt(newUser.Password, this.gateKeeperConfig.EncryptionKey, this.gateKeeperConfig.Salt);
+            UserRecord userRecord = await this.userRepository.SaveUser(user, encryptedPassword);
         }
 
         public Task DeleteUser(Guid id)

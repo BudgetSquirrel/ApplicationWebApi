@@ -10,3 +10,9 @@ This project runs a dotnet back end while hosting the front end in React. In ord
 
 Then cd to `BudgetTracker.BudgetSuirrel.WebApi` and run `dotnet run`
 
+### Setup Database
+```
+cd BudgetTracker/BudgetSquirrel.Data.EntityFramework
+
+dotnet ef database update --startup-project ../../BudgetSquirrel.Api.BudgetSquirrel.Api.csproj --configuration Development
+```

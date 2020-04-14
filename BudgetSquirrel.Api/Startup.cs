@@ -10,6 +10,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BudgetSquirrel.Data.EntityFramework.Repositories.Implementations;
+using BudgetSquirrel.Data.EntityFramework.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 namespace BudgetSquirrel.Api
 {
@@ -31,21 +35,33 @@ namespace BudgetSquirrel.Api
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddHttpContextAccessor();
+
             services.AddSingleton<IConfiguration>(Configuration);
 
             ConfigureAuthenticationServices(services);
             ConfigureDataLayer(services);
+            
+            // Services
+            services.AddTransient<IAccountService, AccountService>();
+
+            // Repositories
+            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         protected void ConfigureAuthenticationServices(IServiceCollection services)
         {
             ConfigureGateKeeperServices(services);
-            
-            // Services
             services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IAccountService, AccountService>();
 
-            // Repositories
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.Events.OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    };
+            });
         }
 
         protected void ConfigureGateKeeperServices(IServiceCollection services)

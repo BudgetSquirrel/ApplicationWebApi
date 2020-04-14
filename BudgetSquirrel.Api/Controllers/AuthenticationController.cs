@@ -1,16 +1,16 @@
 using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using BudgetSquirrel.Api.Helpers;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Api.Services.Interfaces;
+using BudgetSquirrel.Business.Auth;
+using BudgetSquirrel.Data.EntityFramework.Converters;
+using BudgetSquirrel.Data.EntityFramework.Models;
+using BudgetSquirrel.Data.EntityFramework.Repositories.Interfaces;
 using GateKeeper.Exceptions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BudgetSquirrel.Api 
+namespace BudgetSquirrel.Api
 {
 
     [AllowAnonymous]
@@ -19,10 +19,16 @@ namespace BudgetSquirrel.Api
     public class AuthenticationController : Controller
     {
         private readonly IAuthService authenticationService;
+        private readonly IAccountService accountService;
+        private readonly IUserRepository userRepository;
 
-        public AuthenticationController(IAuthService authenticationService)
+        public AuthenticationController(IAuthService authenticationService,
+                                        IAccountService accountService,
+                                        IUserRepository userRepository)
         {
             this.authenticationService = authenticationService;
+            this.accountService = accountService;
+            this.userRepository = userRepository;
         }
 
         [HttpGet("login")]
@@ -30,26 +36,33 @@ namespace BudgetSquirrel.Api
         {
             try
             {
-                var user = await this.authenticationService.Authenticate(credentials);
+                UserRecord user = await this.authenticationService.Authenticate(credentials);
 
-                var claimsIdentity = new ClaimsIdentity(user.CreateUserClaims(), CookieAuthenticationDefaults.AuthenticationScheme);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    new AuthenticationProperties { IsPersistent = true });
-
-                return Ok(user);
+                if (user != null)
+                {
+                    await this.authenticationService.SignInAsync(user);
+                    
+                    return new JsonResult(user);
+                }
+                
+                return this.BadRequest("Username or Password were incorrect");
             }
             catch (Exception ex) when (ex is AuthenticationException)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest("Username or Password were incorrect");
             }
         }
 
-        // [HttpPost("create")]
-        // public async Task<IActionResult> CreateUser([FromBody] RegisterRequest newUser)
-        // {
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateUser([FromBody] RegisterRequest newUser)
+        {
+            await this.accountService.CreateUser(newUser);
 
-        // }
+            UserRecord userRecord = await this.userRepository.GetByUsername(newUser.Username);
+            await this.authenticationService.SignInAsync(userRecord);
+            User user = UserConverter.ToDomainModel(userRecord);
+
+            return new JsonResult(user);
+        }
     }
 }
