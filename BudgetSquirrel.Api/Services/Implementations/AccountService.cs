@@ -26,7 +26,14 @@ namespace BudgetSquirrel.Api.Services.Implementations
 
         public async Task CreateUser(RegisterRequest newUser)
         {
-            // TODO: Need to check if username already exists
+            if (newUser.ConfirmPassword != newUser.Password)
+            {
+                throw new InvalidOperationException("The confirmation password must match the real password");
+            }
+            if (await DoesUserExist(newUser.Username))
+            {
+                throw new InvalidOperationException("That user already exists");
+            }
 
             User user = new User(newUser.Username,
                                 newUser.FirstName,
@@ -40,6 +47,12 @@ namespace BudgetSquirrel.Api.Services.Implementations
         public Task DeleteUser(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<bool> DoesUserExist(string username)
+        {
+            UserRecord user = await this.userRepository.GetByUsername(username);
+            return user != null;
         }
     }
 

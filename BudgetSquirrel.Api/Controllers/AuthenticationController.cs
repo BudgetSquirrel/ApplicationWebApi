@@ -31,7 +31,7 @@ namespace BudgetSquirrel.Api
             this.userRepository = userRepository;
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest credentials)
         {
             try
@@ -41,8 +41,8 @@ namespace BudgetSquirrel.Api
                 if (user != null)
                 {
                     await this.authenticationService.SignInAsync(user);
-                    
-                    return new JsonResult(user);
+                    User userResponse = UserConverter.ToDomainModel(user);
+                    return new JsonResult(userResponse);
                 }
                 
                 return this.BadRequest("Username or Password were incorrect");
