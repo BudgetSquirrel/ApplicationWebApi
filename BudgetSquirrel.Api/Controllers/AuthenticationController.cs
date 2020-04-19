@@ -67,7 +67,7 @@ namespace BudgetSquirrel.Api
 
         [Authorize]
         [HttpDelete]
-        public async Task<IActionResult> DeleteUser([FromBody] DeleteUserRequest user)
+        public IActionResult DeleteUser([FromBody] DeleteUserRequest user)
         {
             Console.WriteLine("Deleting user: " + user.Username);
             return new JsonResult(new { ok=true });
