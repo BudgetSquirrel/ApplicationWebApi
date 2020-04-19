@@ -62,6 +62,14 @@ namespace BudgetSquirrel.Api
                         return Task.CompletedTask;
                     };
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Default", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                });
+            });
         }
 
         protected void ConfigureGateKeeperServices(IServiceCollection services)
@@ -102,6 +110,9 @@ namespace BudgetSquirrel.Api
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

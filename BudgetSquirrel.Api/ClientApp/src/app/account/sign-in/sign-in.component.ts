@@ -34,7 +34,7 @@ export class SignInComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  usernameValidation = new FormControl("", [Validators.required, Validators.email]);
+  usernameValidation = new FormControl("", [Validators.required]);
   passwordValidation = new FormControl("", [Validators.required, Validators.minLength(6)]);
 
   constructor(private formBuilder: FormBuilder,
