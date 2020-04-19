@@ -13,9 +13,10 @@ const AUTHENTICATION_API = "api/authentication";
 })
 export class AccountService {
   private userSubject: BehaviorSubject<User>;
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
     this.userSubject = new BehaviorSubject(EMPTY_USER);
- }
+  }
 
   public login(credentials: Credentials): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}${AUTHENTICATION_API}/login`, credentials).pipe(
@@ -23,12 +24,9 @@ export class AccountService {
     );
   }
 
-  // public createUser(newUser: NewUser): Observable<User> {
-
-  // }
-
-  public deleteUser(): Promise<any> {
-    return this.http.delete(`${this.baseUrl}${AUTHENTICATION_API}`).toPromise();
+  public createUser(newUser: NewUser): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}${AUTHENTICATION_API}/create`, newUser).pipe(
+      tap((user: User) => this.userSubject.next(user))
+    );
   }
-
 }

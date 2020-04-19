@@ -6,6 +6,7 @@ export interface Credentials {
 export interface NewUser {
     username: string;
     password: string;
+    confirmPassword: string;
     firstName: string;
     lastName: string;
     emai: string;
