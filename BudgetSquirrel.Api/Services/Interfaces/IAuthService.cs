@@ -7,6 +7,7 @@ namespace BudgetSquirrel.Api.Services.Interfaces
 {
     public interface IAuthService
     {
+        Task<User> GetCurrentUser();
         Task<UserRecord> Authenticate(LoginRequest credentials);
         Task SignInAsync(UserRecord user);
     }

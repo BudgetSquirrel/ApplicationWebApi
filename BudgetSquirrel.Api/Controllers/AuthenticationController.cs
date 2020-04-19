@@ -1,7 +1,5 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using BudgetSquirrel.Api.Helpers;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business.Auth;
@@ -32,6 +30,14 @@ namespace BudgetSquirrel.Api
             this.authenticationService = authenticationService;
             this.accountService = accountService;
             this.userRepository = userRepository;
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            User user = await this.authenticationService.GetCurrentUser();
+            return new JsonResult(user);
         }
 
         [AllowAnonymous]

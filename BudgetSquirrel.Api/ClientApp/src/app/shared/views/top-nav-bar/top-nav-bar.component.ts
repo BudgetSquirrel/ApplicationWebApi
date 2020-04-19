@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../services/account.service";
-import { User } from '../../interfaces/user.interface';
+import { User, EMPTY_USER } from '../../interfaces/user.interface';
 
 @Component({
   selector: "bs-top-nav-bar",
@@ -20,7 +20,7 @@ import { User } from '../../interfaces/user.interface';
           <button mat-flat-button color="primary" routerLink="/sign-up">Sign Up</button>
         </div>
         <div *ngIf="this.isAuthenticated">
-          <span>{{user.firstName}} {{user.lastName}}}</span>
+          <span>{{user.firstName}} {{user.lastName}}</span>
           <button mat-flat-button color="primary" (click)="logout()">Logout</button>
         </div>
 
@@ -31,24 +31,22 @@ import { User } from '../../interfaces/user.interface';
 })
 export class TopNavBarComponent implements OnInit {
 
-  public isAuthenticated: boolean;
   public user: User;
+  public isAuthenticated: boolean = false;
 
   constructor(private accountService: AccountService) { }
 
   public ngOnInit() {
-    this.isAuthenticated = this.accountService.isAuthenticated();
-    this.accountService.get().subscribe((user: User) => {
+    this.accountService.getUser().subscribe((user: User) => {
+      console.log("change in auth");
+      
       this.user = user;
+      this.isAuthenticated = user !== EMPTY_USER;
     });
   }
 
   public logout() {
-    this.accountService.logout().then(() => {
-      // Success
-    }).catch(() => {
-      // Error
-    });
+    this.accountService.logout();
   }
 
 }
