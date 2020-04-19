@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { AccountService } from 'src/app/shared/services/account.service';
 
 @Component({
   selector: "bs-home",
@@ -6,14 +7,20 @@ import { Component, OnInit } from "@angular/core";
     <p>
       home works!
     </p>
+    <button (click)="deleteUser()">Delete User</button>
   `,
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
+
+  }
+
+  public deleteUser() {
+    this.accountService.deleteUser().then((x => console.log(x)));
   }
 
 }

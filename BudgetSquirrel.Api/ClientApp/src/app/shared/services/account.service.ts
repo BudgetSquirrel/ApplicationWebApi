@@ -27,4 +27,8 @@ export class AccountService {
 
   // }
 
+  public deleteUser(): Promise<any> {
+    return this.http.delete(`${this.baseUrl}${AUTHENTICATION_API}`).toPromise();
+  }
+
 }
