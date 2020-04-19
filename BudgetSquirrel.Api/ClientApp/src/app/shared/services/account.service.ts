@@ -2,10 +2,9 @@ import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User, EMPTY_USER } from "../interfaces/user.interface";
 import { HttpClient } from "@angular/common/http";
-import { tap } from "rxjs/operators";
-import { NewUser, Credentials } from "../interfaces/accounts.interface";
+import { tap, share } from "rxjs/operators";
+import { Credentials } from "../interfaces/accounts.interface";
 
-const ACCOUNT_API = "api/account";
 const AUTHENTICATION_API = "api/authentication";
 
 @Injectable({
@@ -13,6 +12,7 @@ const AUTHENTICATION_API = "api/authentication";
 })
 export class AccountService {
   private userSubject: BehaviorSubject<User>;
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
     this.userSubject = new BehaviorSubject(EMPTY_USER);
  }
@@ -27,8 +27,19 @@ export class AccountService {
 
   // }
 
+  public get(): Observable<User> {
+    return this.userSubject.asObservable().pipe(share());
+  }
+
   public deleteUser(): Promise<any> {
     return this.http.delete(`${this.baseUrl}${AUTHENTICATION_API}`).toPromise();
   }
 
+  public logout(): Promise<any> {
+    return this.http.get(`${this.baseUrl}${AUTHENTICATION_API}/logout`).toPromise();
+  }
+
+  public isAuthenticated(): boolean {
+    return !(this.userSubject.value === EMPTY_USER);
+  }
 }

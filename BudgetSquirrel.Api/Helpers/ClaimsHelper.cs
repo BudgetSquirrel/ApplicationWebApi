@@ -10,7 +10,7 @@ namespace BudgetSquirrel.Api.Helpers
     public static class ClaimsHelper	
     {	
         //https://docs.microsoft.com/en-us/dotnet/framework/wcf/extending/how-to-create-a-custom-claim	
-        const string userIdClaimType = "http://example.org/claims/userId";	
+        //const string userIdClaimType = "http://example.org/claims/userId";	
 
         /// <summary>	
         /// Is an extension method on the user class <see cref="User"/>	
@@ -23,7 +23,7 @@ namespace BudgetSquirrel.Api.Helpers
         {	
             var claims = new List<Claim>	
             {
-                new Claim(userIdClaimType, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             return claims;	
@@ -37,7 +37,7 @@ namespace BudgetSquirrel.Api.Helpers
         /// <returns>The user with base user data</returns>	
         public static Guid GetUserIdFromClaims(this IEnumerable<Claim> userClaims)	
         {
-            return Guid.Parse(userClaims.FirstOrDefault(x => x.Type == userIdClaimType)?.Value);
+            return Guid.Parse(userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
         }	
     }	
 } 

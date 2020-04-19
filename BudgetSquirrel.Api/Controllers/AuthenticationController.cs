@@ -9,6 +9,8 @@ using BudgetSquirrel.Data.EntityFramework.Converters;
 using BudgetSquirrel.Data.EntityFramework.Models;
 using BudgetSquirrel.Data.EntityFramework.Repositories.Interfaces;
 using GateKeeper.Exceptions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -66,6 +68,14 @@ namespace BudgetSquirrel.Api
             User user = UserConverter.ToDomainModel(userRecord);
 
             return new JsonResult(user);
+        }
+
+        [Authorize]
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return this.Ok();
         }
     }
 }
