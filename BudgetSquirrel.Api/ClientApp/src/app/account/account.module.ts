@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { SignUpComponent } from "./sign-up/sign-up.component";
 import { SignInComponent } from "./sign-in/sign-in.component";
 import { MatFormFieldModule, MatInputModule,  MatIconModule, MatButtonModule } from "@angular/material";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,8 @@ import { MatFormFieldModule, MatInputModule,  MatIconModule, MatButtonModule } f
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // Material
     MatFormFieldModule,
