@@ -26,7 +26,7 @@ const routes: Routes = [
     }
   },
   {
-    path: "sign-up",
+    path: "sign-in",
     component: SignInComponent,
     data: {
       title: "Budget Squirrel - Sign In"

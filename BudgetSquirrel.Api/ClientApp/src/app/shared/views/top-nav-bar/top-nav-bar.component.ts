@@ -7,8 +7,8 @@ import { Component, OnInit } from "@angular/core";
       <mat-toolbar-row>
         <span>Budget Squirrel</span>
         <button mat-flat-button color="primary" routerLink="/home">Home</button>
-        <button mat-flat-button color="primary" routerLink="/budgets">Budgets</button>
-        <button mat-flat-button color="primary" routerLink="/transactions">Transactions</button>
+        <button mat-flat-button color="primary" routerLink="/home">Budgets</button>
+        <button mat-flat-button color="primary" routerLink="/home">Transactions</button>
 
         <!-- Spacer -->
         <span  class="example-spacer"></span>
