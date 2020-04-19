@@ -15,7 +15,7 @@ namespace BudgetSquirrel.Api
 
     [AllowAnonymous]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthenticationController : Controller
     {
         private readonly IAuthService authenticationService;

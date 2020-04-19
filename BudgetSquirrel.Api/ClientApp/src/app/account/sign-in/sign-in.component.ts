@@ -24,6 +24,8 @@ import { Router } from "@angular/router";
         </button>
         <mat-error *ngIf="passwordValidation.invalid">Password must contain at least 6 characters</mat-error>
       </mat-form-field>
+
+      <button mat-flat-button type="submit" color="primary">Submit</button>
     </form>
   `,
   styleUrls: ["./sign-in.component.scss"]
