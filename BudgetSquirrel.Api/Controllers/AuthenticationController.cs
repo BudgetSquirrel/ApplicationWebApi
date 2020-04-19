@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using BudgetSquirrel.Api.Helpers;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business.Auth;
@@ -13,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace BudgetSquirrel.Api
 {
 
-    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class AuthenticationController : Controller
@@ -31,6 +32,7 @@ namespace BudgetSquirrel.Api
             this.userRepository = userRepository;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest credentials)
         {
@@ -53,6 +55,7 @@ namespace BudgetSquirrel.Api
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] RegisterRequest newUser)
         {
@@ -63,14 +66,6 @@ namespace BudgetSquirrel.Api
             User user = UserConverter.ToDomainModel(userRecord);
 
             return new JsonResult(user);
-        }
-
-        [Authorize]
-        [HttpDelete]
-        public IActionResult DeleteUser([FromBody] DeleteUserRequest user)
-        {
-            Console.WriteLine("Deleting user: " + user.Username);
-            return new JsonResult(new { ok=true });
         }
     }
 }

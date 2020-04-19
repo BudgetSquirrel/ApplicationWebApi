@@ -14,6 +14,7 @@ using BudgetSquirrel.Data.EntityFramework.Repositories.Implementations;
 using BudgetSquirrel.Data.EntityFramework.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
+using System;
 
 namespace BudgetSquirrel.Api
 {
@@ -61,11 +62,13 @@ namespace BudgetSquirrel.Api
                         context.Response.StatusCode = 401;
                         return Task.CompletedTask;
                     };
+                    options.ExpireTimeSpan = TimeSpan.FromHours(5);
+                    options.SlidingExpiration = true;
             });
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Default", policy =>
+                options.AddPolicy("Authenticated", policy =>
                 {
                     policy.RequireAuthenticatedUser();
                 });
