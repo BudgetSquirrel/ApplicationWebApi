@@ -9,5 +9,5 @@ export interface NewUser {
     confirmPassword: string;
     firstName: string;
     lastName: string;
-    emai: string;
+    email: string;
 }

@@ -37,6 +37,8 @@ export class SignInComponent implements OnInit {
   usernameValidation = new FormControl("", [Validators.required]);
   passwordValidation = new FormControl("", [Validators.required, Validators.minLength(6)]);
 
+  public hidePassword: boolean = true;
+
   constructor(private formBuilder: FormBuilder,
               private accountService: AccountService,
               private router: Router) { }
