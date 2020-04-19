@@ -7,7 +7,6 @@ import { AccountService } from 'src/app/shared/services/account.service';
     <p>
       home works!
     </p>
-    <button (click)="deleteUser()">Delete User</button>
   `,
   styleUrls: ["./home.component.scss"]
 })
@@ -18,9 +17,4 @@ export class HomeComponent implements OnInit {
   public ngOnInit() {
 
   }
-
-  public deleteUser() {
-    this.accountService.deleteUser().then((x => console.log(x)));
-  }
-
 }

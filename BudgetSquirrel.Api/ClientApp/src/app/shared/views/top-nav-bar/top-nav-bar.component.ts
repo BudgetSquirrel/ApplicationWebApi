@@ -15,11 +15,11 @@ import { User } from '../../interfaces/user.interface';
         <!-- Spacer -->
         <span  class="example-spacer"></span>
 
-        <div *nfIf="!this.isAuthenticated">
+        <div *ngIf="!this.isAuthenticated">
           <button mat-flat-button color="primary" routerLink="/sign-in">Sign In</button>
           <button mat-flat-button color="primary" routerLink="/sign-up">Sign Up</button>
         </div>
-        <div *nfIf="this.isAuthenticated">
+        <div *ngIf="this.isAuthenticated">
           <span>{{user.firstName}} {{user.lastName}}}</span>
           <button mat-flat-button color="primary" (click)="logout()">Logout</button>
         </div>

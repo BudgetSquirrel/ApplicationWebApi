@@ -14,5 +14,5 @@ Then cd to `BudgetTracker.BudgetSuirrel.WebApi` and run `dotnet run`
 ```
 cd BudgetTracker/BudgetSquirrel.Data.EntityFramework
 
-dotnet ef database update --startup-project ../../BudgetSquirrel.Api.BudgetSquirrel.Api.csproj --configuration Development
+dotnet ef database update --startup-project ../../BudgetSquirrel.Api/BudgetSquirrel.Api.csproj --configuration Development
 ```
