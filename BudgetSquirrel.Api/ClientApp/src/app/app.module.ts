@@ -8,11 +8,13 @@ import { SharedModule } from "./shared/shared.module";
 import { AccountModule } from "./account/account.module";
 import { HomeModule } from "./home/home.module";
 import { SplashPageComponent } from './splash-page/splash-page.component';
+import { VerticalPageSectionComponent } from './components/generic/vertical-page-section/vertical-page-section.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SplashPageComponent
+    SplashPageComponent,
+    VerticalPageSectionComponent
   ],
   imports: [
     BrowserModule,
