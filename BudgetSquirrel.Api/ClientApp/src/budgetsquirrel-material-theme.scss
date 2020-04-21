@@ -1,0 +1,83 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core();
+
+$msg-blue: (
+    50:   #E1EFF6,
+    100:  #B3D6EA,
+    200:  #81BBDC,
+    300:  #4EA0CD,
+    400:  #288BC3,
+    500:  #0277B8,
+    600:  #026FB1,
+    700:  #0164A8,
+    800:  #015AA0,
+    900:  #014791,
+    A100: #BDD8FF,
+    A200: #8ABBFF,
+    A400: #579DFF,
+    A700: #3D8EFF,
+    contrast: (
+        50:   $black-87-opacity,
+        100:  $black-87-opacity,
+        200:  $black-87-opacity,
+        300:  $black-87-opacity,
+        400:  $black-87-opacity,
+        500:  #fff,
+        600:  #fff,
+        700:  #fff,
+        800:  #fff,
+        900:  #fff,
+        A100: $black-87-opacity,
+        A200: $black-87-opacity,
+        A400: $black-87-opacity,
+        A700: #fff
+    )
+);
+
+$msg-orange: (
+    50:   #FFEEE8,
+    100:  #FFD4C7,
+    200:  #FFB8A1,
+    300:  #FF9B7B,
+    400:  #FF855F,
+    500:  #FF7043,
+    600:  #FF683D,
+    700:  #FF5D34,
+    800:  #FF532C,
+    900:  #FF411E,
+    A100: #FFFFFF,
+    A200: #FFFFFF,
+    A400: #FFD4CE,
+    A700: #FFBEB4,
+    contrast: (
+        50:   $black-87-opacity,
+        100:  $black-87-opacity,
+        200:  $black-87-opacity,
+        300:  $black-87-opacity,
+        400:  $black-87-opacity,
+        500:  #fff,
+        600:  #fff,
+        700:  #fff,
+        800:  #fff,
+        900:  #fff,
+        A100: $black-87-opacity,
+        A200: $black-87-opacity,
+        A400: $black-87-opacity,
+        A700: #fff
+    )
+);
+
+$budgetsquirrel-app-primary: mat-palette($msg-blue, 500, 500, 50);
+$budgetsquirrel-app-accent: mat-palette($msg-orange, 500, 500, 50);
+$budgetsquirrel-app-warn: mat-palette($mat-red);
+
+$budgetsquirrel-app-theme: mat-light-theme($budgetsquirrel-app-primary, $budgetsquirrel-app-accent, $budgetsquirrel-app-warn);
+
+// Add theme to app
+
+@include angular-material-theme($budgetsquirrel-app-theme);
