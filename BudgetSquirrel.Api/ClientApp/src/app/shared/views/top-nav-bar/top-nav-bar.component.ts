@@ -38,8 +38,6 @@ export class TopNavBarComponent implements OnInit {
 
   public ngOnInit() {
     this.accountService.getUser().subscribe((user: User) => {
-      console.log("change in auth");
-      
       this.user = user;
       this.isAuthenticated = user !== EMPTY_USER;
     });

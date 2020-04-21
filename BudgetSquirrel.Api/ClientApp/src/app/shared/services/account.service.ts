@@ -25,26 +25,25 @@ export class AccountService {
 
   public getUser(): Observable<User> {
     if (this.userSubject.value === EMPTY_USER) {
-      const a = this.getUserFromApi().pipe(
-        map((user: User) => {
-          this.userSubject.next(user);
-          return this.userSubject;
-        })
-      );
-      return a;
-    } else {
-      return this.userSubject.asObservable().pipe(share());
+      this.getUserFromApi().subscribe((user: User) => {
+        this.userSubject.next(user);
+      },
+      e => {
+        this.userSubject.next(EMPTY_USER);
+      });
     }
+    return this.userSubject.asObservable().pipe(share());
   }
 
   public deleteUser(): Promise<any> {
     return this.http.delete(`${this.baseUrl}${AUTHENTICATION_API}`).toPromise();
   }
 
-  public logout(): Promise<User> {
+  public logout(): Observable<boolean> {
     return this.http.get(`${this.baseUrl}${AUTHENTICATION_API}/logout`).pipe(
-      tap((user: User) => this.userSubject.next(EMPTY_USER))
-    ).toPromise();
+      tap((user: User) => this.userSubject.next(EMPTY_USER)),
+      map(() => true)
+    );
   }
 
   public createUser(newUser: NewUser): Observable<User> {
