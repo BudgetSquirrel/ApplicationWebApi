@@ -6,75 +6,113 @@
 // **Be sure that you only ever include this mixin once!**
 @include mat-core();
 
-$msg-blue: (
-    50:   #E1EFF6,
-    100:  #B3D6EA,
-    200:  #81BBDC,
-    300:  #4EA0CD,
-    400:  #288BC3,
-    500:  #0277B8,
-    600:  #026FB1,
-    700:  #0164A8,
-    800:  #015AA0,
-    900:  #014791,
-    A100: #BDD8FF,
-    A200: #8ABBFF,
-    A400: #579DFF,
-    A700: #3D8EFF,
+// Color palettes can be generated here:
+// http://mcg.mbitson.com/#!?primary=%237d5f4a&secondary=%235a8a4e&themename=budgetsquirrel
+$md-coffee: (
+    50 : #efece9,
+    100 : #d8cfc9,
+    200 : #beafa5,
+    300 : #a48f80,
+    400 : #917765,
+    500 : #7d5f4a,
+    600 : #755743,
+    700 : #6a4d3a,
+    800 : #604332,
+    900 : #4d3222,
+    A100 : #ffb892,
+    A200 : #ff975f,
+    A400 : #ff762c,
+    A700 : #ff6513,
     contrast: (
-        50:   $black-87-opacity,
-        100:  $black-87-opacity,
-        200:  $black-87-opacity,
-        300:  $black-87-opacity,
-        400:  $black-87-opacity,
-        500:  #fff,
-        600:  #fff,
-        700:  #fff,
-        800:  #fff,
-        900:  #fff,
-        A100: $black-87-opacity,
-        A200: $black-87-opacity,
-        A400: $black-87-opacity,
-        A700: #fff
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
     )
 );
 
-$msg-orange: (
-    50:   #FFEEE8,
-    100:  #FFD4C7,
-    200:  #FFB8A1,
-    300:  #FF9B7B,
-    400:  #FF855F,
-    500:  #FF7043,
-    600:  #FF683D,
-    700:  #FF5D34,
-    800:  #FF532C,
-    900:  #FF411E,
-    A100: #FFFFFF,
-    A200: #FFFFFF,
-    A400: #FFD4CE,
-    A700: #FFBEB4,
+$md-russian-green: (
+    50 : #ebf1ea,
+    100 : #cedcca,
+    200 : #adc5a7,
+    300 : #8cad83,
+    400 : #739c69,
+    500 : #5a8a4e,
+    600 : #528247,
+    700 : #48773d,
+    800 : #3f6d35,
+    900 : #2e5a25,
+    A100 : #aeff9f,
+    A200 : #83ff6c,
+    A400 : #58ff39,
+    A700 : #42ff1f,
     contrast: (
-        50:   $black-87-opacity,
-        100:  $black-87-opacity,
-        200:  $black-87-opacity,
-        300:  $black-87-opacity,
-        400:  $black-87-opacity,
-        500:  #fff,
-        600:  #fff,
-        700:  #fff,
-        800:  #fff,
-        900:  #fff,
-        A100: $black-87-opacity,
-        A200: $black-87-opacity,
-        A400: $black-87-opacity,
-        A700: #fff
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
     )
 );
 
-$budgetsquirrel-app-primary: mat-palette($msg-blue, 500, 500, 50);
-$budgetsquirrel-app-accent: mat-palette($msg-orange, 500, 500, 50);
-$budgetsquirrel-app-warn: mat-palette($mat-red);
+$md-danger: (
+    50 : #f7e7e7,
+    100 : #ecc3c3,
+    200 : #df9b9b,
+    300 : #d27272,
+    400 : #c95454,
+    500 : #bf3636,
+    600 : #b93030,
+    700 : #b12929,
+    800 : #a92222,
+    900 : #9b1616,
+    A100 : #ffcfcf,
+    A200 : #ff9c9c,
+    A400 : #ff6969,
+    A700 : #ff5050,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+
+$budgetsquirrel-app-primary: mat-palette($md-coffee, 500, 500, 50);
+$budgetsquirrel-app-accent: mat-palette($md-russian-green, 500, 500, 50);
+$budgetsquirrel-app-warn: mat-palette($md-danger);
 
 $budgetsquirrel-app-theme: mat-light-theme($budgetsquirrel-app-primary, $budgetsquirrel-app-accent, $budgetsquirrel-app-warn);
 
