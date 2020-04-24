@@ -4,7 +4,9 @@ import { Component } from "@angular/core";
   selector: "bs-root",
   template: `
     <bs-top-nav-bar></bs-top-nav-bar>
-    <router-outlet></router-outlet>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
   `,
   styleUrls: ["./app.component.scss"]
 })

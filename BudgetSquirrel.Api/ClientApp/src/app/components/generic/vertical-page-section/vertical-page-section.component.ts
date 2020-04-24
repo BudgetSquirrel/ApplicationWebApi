@@ -4,9 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'bs-vertical-page-section',
   template: `
   <div class="vert-section">
-    <div class="vert-section__content">
-      <ng-content select=".content"></ng-content>
-    </div>
+    <ng-content select=".content"></ng-content>
   </div>
   `,
   styleUrls: ['./vertical-page-section.component.scss']
