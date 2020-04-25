@@ -9,8 +9,8 @@
     bottom: 0;
     z-index: 5;
 
-    &__top {
-      fill: mat-color($primary, 50);
+    &__bottom {
+      fill: $white;
     }
 
     &__border {
@@ -22,7 +22,8 @@
     background-color: mat-color($primary, 50);
   }
 
-  .register-btn {
+  .register-btn,
+  .signin-label {
     margin-top: 30px;
   }
 
