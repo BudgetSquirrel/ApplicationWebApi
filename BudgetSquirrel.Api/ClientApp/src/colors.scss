@@ -1,0 +1,17 @@
+@import './variables';
+
+.color {
+  &-bg {
+      &__main { background-color: mat-color($primary, 500); }
+  }
+
+  &-txt {
+      &__main {
+          color: mat-color($primary, 500);;
+
+          &-dark {
+              color: mat-color($primary, 900);;
+          }
+      }
+  }
+}

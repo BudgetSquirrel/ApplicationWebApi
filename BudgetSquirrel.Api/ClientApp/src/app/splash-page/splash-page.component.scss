@@ -10,12 +10,16 @@
     z-index: 5;
 
     &__top {
-      fill: mat-color($primary, 100);
+      fill: mat-color($primary, 50);
     }
 
     &__border {
-      fill: mat-color($primary, 500);
+      fill: mat-color($primary, 400);
     }
+  }
+
+  &__summary-section {
+    background-color: mat-color($primary, 50);
   }
 
   .register-btn {
