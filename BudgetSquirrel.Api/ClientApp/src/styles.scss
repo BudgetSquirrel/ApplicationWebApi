@@ -1,32 +1,104 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat-core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$budgetsquirrel-primary: mat-palette($mat-indigo);
-$budgetsquirrel-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$budgetsquirrel-warn: mat-palette($mat-red);
-
-// Create the theme object (a Sass map containing all of the palettes).
-$budgetsquirrel-theme: mat-light-theme($budgetsquirrel-primary, $budgetsquirrel-accent, $budgetsquirrel-warn);
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($budgetsquirrel-theme);
+@import './budgetsquirrel-material-theme';
+@import './responsive';
+@import './z-index';
+@import './layouts';
+@import './colors';
 
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    margin: 0;
+    --page-side-padding: 110px;
+    color: $black;
+}
+
+.promo__img {
+    width: 375px;
+    height: 400px;
+
+    &__container {
+        z-index: 6;
+        position: relative;
+    }
+
+    &--small {
+        width: 314px;
+        height: 334px;
+    }
+}
+
+// Forms
+.form {
+    .input {
+        display: block;
+    }
+
+    &__inputs {
+        margin-top: 60px;
+
+        > .input {
+            margin-top: 20px;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+
+    &__actions {
+        margin-top: 60px;
+    }
+}
+
+// Form controls
+.input {
+    width: 460px;
+    background-color: #F7F7F7;
+    border: 1px solid #E7E7E7;
+    font-size: 14px;
+    padding: 0.9em;
+    box-sizing: border-box;
+
+    &--wrapper {
+        padding: 0;
+        border: none;
+        background: none;
+    }
+
+    &__explain {
+        font-size: 12px;
+        margin-top: 12px;
+    }
+}
+
+.button {
+    background-color: $white;
+    border: none;
+    border-radius: 4px;
+    color: $black;
+    padding: 15px;
+    font-size: inherit;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &--wide {
+        width: 300px;
+    }
+
+    &--primary {
+        background-color: mat-color($accent, 500);
+        color: mat-contrast($accent, 500);
+
+        &:hover {
+            background-color: mat-color($accent, 600);
+        }
+    }
+}

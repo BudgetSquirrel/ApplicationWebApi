@@ -1,0 +1,98 @@
+@import './../../variables';
+
+.splash {
+  .diag-border {
+    display: block;
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    bottom: 0;
+    z-index: 5;
+
+    &__bottom {
+      fill: $white;
+    }
+
+    &__border {
+      fill: mat-color($primary, 400);
+    }
+  }
+
+  &__summary-section {
+    background-color: mat-color($primary, 50);
+  }
+
+  .register-btn,
+  .signin-label {
+    margin-top: 30px;
+  }
+
+  &__section__content {
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &--grow {
+          max-width: initial;
+          padding-right: var(--inset);
+      }
+
+      &--no-grow {
+          max-width: 350px;
+      }
+  }
+
+  .vert-section {
+      &__content {
+          display: flex;
+          justify-content: space-between;
+      }
+  }
+
+  &__secondary-promo {
+      width: 279px;
+
+      > p {
+          text-align: center;
+          margin-top: 0.5em;
+          margin-bottom: 0;
+
+          &:first-of-type {
+              font-size: 24px;
+              font-weight: bold;
+              margin-top: 1.5em;
+          }
+      }
+
+      > img {
+          display: block;
+          height: 124px;
+          width: 200px;
+          margin-left: auto;
+          margin-right: auto;
+      }
+  }
+
+  &__register-section {
+      height: 453px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+
+  &__register-section-background {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+  }
+
+  &__register-section-background-svg {
+      height: 100%;
+      width: 100%;
+  }
+}

@@ -7,10 +7,12 @@ import { HttpClientModule } from "@angular/common/http";
 import { SharedModule } from "./shared/shared.module";
 import { AccountModule } from "./account/account.module";
 import { HomeModule } from "./home/home.module";
+import { SplashPageComponent } from './splash-page/splash-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SplashPageComponent
   ],
   imports: [
     BrowserModule,

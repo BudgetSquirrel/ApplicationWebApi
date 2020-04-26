@@ -3,19 +3,15 @@ import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./home/components/home/home.component";
 import { SignUpComponent } from "./account/sign-up/sign-up.component";
 import { SignInComponent } from "./account/sign-in/sign-in.component";
+import { SplashPageComponent } from './splash-page/splash-page.component';
 
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/home",
-    pathMatch: "full"
-  },
-  {
-    path: "home",
-    component: HomeComponent,
+    component: SplashPageComponent,
     data: {
-      title: "Budget Squirrel - Home"
+      title: "Budget Squirrel"
     }
   },
   {
@@ -31,7 +27,7 @@ const routes: Routes = [
     data: {
       title: "Budget Squirrel - Sign In"
     }
-  }
+  },
 ];
 
 @NgModule({
