@@ -1,3 +1,43 @@
-.example-spacer {
-  flex: 1 1 auto;
+@import '../../../../variables';
+
+.header {
+  background-color: mat-color($primary, 50);
+  padding-left: var(--page-side-padding);
+  padding-right: var(--page-side-padding);
+  display: flex;
+  justify-content: space-between;
+
+  .logo__container {
+    background-color: mat-color($primary, A100);
+    height: 48px;
+    display: inline-block;
+    border-radius: 50%;
+  }
+
+  .app-logo-title {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .app-title {
+    display: inline-block;
+    font-size: 1.5em;
+    margin-left: 0.75em;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: mat-color($accent, 500);
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1em;
+    text-align: center;
+
+    &:hover {
+      border-bottom: 4px solid mat-color($accent, 500);
+    }
+  }
 }
