@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormControl, FormBuilder } from "@angular/forms"
 import { Credentials } from "src/app/shared/interfaces/accounts.interface";
 import { User } from "src/app/shared/interfaces/user.interface";
 import { Router } from "@angular/router";
+import { ROUTES } from 'src/app/route-constants';
 
 @Component({
   selector: "bs-sign-in",
@@ -58,7 +59,7 @@ export class SignInComponent implements OnInit {
       };
 
       this.accountService.login(credentials).subscribe((user: User) => {
-        this.router.navigate(["/home"]);
+        this.router.navigate([ROUTES.HOME]);
       });
     }
   }
