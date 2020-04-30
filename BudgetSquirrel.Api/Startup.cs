@@ -45,9 +45,6 @@ namespace BudgetSquirrel.Api
             
             // Services
             services.AddTransient<IAccountService, AccountService>();
-
-            // Repositories
-            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         protected void ConfigureAuthenticationServices(IServiceCollection services)
@@ -89,6 +86,9 @@ namespace BudgetSquirrel.Api
             {
                 options.UseSqlite(Configuration.GetConnectionString("Default"));
             });
+            
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IBudgetRepository, BudgetRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
