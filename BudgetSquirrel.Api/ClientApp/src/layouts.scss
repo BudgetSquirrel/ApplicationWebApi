@@ -5,6 +5,7 @@
   &__content {
       display: flex;
       justify-content: space-between;
+      background-color: $white;
       
       padding-left: var(--page-side-padding);
       padding-right: var(--page-side-padding);
