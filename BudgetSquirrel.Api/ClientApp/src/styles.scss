@@ -12,7 +12,7 @@ body {
     font-size: 18px;
     margin: 0;
     --page-side-padding: 110px;
-    color: $black;
+    color: mat-color($steel, 900);
 }
 
 .promo__img {

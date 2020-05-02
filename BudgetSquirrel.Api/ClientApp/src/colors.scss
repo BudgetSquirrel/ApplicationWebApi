@@ -17,5 +17,25 @@
       &__accent {
         color: mat-color($accent, 500);
       }
+
+      &__steel {
+        color: mat-color($steel, 500);
+
+        &--dark {
+          color: mat-color($steel, 900);
+        }
+      }
+  }
+}
+
+.color-wash-bg {
+  &--light {
+      background-color: mat-color($steel, 50);
+      fill: mat-color($steel, 50);
+  }
+
+  &--dark {
+      background-color: mat-color($steel, 100);
+      fill: mat-color($steel, 100);
   }
 }

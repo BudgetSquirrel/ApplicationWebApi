@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 
 // Color palettes can be generated here:
-// http://mcg.mbitson.com/#!?brown=%23c8ac92&russian-green=%235a8a4e&themename=budgetsquirrel
+// http://mcg.mbitson.com/#!?mcgpalette0=%23c8ac92&mcgpalette1=%235a8a4e&mcgpalette2=%236b6b6b&themename=budgetsquirrel
 $md-brown: (
   50 : #f4efec,
   100 : #e3d7cf,
@@ -101,9 +101,44 @@ $md-danger: (
     )
 );
 
+$md-steel: (
+    50 : #ededed,
+    100 : #d3d3d3,
+    200 : #b5b5b5,
+    300 : #979797,
+    400 : #818181,
+    500 : #6b6b6b,
+    600 : #636363,
+    700 : #585858,
+    800 : #4e4e4e,
+    900 : #3c3c3c,
+    A100 : #d9ead3,
+    A200 : #b6d7a8,
+    A400 : #93c47d,
+    A700 : #6aa84f,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+
 $primary: mat-palette($md-brown, 500, 500, 50);
 $accent: mat-palette($md-russian-green, 500, 500, 50);
 $warn: mat-palette($md-danger);
+$steel: mat-palette($md-steel);
 
 $black: #000;
 $white: #fff;
