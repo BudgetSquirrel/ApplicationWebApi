@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../services/account.service";
-import { User, EMPTY_USER } from '../../interfaces/user.interface';
 import { ROUTES } from 'src/app/route-constants';
+import { EMPTY_USER, User } from '../../models/accounts';
 
 @Component({
   selector: "bs-top-nav-bar",

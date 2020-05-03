@@ -1,9 +1,8 @@
 import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
-import { User, EMPTY_USER } from "../interfaces/user.interface";
 import { HttpClient } from "@angular/common/http";
 import { tap, share, map } from "rxjs/operators";
-import { Credentials, NewUser } from "../interfaces/accounts.interface";
+import { Credentials, NewUser, User, EMPTY_USER } from "../models/accounts";
 
 const AUTHENTICATION_API = "api/authentication";
 

@@ -6,7 +6,6 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http";
 import { SharedModule } from "./shared/shared.module";
 import { AccountModule } from "./account/account.module";
-import { HomeModule } from "./home/home.module";
 import { SplashPageComponent } from './splash-page/splash-page.component';
 
 @NgModule({
@@ -20,8 +19,7 @@ import { SplashPageComponent } from './splash-page/splash-page.component';
     NoopAnimationsModule,
     HttpClientModule,
     SharedModule,
-    AccountModule,
-    HomeModule
+    AccountModule
   ],
   providers: [],
   bootstrap: [AppComponent]
