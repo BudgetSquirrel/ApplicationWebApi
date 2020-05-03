@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BudgetSquirrel.Api
+namespace BudgetSquirrel.Api.Controllers
 {
 
     [ApiController]
