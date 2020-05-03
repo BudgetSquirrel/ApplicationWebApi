@@ -2,13 +2,13 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { SignUpComponent } from "./account/sign-up/sign-up.component";
 import { SignInComponent } from "./account/sign-in/sign-in.component";
-import { SplashPageComponent } from "./home/splash-page/splash-page.component";
+import { HomeComponent } from "./home/home/home.component";
 
 
 const routes: Routes = [
   {
     path: "",
-    component: SplashPageComponent,
+    component: HomeComponent,
     data: {
       title: "Budget Squirrel"
     }

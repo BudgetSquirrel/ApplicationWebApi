@@ -5,9 +5,8 @@ import { AccountService } from "../services/account.service";
   selector: "[isAuthenticated]"
 })
 export class IsAuthenticatedDirective {
-  @Input() isAuth: boolean;
-
   private hasView = false;
+  private isAuth: boolean;
 
   constructor(private userService: AccountService,
               private templateRef: TemplateRef<any>,
@@ -15,6 +14,13 @@ export class IsAuthenticatedDirective {
                 this.userService.getUser().subscribe(_ => {
                   this.updateView();
                 });
+  }
+
+  @Input() set isAuthenticated(data: boolean) {
+    this.isAuth = data;
+    if (this.isAuth) {
+      this.updateView();
+    }
   }
 
   private updateView() {
