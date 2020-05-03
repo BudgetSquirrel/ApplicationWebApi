@@ -15,6 +15,12 @@ body {
     color: mat-color($steel, 900);
 }
 
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
 .promo__img {
     width: 375px;
     height: 400px;
@@ -54,9 +60,18 @@ body {
 }
 
 // Form controls
-.form-field__container--block {
-    display: block !important;
+.form-field {
+    display: inline-block;
     width: 480px;
+
+    &--short {
+        width: 240px;
+    }
+
+    &--block {
+        display: block !important;
+        width: 480px;
+    }
 }
 
 .button {
