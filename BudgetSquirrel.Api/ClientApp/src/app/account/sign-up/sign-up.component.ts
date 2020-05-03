@@ -4,18 +4,39 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/interfaces/user.interface';
 import { NewUser } from 'src/app/shared/interfaces/accounts.interface';
+import { ROUTES } from 'src/app/route-constants';
 
 @Component({
   selector: "bs-sign-up",
   template: `
-    <form [formGroup]="this.loginForm" class="sign-in" (ngSubmit)="onSubmit(loginForm)">
-      <h3>Sign Up</h3>
-      <mat-form-field>
+  <div class="vert-section">
+    <form [formGroup]="this.signupForm" class="vert-section__content signup-page" (ngSubmit)="onSubmit(signupForm)">
+      <h1>Register your account</h1>
+      <p>Registering your account allows you to track your budget across multiple platforms.</p>
+
+      <fieldset>
+        <mat-form-field class="form-field form-field--short" appearance="fill">
+          <input name="firstName" matInput placeholder="First Name" formControlName="firstName">
+          <mat-error *ngIf="firstNameValidation.invalid">Please enter your First Name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-field form-field--short" appearance="fill">
+          <input name="lastName" matInput placeholder="Last Name" formControlName="lastName">
+          <mat-error *ngIf="lastNameValidation.invalid">Please enter your Last Name</mat-error>
+        </mat-form-field>
+      </fieldset>
+
+      <mat-form-field class="form-field--block" appearance="fill">
         <input name="username" matInput placeholder="Username" formControlName="username">
-        <mat-error *ngIf="usernameValidation.invalid">Please enter a username</mat-error>
+        <mat-error *ngIf="usernameValidation.invalid">Please enter your Username</mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="form-field--block" appearance="fill">
+        <input name="email" matInput placeholder="Email" formControlName="email">
+        <mat-error *ngIf="emailValidation.invalid">Please enter your Email</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field--block" appearance="fill">
         <input name="password" matInput minlength="6" placeholder="Password" autocomplete="off"
           [type]="(this.hidePassword ? 'password' : 'text')" formControlName="password">
         <button type="button" mat-icon-button matSuffix (click)="this.hidePassword = !this.hidePassword"
@@ -25,26 +46,30 @@ import { NewUser } from 'src/app/shared/interfaces/accounts.interface';
         <mat-error *ngIf="passwordValidation.invalid">Password must contain at least 6 characters</mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="form-field--block" appearance="fill">
         <input name="confirmPassword" matInput minlength="6" placeholder="Confirm Password" autocomplete="off"
-          [type]="(this.hideConfirmPassword ? 'password' : 'text')" formControlName="confirmPassword">
+          [type]="(this.hidePassword ? 'password' : 'text')" formControlName="confirmPassword">
         <button type="button" mat-icon-button matSuffix (click)="this.hideConfirmPassword = !this.hideConfirmPassword"
           [attr.aria-label]="'Hide confirm password'" [attr.aria-pressed]="hide">
           <mat-icon tabindex="-1">{{this.hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="confirmPasswordValidation.invalid">Confirmation password must match Password</mat-error>
+        <mat-error *ngIf="confirmPasswordValidation.invalid">Confirm password must match the password above</mat-error>
       </mat-form-field>
 
-      <button mat-flat-button type="submit" color="primary">Create</button>
+      <button class="signup-btn button button--primary button--wide" type="submit">Register</button>
     </form>
+  </div>
   `,
   styleUrls: ["./sign-up.component.scss"]
 })
 export class SignUpComponent implements OnInit {
 
-  public loginForm: FormGroup;
+  public signupForm: FormGroup;
 
+  firstNameValidation = new FormControl("", [Validators.required]);
+  lastNameValidation = new FormControl("", [Validators.required]);
   usernameValidation = new FormControl("", [Validators.required]);
+  emailValidation = new FormControl("", [Validators.required, Validators.email]);
   passwordValidation = new FormControl("", [Validators.required, Validators.minLength(6)]);
   confirmPasswordValidation = new FormControl("", [fc => {
     if (fc.value != this.passwordValidation.value) {
@@ -66,30 +91,35 @@ export class SignUpComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
+    this.signupForm = this.formBuilder.group({
+      firstName: this.firstNameValidation,
+      lastName: this.lastNameValidation,
       username: this.usernameValidation,
+      email: this.emailValidation,
       password: this.passwordValidation,
       confirmPassword: this.confirmPasswordValidation
+    }, {
+      updateOn: "submit"
     });
   }
 
   public onSubmit() {
-    if (this.loginForm.value.confirmPassword != this.loginForm.value.password)
+    if (this.signupForm.value.confirmPassword != this.signupForm.value.password)
       this.confirmPasswordValidation.setErrors({
         "incorrect": true
       });
-    if (this.loginForm.valid) {
+    if (this.signupForm.valid) {
       const userInfo: NewUser = {
-        username: this.loginForm.value.username,
-        password: this.loginForm.value.password,
-        confirmPassword: this.loginForm.value.confirmPassword,
-        email: "ianmann56@gmail.com",
-        firstName: "Ian",
-        lastName: "Squirrel"
+        username: this.signupForm.value.username,
+        password: this.signupForm.value.password,
+        confirmPassword: this.signupForm.value.confirmPassword,
+        email: this.signupForm.value.email,
+        firstName: this.signupForm.value.firstName,
+        lastName: this.signupForm.value.lastName
       };
 
       this.accountService.createUser(userInfo).subscribe((user: User) => {
-        this.router.navigate(["/home"]);
+        this.router.navigate([ROUTES.HOME]);
       });
     }
   }
