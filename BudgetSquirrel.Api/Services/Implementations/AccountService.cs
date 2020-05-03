@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business.Auth;
+using BudgetSquirrel.Business.BudgetPlanning;
 using BudgetSquirrel.Data.EntityFramework.Models;
 using BudgetSquirrel.Data.EntityFramework.Repositories.Interfaces;
 using GateKeeper.Configuration;
@@ -13,13 +14,15 @@ namespace BudgetSquirrel.Api.Services.Implementations
     public class AccountService : IAccountService
     {
         private readonly IUserRepository userRepository;
+        private readonly IBudgetRepository budgetRepository;
 
         private readonly ICryptor cryptor;
         private GateKeeperConfig gateKeeperConfig;
 
-        public AccountService(IUserRepository userRepository, ICryptor cryptor, GateKeeperConfig gateKeeperConfig)
+        public AccountService(IUserRepository userRepository, IBudgetRepository budgetRepository, ICryptor cryptor, GateKeeperConfig gateKeeperConfig)
         {
             this.userRepository = userRepository;
+            this.budgetRepository = budgetRepository;
             this.cryptor = cryptor;
             this.gateKeeperConfig = gateKeeperConfig;
         }
@@ -35,13 +38,16 @@ namespace BudgetSquirrel.Api.Services.Implementations
                 throw new InvalidOperationException("That user already exists");
             }
 
-            User user = new User(newUser.Username,
+            var command = new CreateUserCommand(
+                                newUser.Username,
                                 newUser.FirstName,
                                 newUser.LastName,
                                 newUser.Email);
+            UserRootBudgetRelationship userRootBudgetRelationship = command.Run();
 
             string encryptedPassword = this.cryptor.Encrypt(newUser.Password, this.gateKeeperConfig.EncryptionKey, this.gateKeeperConfig.Salt);
-            UserRecord userRecord = await this.userRepository.SaveUser(user, encryptedPassword);
+            UserRecord createdUser = await this.userRepository.SaveUser(userRootBudgetRelationship.User, encryptedPassword);
+            await this.budgetRepository.SaveRootBudget(userRootBudgetRelationship.RootBudget, createdUser.Id);
         }
 
         public Task DeleteUser(Guid id)
