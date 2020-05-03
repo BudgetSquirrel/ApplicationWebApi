@@ -39,7 +39,6 @@ export class AccountService {
   }
 
   public logout(): Observable<boolean> {
-    console.log("Test");
     return this.http.get(`${this.baseUrl}${AUTHENTICATION_API}/logout`).pipe(
       tap((user: User) => this.userSubject.next(EMPTY_USER)),
       map(() => true)

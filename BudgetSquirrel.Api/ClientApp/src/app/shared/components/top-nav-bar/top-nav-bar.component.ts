@@ -63,7 +63,6 @@ export class TopNavBarComponent implements OnInit {
   }
 
   public logout() {
-    console.log("Test");
     this.accountService.logout();
   }
 
