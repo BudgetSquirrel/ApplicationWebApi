@@ -51,6 +51,10 @@ export class AccountService {
     );
   }
 
+  public isAuthenticated(): boolean {
+    return !(this.userSubject.value === EMPTY_USER);
+  }
+
   private getUserFromApi() {
     return this.http.get<User>(`${this.baseUrl}${AUTHENTICATION_API}/me`);
   }

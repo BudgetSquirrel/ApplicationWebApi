@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../services/account.service";
-import { ROUTES } from 'src/app/route-constants';
-import { EMPTY_USER, User } from '../../models/accounts';
+import { ROUTES } from "src/app/route-constants";
+import { EMPTY_USER, User } from "../../models/accounts";
 
 @Component({
   selector: "bs-top-nav-bar",
@@ -45,7 +45,7 @@ export class TopNavBarComponent implements OnInit {
   readonly routes = ROUTES;
 
   public user: User;
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
 
   constructor(private accountService: AccountService) { }
 
