@@ -38,11 +38,10 @@ export class AccountService {
     return this.http.delete(`${this.baseUrl}${AUTHENTICATION_API}`).toPromise();
   }
 
-  public logout(): Observable<boolean> {
-    return this.http.get(`${this.baseUrl}${AUTHENTICATION_API}/logout`).pipe(
-      tap((user: User) => this.userSubject.next(EMPTY_USER)),
-      map(() => true)
-    );
+  public logout(): void {
+    this.http.get(`${this.baseUrl}${AUTHENTICATION_API}/logout`).toPromise().then(() => {
+      this.userSubject.next(EMPTY_USER);
+    });
   }
 
   public createUser(newUser: NewUser): Observable<User> {
