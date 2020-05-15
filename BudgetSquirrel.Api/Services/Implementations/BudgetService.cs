@@ -28,7 +28,7 @@ namespace BudgetSquirrel.Api.Services.Implementations
     {
       User currentUser = await this.authService.GetCurrentUser();
       IQueryable<Budget> budgets = this.budgetRepository.GetBudgets();
-      GetRootBudgetQuery query = new GetRootBudgetQuery(budgets, asyncQueryService, currentUser.Id);
+      GetRootBudgetQuery query = new GetRootBudgetQuery(budgets, this.asyncQueryService, currentUser.Id);
       Budget budget = await query.Run();
 
       return new RootBudgetResponse(budget);
