@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SplashPageComponent } from './splash-page.component';
+import { SplashPageComponent } from "./splash-page.component";
 
-describe('SplashPageComponent', () => {
+describe("SplashPageComponent", () => {
   let component: SplashPageComponent;
   let fixture: ComponentFixture<SplashPageComponent>;
 
@@ -19,7 +19,7 @@ describe('SplashPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../services/account.service";
-import { ROUTES } from 'src/app/route-constants';
-import { EMPTY_USER, User } from '../../models/accounts';
+import { ROUTES } from "src/app/route-constants";
+import { EMPTY_USER, User } from "../../models/accounts";
 
 @Component({
   selector: "bs-top-nav-bar",
@@ -28,13 +28,19 @@ import { EMPTY_USER, User } from '../../models/accounts';
         <h1 class="app-title color-txt__primary-dark">Budget Squirrel</h1>
       </a>
 
-      <span>
+      <span *isAuthenticated="false">
         <a class="nav-link" [routerLink]="routes.SIGN_IN">
           Log In
         </a>
         <a class="nav-link" [routerLink]="routes.SIGN_UP">
           Sign Up
         </a>
+      </span>
+
+      <span *isAuthenticated="true">
+        <span class="nav-link" (click)="this.logout()">
+          Log Out
+        </span>
       </span>
     </header>
   `,
@@ -45,7 +51,7 @@ export class TopNavBarComponent implements OnInit {
   readonly routes = ROUTES;
 
   public user: User;
-  public isAuthenticated: boolean = false;
+  public isAuthenticated = false;
 
   constructor(private accountService: AccountService) { }
 

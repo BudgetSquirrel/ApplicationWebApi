@@ -1,0 +1,32 @@
+@import '../../../variables.scss';
+
+#budgets {
+    padding-left: var(--page-side-padding);
+    padding-right: var(--page-side-padding);
+    padding-top: 16px;
+
+    .root-budget-details {
+        background-color: mat-color($steel, 50);
+        display: flex;
+        justify-content: start;
+        padding: 1em 0;
+
+        .root-budget-stat {
+            margin: 0 1em;
+        }
+
+        h5 {
+            margin: 4px 0;
+        }
+
+        span {
+            font-size: 15px;
+            line-height: 150%;
+            color: #687F83;
+        }
+    }
+
+    .budget-list {
+        margin-top: 16px;
+    }
+}
