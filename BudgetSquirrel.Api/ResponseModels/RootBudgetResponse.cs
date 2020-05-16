@@ -26,7 +26,7 @@ namespace BudgetSquirrel.Api.ResponseModels
       PercentAmount = budget.PercentAmount;
       SetAmount = budget.SetAmount;
       FundBalance = budget.FundBalance;
-      // Duration = ...
+      Duration = new BudgetDurationResponse(budget.Duration);
       BudgetStart = budget.BudgetStart;
     }
   }

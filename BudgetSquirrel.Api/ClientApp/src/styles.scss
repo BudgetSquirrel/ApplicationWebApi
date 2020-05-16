@@ -6,9 +6,15 @@
 
 /* You can add global styles to this file, and also import other style files */
 
+@font-face {
+    font-family: Ilisarniq;
+    src: url(assets/fonts/Ilisarniq/Ilisarniq-Regular.otf) format("opentype");
+}
+
 html, body { height: 100%; }
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Ilisarniq;
     font-size: 18px;
     margin: 0;
     --page-side-padding: 110px;

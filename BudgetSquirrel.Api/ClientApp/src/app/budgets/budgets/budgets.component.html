@@ -1,0 +1,15 @@
+<div id="budgets">
+
+  <h2>{{this.rootBudget.name}}</h2>
+  <div class="root-budget-details">
+    <div class="root-budget-stat">
+      <h5>Planned Income</h5>
+      <span>{{this.rootBudget.setAmount | currency}}</span>
+    </div>
+    <div class="root-budget-stat">
+      <h5>Current Balance</h5>
+      <span>{{this.rootBudget.fundBalance | currency}}</span>
+    </div>
+  </div>
+
+</div>
