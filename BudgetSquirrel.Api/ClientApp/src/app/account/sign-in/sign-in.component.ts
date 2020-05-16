@@ -3,7 +3,7 @@ import { AccountService } from "src/app/shared/services/account.service";
 import { FormGroup, Validators, FormControl, FormBuilder } from "@angular/forms";
 import { Credentials, User } from "src/app/shared/models/accounts";
 import { Router } from "@angular/router";
-import { ROUTES } from 'src/app/route-constants';
+import { ROUTES } from "src/app/route-constants";
 
 @Component({
   selector: "bs-sign-in",
@@ -39,7 +39,7 @@ export class SignInComponent implements OnInit {
   usernameValidation = new FormControl("", [Validators.required]);
   passwordValidation = new FormControl("", [Validators.required, Validators.minLength(6)]);
 
-  public hidePassword: boolean = true;
+  public hidePassword = true;
 
   constructor(private formBuilder: FormBuilder,
               private accountService: AccountService,

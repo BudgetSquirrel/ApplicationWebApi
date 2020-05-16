@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "src/app/shared/services/account.service";
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NewUser, User } from 'src/app/shared/models/accounts';
-import { ROUTES } from 'src/app/route-constants';
+import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
+import { Router } from "@angular/router";
+import { NewUser, User } from "src/app/shared/models/accounts";
+import { ROUTES } from "src/app/route-constants";
 
 @Component({
   selector: "bs-sign-up",
@@ -71,19 +71,19 @@ export class SignUpComponent implements OnInit {
   emailValidation = new FormControl("", [Validators.required, Validators.email]);
   passwordValidation = new FormControl("", [Validators.required, Validators.minLength(6)]);
   confirmPasswordValidation = new FormControl("", [fc => {
-    if (fc.value != this.passwordValidation.value) {
+    if (fc.value !== this.passwordValidation.value) {
       return {
         confirmPassword: {
           valid: false
         }
-      }
+      };
     } else {
       return null;
     }
   }]);
 
-  public hidePassword: boolean = true;
-  public hideConfirmPassword: boolean = true;
+  public hidePassword = true;
+  public hideConfirmPassword = true;
 
   constructor(private formBuilder: FormBuilder,
               private accountService: AccountService,
@@ -103,10 +103,11 @@ export class SignUpComponent implements OnInit {
   }
 
   public onSubmit() {
-    if (this.signupForm.value.confirmPassword != this.signupForm.value.password)
+    if (this.signupForm.value.confirmPassword !== this.signupForm.value.password) {
       this.confirmPasswordValidation.setErrors({
-        "incorrect": true
+        incorrect: true
       });
+    }
     if (this.signupForm.valid) {
       const userInfo: NewUser = {
         username: this.signupForm.value.username,
