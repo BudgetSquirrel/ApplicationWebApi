@@ -11,9 +11,9 @@ import { ROUTES } from "src/app/route-constants";
   <div class="vert-section">
     <form [formGroup]="this.signupForm" class="vert-section__content signup-page" (ngSubmit)="onSubmit(signupForm)">
       <h1>Register your account</h1>
-      <p>Registering your account allows you to track your budget across multiple platforms.</p>
+      <p class="signin-advertisement">Registering your account allows you to track your budget across multiple platforms.</p>
 
-      <fieldset>
+      <fieldset class="name-fieldset">
         <mat-form-field class="form-field form-field--short" appearance="fill">
           <input name="firstName" matInput placeholder="First Name" formControlName="firstName">
           <mat-error *ngIf="firstNameValidation.invalid">Please enter your First Name</mat-error>

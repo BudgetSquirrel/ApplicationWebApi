@@ -24,25 +24,23 @@
     background-color: mat-color($primary, 50);
   }
 
+  .signin-label {
+    font-size: 12px;
+  }
+
   .register-btn,
   .signin-label {
     margin-top: 30px;
   }
 
-  &__section__content {
-      max-width: 350px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+  &__section-content {
+        max-width: initial;
+        padding-right: var(--inset);
+  }
 
-      &--grow {
-          max-width: initial;
-          padding-right: var(--inset);
-      }
-
-      &--no-grow {
-          max-width: 350px;
-      }
+  &__section-description {
+    max-width: 350px;
+    margin-top: 1em;
   }
 
   .vert-section {
@@ -101,5 +99,9 @@
 
   .register-section__item {
     z-index: 1;
+  }
+
+  .register-section__register-btn {
+    margin-top: 2em;
   }
 }

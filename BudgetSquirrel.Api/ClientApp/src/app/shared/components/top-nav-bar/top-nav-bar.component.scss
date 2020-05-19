@@ -35,6 +35,7 @@
     box-sizing: border-box;
     padding: 1em;
     text-align: center;
+    border-bottom: 4px solid mat-color($primary, 50);;
 
     &:hover {
       border-bottom: 4px solid mat-color($accent, 500);
