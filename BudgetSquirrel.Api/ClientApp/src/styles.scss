@@ -11,6 +11,11 @@
     src: url(assets/fonts/Ilisarniq/Ilisarniq-Regular.otf) format("opentype");
 }
 
+* {
+    margin: 0;
+    box-sizing: content-box;
+}
+
 html, body { height: 100%; }
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -44,10 +49,6 @@ fieldset {
 
 // Forms
 .form {
-    .input {
-        display: block;
-    }
-
     &__inputs {
         margin-top: 60px;
 
@@ -78,6 +79,41 @@ fieldset {
         display: block !important;
         width: 480px;
     }
+}
+
+.inplace-input {
+    width: 250px;
+}
+
+.inplace-input__focusable {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.inplace-input__focusable:hover {
+    background-color: mat-color($md-russian-green, 100);
+}
+
+.inplace-input__input {
+    --inplace-input-font-size: 16px;
+    --inplace-input-padding: 4px;
+    display: block;
+    background: none;
+    border: 1px solid mat-color($steel, 900);
+    font-size: var(--inplace-input-font-size);
+    padding: var(--inplace-input-padding);
+    border-radius: 2px;
+    width: 250px;
+}
+
+.inplace-input--large {
+    --inplace-input-font-size: calc(1.5em - 2px);
+}
+
+.inplace-input--short {
+    width: 100px;
 }
 
 .button {
