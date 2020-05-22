@@ -36,6 +36,11 @@ namespace BudgetSquirrel.Api.Services.Implementations
       return source.SingleOrDefaultAsync(predicate);
     }
 
+    public Task<bool> AnyAsync<T>(IQueryable<T> source, Expression<Func<T, bool>> predicate)
+    {
+      return source.AnyAsync(predicate);
+    }
+
     public Task SaveChangesAsync()
     {
       return this.SaveChangesAsync();
