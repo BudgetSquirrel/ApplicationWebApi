@@ -19,10 +19,11 @@ namespace BudgetSquirrel.Api.Services.Implementations
     private readonly IAsyncQueryService asyncQueryService;
     private readonly BudgetSquirrelContext context;
 
-    public BudgetService(IAuthService authService, IAsyncQueryService asyncQueryService)
+    public BudgetService(IAuthService authService, IAsyncQueryService asyncQueryService, BudgetSquirrelContext context)
     {
       this.authService = authService;
       this.asyncQueryService = asyncQueryService;
+      this.context = context;
     }
     
     public async Task<RootBudgetResponse> GetRootBudget()

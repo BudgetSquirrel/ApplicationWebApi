@@ -6,6 +6,10 @@ import { Observable } from 'rxjs';
 
 const BUDGETS_API = "api/budgets";
 
+interface ApiCommandResponse {
+  success: boolean
+};
+
 @Injectable({
   providedIn: "root"
 })
@@ -21,5 +25,21 @@ export class BudgetService {
         return budget;
       })
     );
+  }
+
+  editRootBudgetName(budget: Budget, newName: string): Promise<ApiCommandResponse> {
+    const requestBody = {
+      budgetId: budget.id,
+      name: newName
+    };
+    return this.http.post(`${this.baseUrl}${BUDGETS_API}/root/edit`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+  }
+
+  editRootBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
+    const requestBody = {
+      budgetId: budget.id,
+      setAmount
+    };
+    return this.http.post(`${this.baseUrl}${BUDGETS_API}/root/edit`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 }

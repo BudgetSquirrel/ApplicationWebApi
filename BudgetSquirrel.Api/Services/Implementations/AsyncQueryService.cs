@@ -43,7 +43,7 @@ namespace BudgetSquirrel.Api.Services.Implementations
 
     public Task SaveChangesAsync()
     {
-      return this.SaveChangesAsync();
+      return this.context.SaveChangesAsync();
     }
   }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Api.ResponseModels;
 using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business;
@@ -38,10 +39,10 @@ namespace BudgetSquirrel.Api.Controllers
 
     [Authorize]
     [HttpPost("root/edit")]
-    public async Task<JsonResult> EditRootBudget(Guid id, string name, decimal? setAmount)
+    public async Task<JsonResult> EditRootBudget([FromBody] EditRootBudgetRequest body)
     {
       User currentUser = await this.authService.GetCurrentUser();
-      EditRootBudgetCommand command = new EditRootBudgetCommand(asyncQueryService, this.context.Budgets, id, currentUser, name, setAmount);
+      EditRootBudgetCommand command = new EditRootBudgetCommand(this.asyncQueryService, this.context.Budgets, body.BudgetId, currentUser, body.Name, body.SetAmount);
       await command.Run();
       return new JsonResult(new { success = true });
     }

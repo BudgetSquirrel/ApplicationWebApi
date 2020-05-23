@@ -18,9 +18,7 @@ export class BudgetsComponent implements OnInit {
   constructor(private budgetService: BudgetService) { }
 
   public ngOnInit() {
-    this.budgetService.getRootBudget().subscribe(
-      (budget: Budget) => this.rootBudget = budget
-    );
+    this.loadRootBudget();
   }
 
   public onOpenInplaceEdit(field: string, event: MouseEvent) {
@@ -36,10 +34,26 @@ export class BudgetsComponent implements OnInit {
   }
 
   public onBlurInplaceEdit(field: string, event: MouseEvent) {
+    const value = (event.target as HTMLInputElement).value;
     if (field == "rootAmount") {
       this.isEditingRootAmount = false;
+      this.budgetService.editRootBudgetSetAmount(this.rootBudget, parseFloat(value)).then(response => {
+        this.loadRootBudget();
+      });
     } else if (field == "rootName") {
       this.isEditingRootName = false;
+      if (!value) {
+        return;
+      }
+      this.budgetService.editRootBudgetName(this.rootBudget, value).then(response => {
+        this.loadRootBudget();
+      });
     }
+  }
+
+  private loadRootBudget() {
+    this.budgetService.getRootBudget().subscribe(
+      (budget: Budget) => this.rootBudget = budget
+    );
   }
 }

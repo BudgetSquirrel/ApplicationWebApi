@@ -52,6 +52,8 @@ namespace BudgetSquirrel.Api.Services.Implementations
             string encryptedPassword = this.cryptor.Encrypt(newUser.Password, this.gateKeeperConfig.EncryptionKey, this.gateKeeperConfig.Salt);
             UserRecord createdUser = await this.userRepository.SaveUser(userRootBudgetRelationship.User, encryptedPassword);
 
+            userRootBudgetRelationship.RootBudget.SetOwner(createdUser.Id);
+            
             this.context.Budgets.Add(userRootBudgetRelationship.RootBudget);
             await this.context.SaveChangesAsync();
         }
