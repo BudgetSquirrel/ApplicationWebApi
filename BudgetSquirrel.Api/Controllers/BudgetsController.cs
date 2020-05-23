@@ -38,7 +38,7 @@ namespace BudgetSquirrel.Api.Controllers
     }
 
     [Authorize]
-    [HttpPatch("root/edit")]
+    [HttpPatch("root-budget")]
     public async Task<JsonResult> EditRootBudget([FromBody] EditRootBudgetRequest body)
     {
       User currentUser = await this.authService.GetCurrentUser();

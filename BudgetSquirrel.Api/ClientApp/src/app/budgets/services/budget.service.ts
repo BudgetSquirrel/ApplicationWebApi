@@ -32,7 +32,7 @@ export class BudgetService {
       budgetId: budget.id,
       name: newName
     };
-    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root/edit`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root-budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
   editRootBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
@@ -40,6 +40,6 @@ export class BudgetService {
       budgetId: budget.id,
       setAmount
     };
-    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root/edit`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root-budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 }
