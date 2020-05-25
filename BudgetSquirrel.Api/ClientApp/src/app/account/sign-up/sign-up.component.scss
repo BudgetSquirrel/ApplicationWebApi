@@ -1,5 +1,17 @@
+@import '../../../variables';
+
 .signup-page {
   display: block;
+
+  .signin-advertisement {
+    margin-top: 1em;
+    color: mat-color($md-steel, 700);
+    max-width: 400px;
+  }
+
+  .name-fieldset {
+    margin-top: 2em;
+  }
 
   .signup-btn {
       margin-top: 3em;

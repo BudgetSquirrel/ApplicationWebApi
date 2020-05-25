@@ -2,8 +2,10 @@ using System;
 using System.Threading.Tasks;
 using BudgetSquirrel.Api.RequestModels;
 using BudgetSquirrel.Api.Services.Interfaces;
+using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Business.BudgetPlanning;
+using BudgetSquirrel.Data.EntityFramework;
 using BudgetSquirrel.Data.EntityFramework.Models;
 using BudgetSquirrel.Data.EntityFramework.Repositories.Interfaces;
 using GateKeeper.Configuration;
@@ -14,15 +16,16 @@ namespace BudgetSquirrel.Api.Services.Implementations
     public class AccountService : IAccountService
     {
         private readonly IUserRepository userRepository;
-        private readonly IBudgetRepository budgetRepository;
-
+        private readonly BudgetSquirrelContext context;
+        private readonly IAsyncQueryService asyncQueryService;
         private readonly ICryptor cryptor;
         private GateKeeperConfig gateKeeperConfig;
 
-        public AccountService(IUserRepository userRepository, IBudgetRepository budgetRepository, ICryptor cryptor, GateKeeperConfig gateKeeperConfig)
+        public AccountService(IUserRepository userRepository, BudgetSquirrelContext context, IAsyncQueryService asyncQueryService, ICryptor cryptor, GateKeeperConfig gateKeeperConfig)
         {
             this.userRepository = userRepository;
-            this.budgetRepository = budgetRepository;
+            this.context = context;
+            this.asyncQueryService = asyncQueryService;
             this.cryptor = cryptor;
             this.gateKeeperConfig = gateKeeperConfig;
         }
@@ -39,6 +42,7 @@ namespace BudgetSquirrel.Api.Services.Implementations
             }
 
             var command = new CreateUserCommand(
+                                this.asyncQueryService,
                                 newUser.Username,
                                 newUser.FirstName,
                                 newUser.LastName,
@@ -47,7 +51,11 @@ namespace BudgetSquirrel.Api.Services.Implementations
 
             string encryptedPassword = this.cryptor.Encrypt(newUser.Password, this.gateKeeperConfig.EncryptionKey, this.gateKeeperConfig.Salt);
             UserRecord createdUser = await this.userRepository.SaveUser(userRootBudgetRelationship.User, encryptedPassword);
-            await this.budgetRepository.SaveRootBudget(userRootBudgetRelationship.RootBudget, createdUser.Id);
+
+            userRootBudgetRelationship.RootBudget.SetOwner(createdUser.Id);
+            
+            this.context.Budgets.Add(userRootBudgetRelationship.RootBudget);
+            await this.context.SaveChangesAsync();
         }
 
         public Task DeleteUser(Guid id)

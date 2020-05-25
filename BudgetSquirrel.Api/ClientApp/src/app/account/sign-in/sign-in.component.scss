@@ -1,6 +1,10 @@
 .login-page {
     display: block;
 
+    .username-field {
+        margin-top: 1em;
+    }
+
     .login-btn {
         margin-top: 3em;
     }

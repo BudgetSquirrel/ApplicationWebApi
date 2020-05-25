@@ -11,7 +11,7 @@ import { ROUTES } from "src/app/route-constants";
     <div class="vert-section">
       <form [formGroup]="this.loginForm" class="vert-section__content login-page" (ngSubmit)="onSubmit(loginForm)">
         <h1>Login to Budget Squirrel</h1>
-        <mat-form-field class="form-field--block" appearance="fill">
+        <mat-form-field class="form-field--block username-field" appearance="fill">
           <input name="username" matInput placeholder="Username" formControlName="username">
           <mat-error *ngIf="usernameValidation.invalid">Please enter your username</mat-error>
         </mat-form-field>

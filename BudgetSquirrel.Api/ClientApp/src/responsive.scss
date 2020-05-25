@@ -1,8 +1,14 @@
+@import './variables';
+
 @media (min-width: 1920px) {
   body {
     padding-left: 320px;
     padding-right: 320px;
     background-color: #E5E5E5;
+  }
+
+  main {
+    background-color: $white;
   }
 
   .app-root {
