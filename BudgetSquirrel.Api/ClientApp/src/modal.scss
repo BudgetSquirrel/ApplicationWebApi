@@ -1,0 +1,47 @@
+@import './variables';
+
+.modal {
+  border-radius: 20px;
+  border: 1px solid mat-color($steel, 200);
+  background-color: $white;
+  padding: 0;
+  margin: 10vh auto;
+  
+  &__background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba($color: mat-color($steel, 800), $alpha: 0.6);
+  }
+
+  &__header {
+    --header--padding: 30px;
+    --button-size: 28px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom: 1px solid mat-color($steel, 200);
+    padding: var(--header--padding);
+    padding-right: calc(var(--header--padding) + var(--button-size) + var(--header--padding));
+    position: relative;
+  }
+
+  &__content {
+    min-height: 1em;
+    padding: 15px 30px;
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: var(--header--padding);
+    right: var(--header--padding);
+    background: none;
+    border: none;
+    height: var(--button-size);
+    width: var(--button-size);
+    padding: 0;
+    display: block;
+    cursor: pointer;
+  }
+}

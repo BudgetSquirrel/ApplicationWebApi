@@ -44,4 +44,18 @@
     </div>
   </div>
 
+  <div class="root-budget-controls">
+    <button
+      class="button button--primary button--wide"
+      [ngClass]="{'button--disabled': isAddingBudget}"
+      [disabled]="isAddingBudget"
+      (click)="onAddBudgetClick()">
+      Add Budget
+    </button>
+  </div>
+
+  <div *ngIf="this.isAddingBudget">
+    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" ></bs-add-budget-form>
+  </div>
+
 </div>

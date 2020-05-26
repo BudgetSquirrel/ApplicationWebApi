@@ -1,12 +1,16 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { BudgetsComponent } from "./budgets/budgets.component";
+import { BudgetOverviewComponent } from "./budget-overview/budget-overview.component";
 import { SharedModule } from "../shared/shared.module";
 import { MatExpansionModule } from "@angular/material";
+import { BudgetComponent } from './budget/budget.component';
+import { AddBudgetFormComponent } from './add-budget-form/add-budget-form.component';
 
 @NgModule({
   declarations: [
-    BudgetsComponent
+    BudgetOverviewComponent,
+    BudgetComponent,
+    AddBudgetFormComponent
   ],
   imports: [
     CommonModule,
@@ -14,7 +18,9 @@ import { MatExpansionModule } from "@angular/material";
     MatExpansionModule
   ],
   exports: [
-    BudgetsComponent
+    BudgetOverviewComponent,
+    AddBudgetFormComponent,
+    BudgetComponent
   ]
 })
 export class BudgetsModule { }
