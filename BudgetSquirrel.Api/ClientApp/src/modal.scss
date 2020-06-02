@@ -1,11 +1,12 @@
 @import './variables';
 
 .modal {
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px solid mat-color($steel, 200);
   background-color: $white;
   padding: 0;
   margin: 10vh auto;
+  color: mat-color($steel, 900);
   
   &__background {
     position: fixed;
@@ -17,14 +18,19 @@
   }
 
   &__header {
-    --header--padding: 30px;
+    --header--padding-sides: 30px;
+    --header--padding-topbottom: 15px;
     --button-size: 28px;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     border-bottom: 1px solid mat-color($steel, 200);
-    padding: var(--header--padding);
-    padding-right: calc(var(--header--padding) + var(--button-size) + var(--header--padding));
+    padding: var(--header--padding-topbottom) var(--header--padding-sides);
+    padding-right: calc(var(--header--padding-sides) + var(--button-size) + var(--header--padding-sides));
     position: relative;
+  }
+
+  &__title {
+    font-size: 24px;
   }
 
   &__content {
@@ -34,8 +40,8 @@
 
   &__close-btn {
     position: absolute;
-    top: var(--header--padding);
-    right: var(--header--padding);
+    top: var(--header--padding-topbottom);
+    right: var(--header--padding-sides);
     background: none;
     border: none;
     height: var(--button-size);
@@ -43,5 +49,9 @@
     padding: 0;
     display: block;
     cursor: pointer;
+  }
+
+  .close-btn-icon {
+    fill: mat-color($steel, 900);
   }
 }
