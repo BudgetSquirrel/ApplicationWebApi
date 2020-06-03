@@ -55,6 +55,12 @@ import { ROUTES } from "src/app/route-constants";
         <mat-error *ngIf="confirmPasswordValidation.invalid">Confirm password must match the password above</mat-error>
       </mat-form-field>
 
+      <bs-notification-banner
+        *ngIf="this.wasError"
+        [message]="this.errorMessage"
+        messageType="ERROR">
+      </bs-notification-banner>
+
       <button class="signup-btn button button--primary button--wide" type="submit">Register</button>
     </form>
   </div>
@@ -64,6 +70,8 @@ import { ROUTES } from "src/app/route-constants";
 export class SignUpComponent implements OnInit {
 
   public signupForm: FormGroup;
+  public wasError = false;
+  public errorMessage: string;
 
   firstNameValidation = new FormControl("", [Validators.required]);
   lastNameValidation = new FormControl("", [Validators.required]);
@@ -103,6 +111,7 @@ export class SignUpComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.wasError = false;
     if (this.signupForm.value.confirmPassword !== this.signupForm.value.password) {
       this.confirmPasswordValidation.setErrors({
         incorrect: true
@@ -120,6 +129,9 @@ export class SignUpComponent implements OnInit {
 
       this.accountService.createUser(userInfo).subscribe((user: User) => {
         this.router.navigate([ROUTES.HOME]);
+      }, (error) => {
+        this.errorMessage = error;
+        this.wasError = true;
       });
     }
   }

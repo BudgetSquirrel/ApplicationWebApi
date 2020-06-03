@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BudgetService } from "../services/budget.service";
-import { Budget, nullBudget } from '../models';
-import { tap } from 'rxjs/operators';
+import { Budget, nullBudget } from "../models";
+import { tap } from "rxjs/operators";
 
 @Component({
   selector: "bs-budgets",
@@ -12,8 +12,9 @@ export class BudgetsComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
 
-  public isEditingRootName: boolean = false;
-  public isEditingRootAmount: boolean = false;
+  public isEditingRootName = false;
+  public isEditingRootAmount = false;
+  public wasError = false;
 
   constructor(private budgetService: BudgetService) { }
 
@@ -26,21 +27,21 @@ export class BudgetsComponent implements OnInit {
       return;
     }
 
-    if (field == "rootAmount") {
+    if (field === "rootAmount") {
       this.isEditingRootAmount = true;
-    } else if (field == "rootName") {
+    } else if (field === "rootName") {
       this.isEditingRootName = true;
     }
   }
 
   public onBlurInplaceEdit(field: string, event: MouseEvent) {
     const value = (event.target as HTMLInputElement).value;
-    if (field == "rootAmount") {
+    if (field === "rootAmount") {
       this.isEditingRootAmount = false;
       this.budgetService.editRootBudgetSetAmount(this.rootBudget, parseFloat(value)).then(response => {
         this.loadRootBudget();
       });
-    } else if (field == "rootName") {
+    } else if (field === "rootName") {
       this.isEditingRootName = false;
       if (!value) {
         return;
@@ -52,8 +53,10 @@ export class BudgetsComponent implements OnInit {
   }
 
   private loadRootBudget() {
-    this.budgetService.getRootBudget().subscribe(
-      (budget: Budget) => this.rootBudget = budget
-    );
+    this.budgetService.getRootBudget().subscribe((rootBudget: Budget) => {
+      this.rootBudget = rootBudget;
+    }, (error) => {
+      this.wasError = true;
+    });
   }
 }
