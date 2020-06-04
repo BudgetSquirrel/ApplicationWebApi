@@ -19,14 +19,18 @@ namespace BudgetSquirrel.Api.Controllers
     private readonly IAuthService authService;
     private readonly IBudgetService budgetService;
     private readonly IAsyncQueryService asyncQueryService;
-    private readonly BudgetSquirrelContext context;
+    private readonly IUnitOfWork unitOfWork;
 
-    public BudgetsController(IAuthService authService, IBudgetService budgetService, IAsyncQueryService asyncQueryService, BudgetSquirrelContext context)
+    public BudgetsController(
+      IAuthService authService,
+      IBudgetService budgetService,
+      IAsyncQueryService asyncQueryService,
+      IUnitOfWork unitOfWork)
     {
       this.authService = authService;
       this.budgetService = budgetService;
       this.asyncQueryService = asyncQueryService;
-      this.context = context;
+      this.unitOfWork = unitOfWork;
     }
 
     [Authorize]
@@ -42,7 +46,7 @@ namespace BudgetSquirrel.Api.Controllers
     public async Task<JsonResult> EditRootBudget([FromBody] EditRootBudgetRequest body)
     {
       User currentUser = await this.authService.GetCurrentUser();
-      EditRootBudgetCommand command = new EditRootBudgetCommand(this.asyncQueryService, this.context.Budgets, body.BudgetId, currentUser, body.Name, body.SetAmount);
+      EditRootBudgetCommand command = new EditRootBudgetCommand(this.asyncQueryService, this.unitOfWork, body.BudgetId, currentUser, body.Name, body.SetAmount);
       await command.Run();
       return new JsonResult(new { success = true });
     }

@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 using System;
 using BudgetSquirrel.Business;
+using BudgetSquirrel.Api.Infrastructure;
+using BudgetSquirrel.Business.BudgetPlanning;
+using BudgetSquirrel.Data.EntityFramework.Repositories;
 
 namespace BudgetSquirrel.Api
 {
@@ -52,7 +55,10 @@ namespace BudgetSquirrel.Api
 
         protected void ConfigureDomainLayer(IServiceCollection services)
         {
+            services.AddTransient<IRepository<Budget>, DefaultRepository<Budget>>();
+
             services.AddTransient<IAsyncQueryService, AsyncQueryService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         protected void ConfigureAuthenticationServices(IServiceCollection services)
