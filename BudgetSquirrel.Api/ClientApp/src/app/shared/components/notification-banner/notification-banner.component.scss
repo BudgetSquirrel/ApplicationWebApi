@@ -1,0 +1,15 @@
+@import '../../../../variables';
+
+.notificationError {
+    background-color: mat-color($warn, 100);
+    color: mat-color($warn, 700);
+    padding: 12px;
+    width: fit-content;
+}
+
+.notificationInfo {
+    background-color: mat-color($info, 100);
+    color: mat-color($info, 700);
+    padding: 12px;
+    width: fit-content;
+}

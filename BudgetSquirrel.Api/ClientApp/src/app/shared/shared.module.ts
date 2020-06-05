@@ -4,11 +4,13 @@ import { TopNavBarComponent } from "./components/top-nav-bar/top-nav-bar.compone
 import { MatToolbarModule, MatButtonModule } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { IsAuthenticatedDirective } from "./directives/is-authenticated.directive";
+import { NotificationBannerComponent } from "./components/notification-banner/notification-banner.component";
 
 @NgModule({
   declarations: [
     TopNavBarComponent,
-    IsAuthenticatedDirective
+    IsAuthenticatedDirective,
+    NotificationBannerComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { IsAuthenticatedDirective } from "./directives/is-authenticated.directiv
   ],
   exports: [
     TopNavBarComponent,
-    IsAuthenticatedDirective
+    IsAuthenticatedDirective,
+    NotificationBannerComponent
   ]
 })
 

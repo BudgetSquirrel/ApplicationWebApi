@@ -26,6 +26,12 @@ import { ROUTES } from "src/app/route-constants";
           <mat-error *ngIf="passwordValidation.invalid">Password must contain at least 6 characters</mat-error>
         </mat-form-field>
 
+        <bs-notification-banner
+          *ngIf="this.wasError"
+          [message]="this.errorMessage"
+          messageType="ERROR">
+        </bs-notification-banner>
+
         <button class="login-btn button button--primary button--wide" type="submit">Login</button>
       </form>
     </div>
@@ -35,6 +41,8 @@ import { ROUTES } from "src/app/route-constants";
 export class SignInComponent implements OnInit {
 
   public loginForm: FormGroup;
+  public wasError = false;
+  public errorMessage: string;
 
   usernameValidation = new FormControl("", [Validators.required]);
   passwordValidation = new FormControl("", [Validators.required, Validators.minLength(6)]);
@@ -63,6 +71,9 @@ export class SignInComponent implements OnInit {
 
       this.accountService.login(credentials).subscribe((user: User) => {
         this.router.navigate([ROUTES.HOME]);
+      }, (error) => {
+        this.errorMessage = error;
+        this.wasError = true;
       });
     }
   }

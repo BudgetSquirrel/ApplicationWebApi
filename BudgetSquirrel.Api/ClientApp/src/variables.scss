@@ -134,11 +134,45 @@ $md-steel: (
     )
 );
 
+$md-info: (
+    50 : #ede7f6,
+    100 : #d1c4e9,
+    200 : #b39ddb,
+    300 : #9575cd,
+    400 : #7e57c2,
+    500 : #673ab7,
+    600 : #5e35b1,
+    700 : #512da8,
+    800 : #4527a0,
+    900 : #311b92,
+    A100 : #b388ff,
+    A200 : #7c4dff,
+    A400 : #651fff,
+    A700 : #6200ea,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
 
 $primary: mat-palette($md-brown, 500, 500, 50);
 $accent: mat-palette($md-russian-green, 500, 500, 50);
 $warn: mat-palette($md-danger);
 $steel: mat-palette($md-steel);
+$info: mat-palette($md-info);
 
 $black: #000;
 $white: #fff;
