@@ -1,5 +1,13 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Budget } from '../models';
+import { BudgetService } from '../services/budget.service';
+
+export interface CreateBudgetEventArguments {
+  parentBudget: Budget;
+  name: string;
+  setAmount: number;
+}
 
 @Component({
   selector: 'bs-add-budget-form',
@@ -9,13 +17,15 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 export class AddBudgetFormComponent implements OnInit {
 
   @Output() public onClose: EventEmitter<any> = new EventEmitter();
+  @Output() public onSaveClicked: EventEmitter<CreateBudgetEventArguments> = new EventEmitter();
+
+  @Input() public parentBudget: Budget;
 
   public newBudgetForm: FormGroup;
   nameValidation = new FormControl("", [Validators.required]);
   fixedAmountValidation = new FormControl("", [Validators.required]);
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor(private formBuilder: FormBuilder, private budgetService: BudgetService) { }
 
   ngOnInit() {
     this.newBudgetForm = this.formBuilder.group({
@@ -31,13 +41,13 @@ export class AddBudgetFormComponent implements OnInit {
   }
 
   public onCreateBudgetSubmit() {
+    const self = this;
     if (this.newBudgetForm.valid) {
-      const body = {
-        name: this.newBudgetForm.value.name,
-        fixedAmount: this.newBudgetForm.value.fixedAmount
-      };
-      console.log(body);
+      const name = this.newBudgetForm.value.name;
+      const setAmount = this.newBudgetForm.value.fixedAmount;
+      console.log(name, setAmount, this);
       
+      this.onSaveClicked.emit(<CreateBudgetEventArguments>{ parentBudget: this.parentBudget, name, setAmount });
     }
   }
 }

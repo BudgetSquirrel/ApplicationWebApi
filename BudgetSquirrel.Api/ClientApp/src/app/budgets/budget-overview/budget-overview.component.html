@@ -54,8 +54,14 @@
     </button>
   </div>
 
+  <div>
+    <div *ngFor="let budget of rootBudget.subBudgets">
+      <h1>{{budget.name}}</h1>
+    </div>
+  </div>
+
   <div *ngIf="this.isAddingBudget">
-    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" ></bs-add-budget-form>
+    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" (onSaveClicked)="onSaveBudget($event)" [parentBudget]="rootBudget"></bs-add-budget-form>
   </div>
 
 </div>

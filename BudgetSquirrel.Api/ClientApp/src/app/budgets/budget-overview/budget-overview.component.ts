@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { BudgetService } from "../services/budget.service";
 import { Budget, nullBudget } from '../models';
 import { tap } from 'rxjs/operators';
+import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
 
 @Component({
   selector: "bs-budget-overview",
@@ -59,6 +60,14 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onCloseAddBudgetModal() {
     this.isAddingBudget = false;
+  }
+
+  public onSaveBudget(args: CreateBudgetEventArguments) {
+    const self = this;
+    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
+      self.loadRootBudget();
+      self.isAddingBudget = false;
+    });
   }
 
   private loadRootBudget() {

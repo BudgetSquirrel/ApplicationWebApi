@@ -50,7 +50,6 @@ namespace BudgetSquirrel.Api
             
             // Services
             services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IBudgetService, BudgetService>();
         }
 
         protected void ConfigureDomainLayer(IServiceCollection services)
