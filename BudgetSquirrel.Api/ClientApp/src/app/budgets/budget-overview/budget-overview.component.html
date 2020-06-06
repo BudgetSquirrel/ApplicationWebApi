@@ -55,9 +55,7 @@
   </div>
 
   <div>
-    <div *ngFor="let budget of rootBudget.subBudgets">
-      <h1>{{budget.name}}</h1>
-    </div>
+    <bs-budget *ngFor="let budget of rootBudget.subBudgets" [budget]="budget" [level]=1></bs-budget>
   </div>
 
   <div *ngIf="this.isAddingBudget">

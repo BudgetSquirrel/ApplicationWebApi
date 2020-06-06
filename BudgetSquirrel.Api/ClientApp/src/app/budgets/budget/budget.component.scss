@@ -1,0 +1,23 @@
+@import '../../../variables';
+
+.budget-item {
+  padding: 15px;
+  margin-top: 15px;
+
+  &--level-1 {
+    background-color: mat-color($md-brown, A100);
+    border: 2px solid mat-color($md-steel, 50);
+  }
+
+  &__name {
+    font-weight: bold;
+  }
+
+  &__stats {
+    margin-top: 12px;
+  }
+
+  &__balance-stat {
+    margin-left: 36px;
+  }
+}

@@ -87,7 +87,7 @@ fieldset {
 }
 
 .inplace-input__focusable {
-    cursor: pointer;
+    cursor: text;
     padding: 4px;
     border-radius: 2px;
     display: inline-block;
@@ -151,5 +151,21 @@ fieldset {
         &:hover {
             background-color: mat-color($steel, 300);
         }
+    }
+}
+
+.stat {
+    font-size: 22px;
+    margin-top: 4px;
+    color: mat-color($md-steel, 400);
+
+    &__container {
+        display: inline-flex;
+        flex-direction: column;
+    }
+
+    &__label {
+        font-size: 0.6em;
+        font-weight: bold;
     }
 }

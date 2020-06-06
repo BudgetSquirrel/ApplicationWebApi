@@ -1,14 +1,14 @@
 @import '../../../../variables';
 
 .header {
-  background-color: mat-color($primary, 50);
+  background-color: mat-color($primary, A100);
   padding-left: var(--page-side-padding);
   padding-right: var(--page-side-padding);
   display: flex;
   justify-content: space-between;
 
   .logo__container {
-    background-color: mat-color($primary, A100);
+    background-color: mat-color($primary, A200);
     height: 48px;
     display: inline-block;
     border-radius: 50%;
@@ -35,7 +35,7 @@
     box-sizing: border-box;
     padding: 1em;
     text-align: center;
-    border-bottom: 4px solid mat-color($primary, 50);;
+    border-bottom: 4px solid mat-color($primary, A100);;
 
     &:hover {
       border-bottom: 4px solid mat-color($accent, 500);
