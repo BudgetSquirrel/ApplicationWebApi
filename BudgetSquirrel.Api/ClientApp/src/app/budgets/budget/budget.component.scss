@@ -4,9 +4,22 @@
   padding: 15px;
   margin-top: 15px;
 
+  &__actions {
+    display: inline-block;
+  }
+
+  &__content {
+    display: inline-block;
+  }
+
   &--level-1 {
     background-color: mat-color($md-brown, A100);
     border: 2px solid mat-color($md-steel, 50);
+  }
+
+  &--level-2 {
+    background-color: mat-color($md-steel, A100);
+    border: 2px solid mat-color($md-steel, 100);
   }
 
   &__name {

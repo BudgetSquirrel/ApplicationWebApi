@@ -16,7 +16,11 @@ export class BudgetOverviewComponent implements OnInit {
   public isEditingRootName: boolean = false;
   public isEditingRootAmount: boolean = false;
 
-  public isAddingBudget: boolean = false;
+  public parentBudgetForCreateBudget: Budget | null = null;
+
+  get isAddingBudget(): boolean {
+    return this.parentBudgetForCreateBudget != null;
+  }
 
   constructor(private budgetService: BudgetService) { }
 
@@ -54,19 +58,21 @@ export class BudgetOverviewComponent implements OnInit {
     }
   }
 
-  public onAddBudgetClick() {
-    this.isAddingBudget = true;
+  public onAddBudgetClick(budget: Budget) {
+    console.log(budget);
+    
+    this.parentBudgetForCreateBudget = budget;
   }
 
   public onCloseAddBudgetModal() {
-    this.isAddingBudget = false;
+    this.parentBudgetForCreateBudget = null;
   }
 
   public onSaveBudget(args: CreateBudgetEventArguments) {
     const self = this;
     this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
       self.loadRootBudget();
-      self.isAddingBudget = false;
+      self.parentBudgetForCreateBudget = null;
     });
   }
 
