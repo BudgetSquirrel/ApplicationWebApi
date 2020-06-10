@@ -59,8 +59,6 @@ export class BudgetOverviewComponent implements OnInit {
   }
 
   public onAddBudgetClick(budget: Budget) {
-    console.log(budget);
-    
     this.parentBudgetForCreateBudget = budget;
   }
 
