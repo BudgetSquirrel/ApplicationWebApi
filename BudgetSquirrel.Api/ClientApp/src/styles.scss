@@ -136,6 +136,11 @@ fieldset {
         width: 300px;
     }
 
+    &--small {
+        font-size: 0.6em;
+        padding: 8px;
+    }
+
     &--primary {
         background-color: mat-color($accent, 500);
         color: mat-contrast($accent, 500);

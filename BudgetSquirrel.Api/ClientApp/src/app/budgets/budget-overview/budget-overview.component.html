@@ -59,7 +59,7 @@
       *ngFor="let budget of rootBudget.subBudgets"
       [budget]="budget"
       [level]=1
-      (addBudget)="onAddBudgetClick(budget)">
+      (addBudget)="onAddBudgetClick($event)">
     </bs-budget>
   </div>
 

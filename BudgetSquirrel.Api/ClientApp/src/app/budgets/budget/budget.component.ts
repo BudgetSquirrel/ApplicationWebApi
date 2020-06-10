@@ -6,21 +6,25 @@ import { Budget } from '../models';
   template: `
     <div class="budget-item__container budget-item--level-{{this.level}}">
       <div class="budget-item">
-        <div class="budget-item__actions">
-          <button (click)="onAddBudgetClicked()">
-            Haha
-          </button>
-        </div>
-
         <div class="budget-item__content">
-          <div class="budget-item__name">
-            {{this.budget.name}}
+          <div class="budget-item__header">
+            <span class="budget-item__name">{{this.budget.name}}</span>
+
+            <ng-template [ngIf]="shouldShowAddBudgetButton" [ngIfElse]="noAddBudgetButton">
+              <div class="budget-item__actions">
+                <button class="button button--small button--primary" (click)="onAddBudgetClicked(this.budget)">
+                  Add SubBudget
+                </button>
+              </div>
+            </ng-template>
+            <ng-template #noAddBudgetButton>
+            </ng-template>
           </div>
 
           <div class="budget-item__stats">
             <span class="stat__container">
               <span class="stat__label">
-                AMOUNT IN
+                {{this.amountInLabel}}
               </span>
               <span class="stat">
                 {{this.budget.setAmount | currency}}
@@ -29,7 +33,7 @@ import { Budget } from '../models';
 
             <span class="stat__container budget-item__balance-stat">
               <span class="stat__label">
-                BALANCE
+                {{this.balanceLabel}}
               </span>
               <span class="stat">
                 {{this.budget.fundBalance | currency}}
@@ -45,7 +49,7 @@ import { Budget } from '../models';
             *ngFor="let subBudget of budget.subBudgets"
             [budget]="subBudget"
             [level]="subBudgetLevel"
-            (addBudget)="onAddBudgetClicked(subBudget)">
+            (addBudget)="onAddBudgetClicked($event)">
           </bs-budget>
         </div>
       </ng-template>
@@ -60,24 +64,35 @@ export class BudgetComponent implements OnInit {
   @Input() budget: Budget;
   @Input() level: number;
 
-  @Output() public addBudget: EventEmitter<any> = new EventEmitter();
+  @Output() public addBudget?: EventEmitter<any> = new EventEmitter();
 
-  get subBudgetLevel(): number {
-    return this.level + 1;
-  }
+  shouldShowAddBudgetButton: boolean;
+  subBudgetLevel: number;
+  hasSubBudgets: boolean;
 
-  get hasSubBudgets(): boolean {
+  amountInLabel: string = "AMOUNT IN";
+  balanceLabel: string = "BALANCE";
+
+  getHasSubBudgets(): boolean {
     return !(this.budget.subBudgets === null ||
            this.budget.subBudgets === undefined ||
            this.budget.subBudgets.length === 0);
   }
 
-  constructor() { }
-
   ngOnInit() {
+    this.subBudgetLevel = this.level + 1;
+    this.hasSubBudgets = this.getHasSubBudgets();
+    this.shouldShowAddBudgetButton = this.level < 3;
+    
+    if (this.level == 3) {
+      this.amountInLabel = "In:";
+    }
+    if (this.level == 3) {
+      this.balanceLabel = "Remaining:";
+    }
   }
 
-  public onAddBudgetClicked() {
-    this.addBudget.emit(null);
+  public onAddBudgetClicked(budget: Budget) {
+    this.addBudget.emit(budget);
   }
 }

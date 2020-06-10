@@ -2,13 +2,26 @@
 
 .budget-item {
   padding: 15px;
+  position: relative;
 
   &__container {
     margin-top: 15px;
   }
 
   &__actions {
+    margin-left: 30px;
     display: inline-block;
+
+    position: static;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  &:hover .budget-item__actions {
+    width: unset;
+    height: unset;
+    overflow: unset;
   }
 
   &__content {
@@ -31,8 +44,58 @@
     }
   }
 
+  &--level-3 {
+    border: none;
+
+    .budget-item {
+      background-color: $white;
+      padding: 10px 20px;
+
+      &__header {
+        display: inline-block;
+      }
+
+      &__content {
+        display: block;
+      }
+
+      &__name {
+        display: inline-block;
+      }
+
+      &__stats {
+        display: inline-block;
+        margin-top: 0;
+        margin-left: 30px;
+
+        .stat {
+          margin-top: 0;
+
+          &__label {
+            font-size: 1em;
+            color: mat-color($md-steel, 200);
+          }
+
+          &__container {
+            display: inline-block;
+          }
+        }
+      }
+
+      &__balance-stat {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
   &__name {
     font-weight: bold;
+    padding: 8px 0;
   }
 
   &__stats {
