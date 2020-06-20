@@ -67,13 +67,25 @@ namespace BudgetSquirrel.Api.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] RegisterRequest newUser)
         {
-            await this.accountService.CreateUser(newUser);
+            try
+            {
+                await this.accountService.CreateUser(newUser);
 
-            UserRecord userRecord = await this.userRepository.GetByUsername(newUser.Username);
-            await this.authenticationService.SignInAsync(userRecord);
-            User user = UserConverter.ToDomainModel(userRecord);
+                UserRecord userRecord = await this.userRepository.GetByUsername(newUser.Username);
+                await this.authenticationService.SignInAsync(userRecord);
+                User user = UserConverter.ToDomainModel(userRecord);
 
-            return new JsonResult(user);
+                if (user == null)
+                {
+                    return this.StatusCode(500, "There was an error creating the account, please try again.");
+                }
+                return new JsonResult(user);
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(500, "There was an error creating the account, please try again.");
+            }
+
         }
 
         [Authorize]

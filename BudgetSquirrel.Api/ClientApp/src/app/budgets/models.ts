@@ -9,7 +9,7 @@ export class Budget {
   subBudgets: Budget[];
 }
 
-export type DurationType = "DaySpan" | "MonthlyBookEnded"
+export type DurationType = "DaySpan" | "MonthlyBookEnded";
 
 export class BudgetDuration {
   id: string;
@@ -19,5 +19,5 @@ export class BudgetDuration {
   rolloverEndDateOnSmallMonths: boolean;
 }
 
-export const nullDuration = <BudgetDuration> {};
-export const nullBudget = <Budget> { duration: nullDuration };
+export const nullDuration = {} as BudgetDuration;
+export const nullBudget = { duration: nullDuration } as Budget;

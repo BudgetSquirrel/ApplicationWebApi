@@ -1,14 +1,14 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { Budget } from '../models';
-import { Observable } from 'rxjs';
+import { Budget } from "../models";
+import { Observable } from "rxjs";
 
 const BUDGETS_API = "api/budgets";
 
 interface ApiCommandResponse {
-  success: boolean
-};
+  success: boolean;
+}
 
 @Injectable({
   providedIn: "root"
@@ -18,7 +18,7 @@ export class BudgetService {
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
   }
 
-  getRootBudget(): Observable<Budget> {
+  public getRootBudget(): Observable<Budget> {
     return this.http.get(`${this.baseUrl}${BUDGETS_API}/root-budget`).pipe(
       map((budget: Budget) => {
         budget.budgetStart = new Date(budget.budgetStart);
@@ -27,7 +27,7 @@ export class BudgetService {
     );
   }
 
-  editRootBudgetName(budget: Budget, newName: string): Promise<ApiCommandResponse> {
+  public editRootBudgetName(budget: Budget, newName: string): Promise<ApiCommandResponse> {
     const requestBody = {
       budgetId: budget.id,
       name: newName
@@ -35,7 +35,7 @@ export class BudgetService {
     return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root-budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
-  editRootBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
+  public editRootBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
     const requestBody = {
       budgetId: budget.id,
       setAmount
