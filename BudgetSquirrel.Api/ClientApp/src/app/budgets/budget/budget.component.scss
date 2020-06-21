@@ -77,7 +77,12 @@
           }
 
           &__container {
-            display: inline-block;
+            flex-direction: row;
+            align-items: center;
+
+            .stat {
+              margin-left: 4px;
+            }
           }
         }
       }
@@ -100,6 +105,14 @@
 
   &__stats {
     margin-top: 12px;
+
+    .stat {
+      display: inline-block;
+      
+      &--editing {
+        font-size: 21px;
+      }
+    }
   }
 
   &__balance-stat {

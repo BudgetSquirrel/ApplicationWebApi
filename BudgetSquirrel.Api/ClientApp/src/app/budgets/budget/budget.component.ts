@@ -47,9 +47,22 @@ export interface EditBudgetEvent {
               <span class="stat__label">
                 {{this.amountInLabel}}
               </span>
-              <span class="stat">
-                {{this.budget.setAmount | currency}}
-              </span>
+              <ng-template [ngIf]="this.isEditingRootAmount" [ngIfElse]="notEditingRootAmount">
+                <input
+                  class="inplace-input inplace-input__input inplace-input--short stat stat--editing"
+                  type="number"
+                  step="0.01"
+                  aria-labelledby="rootAmountLabel"
+                  (blur)="onBlurInplaceEdit('rootAmount', $event)"
+                  (mouseup)="$event.target.focus();" />
+              </ng-template>
+              <ng-template #notEditingRootAmount>
+                <span
+                  class="inplace-input inplace-input--short inplace-input__focusable stat stat--editable"
+                  (mousedown)="onOpenInplaceEdit('rootAmount', $event)">
+                  {{this.budget.setAmount | currency}}
+                </span>
+              </ng-template>
             </span>
 
             <span class="stat__container budget-item__balance-stat">
