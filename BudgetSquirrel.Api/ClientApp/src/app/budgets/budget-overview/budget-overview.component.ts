@@ -1,20 +1,27 @@
 import { Component, OnInit } from "@angular/core";
 import { BudgetService } from "../services/budget.service";
-import { Budget, nullBudget } from "../models";
-import { tap } from "rxjs/operators";
+import { Budget, nullBudget } from '../models';
+import { tap } from 'rxjs/operators';
+import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
 
 @Component({
-  selector: "bs-budgets",
-  templateUrl: "./budgets.component.html",
-  styleUrls: ["./budgets.component.scss"]
+  selector: "bs-budget-overview",
+  templateUrl: "./budget-overview.component.html",
+  styleUrls: ["./budget-overview.component.scss"]
 })
-export class BudgetsComponent implements OnInit {
+export class BudgetOverviewComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
   public wasError = false;
+
+  public parentBudgetForCreateBudget: Budget | null = null;
+
+  get isAddingBudget(): boolean {
+    return this.parentBudgetForCreateBudget != null;
+  }
 
   constructor(private budgetService: BudgetService) { }
 
@@ -50,6 +57,22 @@ export class BudgetsComponent implements OnInit {
         this.loadRootBudget();
       });
     }
+  }
+
+  public onAddBudgetClick(budget: Budget) {
+    this.parentBudgetForCreateBudget = budget;
+  }
+
+  public onCloseAddBudgetModal() {
+    this.parentBudgetForCreateBudget = null;
+  }
+
+  public onSaveBudget(args: CreateBudgetEventArguments) {
+    const self = this;
+    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
+      self.loadRootBudget();
+      self.parentBudgetForCreateBudget = null;
+    });
   }
 
   private loadRootBudget() {

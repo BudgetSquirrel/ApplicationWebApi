@@ -7,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
     <bs-splash-page *isAuthenticated="false"></bs-splash-page>
 
     <!-- Authenticated -->
-    <bs-budgets *isAuthenticated="true"></bs-budgets>
+    <bs-budget-overview *isAuthenticated="true"></bs-budget-overview>
   `,
   styleUrls: ["./home.component.scss"]
 })

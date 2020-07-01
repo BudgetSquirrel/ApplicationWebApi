@@ -4,6 +4,7 @@
     padding-left: var(--page-side-padding);
     padding-right: var(--page-side-padding);
     padding-top: 16px;
+    padding-bottom: 32px;
 
     .root-budget-details {
         margin-top: 1em;
@@ -25,6 +26,10 @@
             line-height: 150%;
             color: #687F83;
         }
+    }
+
+    .root-budget-controls {
+        margin-top: 1em;
     }
 
     .budget-list {

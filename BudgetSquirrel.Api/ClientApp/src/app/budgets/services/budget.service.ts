@@ -42,4 +42,13 @@ export class BudgetService {
     };
     return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root-budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
+
+  createBudget(parentBudget: Budget, name: string, setAmount: number): Promise<ApiCommandResponse> {
+    const requestBody = {
+      parentBudgetId: parentBudget.id,
+      name,
+      setAmount
+    }
+    return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+  }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using BudgetSquirrel.Business.BudgetPlanning;
 
 namespace BudgetSquirrel.Api.ResponseModels
@@ -19,6 +21,8 @@ namespace BudgetSquirrel.Api.ResponseModels
 
     public DateTime BudgetStart { get; private set; }
 
+    public IEnumerable<RootBudgetResponse> SubBudgets { get; private set; }
+
     public RootBudgetResponse(Budget budget)
     {
       Id = budget.Id;
@@ -28,6 +32,7 @@ namespace BudgetSquirrel.Api.ResponseModels
       FundBalance = budget.FundBalance;
       Duration = new BudgetDurationResponse(budget.Duration);
       BudgetStart = budget.BudgetStart;
+      SubBudgets = budget.SubBudgets.Select(b => new RootBudgetResponse(b));
     }
   }
 }

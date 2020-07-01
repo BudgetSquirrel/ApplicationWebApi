@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -34,6 +35,11 @@ namespace BudgetSquirrel.Api.Services.Implementations
     public Task<T> SingleOrDefaultAsync<T>(IQueryable<T> source, Expression<Func<T, bool>> predicate)
     {
       return source.SingleOrDefaultAsync(predicate);
+    }
+
+    public Task<List<T>> ToListAsync<T>(IQueryable<T> source)
+    {
+      return source.ToListAsync();
     }
 
     public Task<bool> AnyAsync<T>(IQueryable<T> source, Expression<Func<T, bool>> predicate)

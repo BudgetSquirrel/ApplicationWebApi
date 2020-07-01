@@ -3,6 +3,7 @@
 @import './z-index';
 @import './layouts';
 @import './colors';
+@import './modal';
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -86,7 +87,7 @@ fieldset {
 }
 
 .inplace-input__focusable {
-    cursor: pointer;
+    cursor: text;
     padding: 4px;
     border-radius: 2px;
     display: inline-block;
@@ -135,6 +136,11 @@ fieldset {
         width: 300px;
     }
 
+    &--small {
+        font-size: 0.6em;
+        padding: 8px;
+    }
+
     &--primary {
         background-color: mat-color($accent, 500);
         color: mat-contrast($accent, 500);
@@ -142,5 +148,29 @@ fieldset {
         &:hover {
             background-color: mat-color($accent, 600);
         }
+    }
+
+    &--disabled {
+        background-color: mat-color($steel, 300);
+
+        &:hover {
+            background-color: mat-color($steel, 300);
+        }
+    }
+}
+
+.stat {
+    font-size: 22px;
+    margin-top: 4px;
+    color: mat-color($md-steel, 400);
+
+    &__container {
+        display: inline-flex;
+        flex-direction: column;
+    }
+
+    &__label {
+        font-size: 0.6em;
+        font-weight: bold;
     }
 }

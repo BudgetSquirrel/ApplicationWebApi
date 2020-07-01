@@ -6,6 +6,7 @@ export class Budget {
   fundBalance: number;
   percentAmount?: number;
   setAmount: number;
+  subBudgets: Budget[];
 }
 
 export type DurationType = "DaySpan" | "MonthlyBookEnded";
