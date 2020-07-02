@@ -3,6 +3,7 @@ import { BudgetService } from "../services/budget.service";
 import { Budget, nullBudget } from '../models';
 import { tap } from 'rxjs/operators';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
+import { EditBudgetEvent } from '../budget/budget.component';
 
 @Component({
   selector: "bs-budget-overview",
@@ -41,21 +42,32 @@ export class BudgetOverviewComponent implements OnInit {
     }
   }
 
-  public onBlurInplaceEdit(field: string, event: MouseEvent) {
-    const value = (event.target as HTMLInputElement).value;
-    if (field === "rootAmount") {
-      this.isEditingRootAmount = false;
-      this.budgetService.editRootBudgetSetAmount(this.rootBudget, parseFloat(value)).then(response => {
+  public onEditBudget(event: EditBudgetEvent) {
+    if (event.field === "rootAmount") {
+      this.budgetService.editRootBudgetSetAmount(event.budget, parseFloat(event.value)).then(response => {
         this.loadRootBudget();
       });
-    } else if (field === "rootName") {
-      this.isEditingRootName = false;
-      if (!value) {
+    } else if (event.field === "rootName") {
+      if (!event.value) {
         return;
       }
-      this.budgetService.editRootBudgetName(this.rootBudget, value).then(response => {
+      this.budgetService.editRootBudgetName(event.budget, event.value).then(response => {
         this.loadRootBudget();
       });
+    }
+  }
+
+  public onBlurInplaceEdit(field: string, event: MouseEvent) {
+    const value = (event.target as HTMLInputElement).value;
+    this.onEditBudget({
+      budget: this.rootBudget,
+      field,
+      value
+    });
+    if (field === "rootAmount") {
+      this.isEditingRootAmount = false;
+    } else if (field === "rootName") {
+      this.isEditingRootName = false;
     }
   }
 

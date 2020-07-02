@@ -115,6 +115,10 @@ fieldset {
 
 .inplace-input--short {
     width: 100px;
+
+    &.inplace-input__input {
+        width: 98px;
+    }
 }
 
 .button {
