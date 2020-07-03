@@ -8,7 +8,7 @@
     margin-top: 15px;
   }
 
-  &__actions {
+  &__action-container {
     margin-left: 30px;
     display: inline-block;
 
@@ -18,7 +18,7 @@
     overflow: hidden;
   }
 
-  &:hover .budget-item__actions {
+  &:hover .budget-item__action-container {
     width: unset;
     height: unset;
     overflow: unset;
@@ -122,5 +122,13 @@
   &__sub-budget-container {
     padding: 15px;
     padding-top: 0;
+  }
+
+  &__action {
+    margin-right: 10px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 }
