@@ -23,6 +23,8 @@ export class BudgetComponent implements OnInit {
   @Output() public removeBudget?: EventEmitter<any> = new EventEmitter();
 
   shouldShowAddBudgetButton: boolean;
+  shouldShowActionsAbove: boolean;
+  shouldShowActionsToRight: boolean;
   subBudgetLevel: number;
   hasSubBudgets: boolean;
 
@@ -42,6 +44,8 @@ export class BudgetComponent implements OnInit {
     this.subBudgetLevel = this.level + 1;
     this.hasSubBudgets = this.getHasSubBudgets();
     this.shouldShowAddBudgetButton = this.level < 3;
+    this.shouldShowActionsAbove = this.level < 3;
+    this.shouldShowActionsToRight = this.level == 3;
     
     if (this.level == 3) {
       this.amountInLabel = "In:";

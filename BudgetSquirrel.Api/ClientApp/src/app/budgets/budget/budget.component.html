@@ -18,18 +18,14 @@
           </h2>
         </ng-template>
 
-        <ng-template [ngIf]="shouldShowAddBudgetButton" [ngIfElse]="noAddBudgetButton">
-          <div class="budget-item__action-container">
-            <button class="button button--small button--primary budget-item__action" (click)="onAddBudgetClicked(this.budget)">
-              Add SubBudget
-            </button>
-            <button class="button button--small button--danger budget-item__action" (click)="onRemoveBudgetClicked(this.budget)">
-              Remove
-            </button>
-          </div>
-        </ng-template>
-        <ng-template #noAddBudgetButton>
-        </ng-template>
+        <div *ngIf="shouldShowActionsAbove" class="budget-item__action-container">
+          <button *ngIf="shouldShowAddBudgetButton" class="button button--small button--primary budget-item__action" (click)="onAddBudgetClicked(this.budget)">
+            Add SubBudget
+          </button>
+          <button class="button button--small button--danger budget-item__action" (click)="onRemoveBudgetClicked(this.budget)">
+            Remove
+          </button>
+        </div>
       </div>
 
       <div class="budget-item__stats">
@@ -63,6 +59,12 @@
             {{this.budget.fundBalance | currency}}
           </span>
         </span>
+      </div>
+
+      <div *ngIf="shouldShowActionsToRight" class="budget-item__action-container">
+        <button class="button button--small button--danger budget-item__action" (click)="onRemoveBudgetClicked(this.budget)">
+          Removellllllll
+        </button>
       </div>
     </div>
   </div>
