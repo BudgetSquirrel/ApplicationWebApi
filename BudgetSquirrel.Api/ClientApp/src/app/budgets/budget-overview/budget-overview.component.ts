@@ -16,6 +16,8 @@ export class BudgetOverviewComponent implements OnInit {
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
+  public isEditingDuration = false;
+
   public wasError = false;
 
   public parentBudgetForCreateBudget: Budget | null = null;
@@ -77,6 +79,14 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onCloseAddBudgetModal() {
     this.parentBudgetForCreateBudget = null;
+  }
+
+  public onEditDurationClick() {
+    this.isEditingDuration = true;
+  }
+
+  public onCloseDurationEditModal() {
+    this.isEditingDuration = false;
   }
 
   public onSaveBudget(args: CreateBudgetEventArguments) {

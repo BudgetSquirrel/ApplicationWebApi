@@ -35,4 +35,23 @@
     .budget-list {
         margin-top: 16px;
     }
+
+    .budget-period-info {
+        margin-left: 15px;
+        display: inline-block;
+    }
+
+    .edit-duration {
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        svg {
+            fill: mat-color($steel, 200);
+        }
+
+        &:hover svg {
+            fill: mat-color($accent, 900);
+        }
+    }
 }
