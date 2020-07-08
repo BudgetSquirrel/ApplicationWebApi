@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { BudgetService } from "../services/budget.service";
+import { BudgetingService } from "../services/budgeting.service";
 import { Budget, nullBudget } from '../models';
 import { tap } from 'rxjs/operators';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
@@ -26,7 +26,7 @@ export class BudgetOverviewComponent implements OnInit {
     return this.parentBudgetForCreateBudget != null;
   }
 
-  constructor(private budgetService: BudgetService) { }
+  constructor(private budgetService: BudgetingService) { }
 
   public ngOnInit() {
     this.loadRootBudget();
@@ -46,14 +46,14 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onEditBudget(event: EditBudgetEvent) {
     if (event.field === "rootAmount") {
-      this.budgetService.editRootBudgetSetAmount(event.budget, parseFloat(event.value)).then(response => {
+      this.budgetService.editBudgetSetAmount(event.budget, parseFloat(event.value)).then(response => {
         this.loadRootBudget();
       });
     } else if (event.field === "rootName") {
       if (!event.value) {
         return;
       }
-      this.budgetService.editRootBudgetName(event.budget, event.value).then(response => {
+      this.budgetService.editBudgetName(event.budget, event.value).then(response => {
         this.loadRootBudget();
       });
     }
