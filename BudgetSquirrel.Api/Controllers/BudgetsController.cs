@@ -42,7 +42,7 @@ namespace BudgetSquirrel.Api.Controllers
     }
 
     [Authorize]
-    [HttpPatch("root-budget")]
+    [HttpPatch("budget")]
     public async Task<JsonResult> EditRootBudget([FromBody] EditRootBudgetRequest body)
     {
       User currentUser = await this.authService.GetCurrentUser();
@@ -56,6 +56,16 @@ namespace BudgetSquirrel.Api.Controllers
     public async Task<JsonResult> CreateBudget([FromBody] CreateBudgetRequest body)
     {
       CreateBudgetCommand command = new CreateBudgetCommand(this.unitOfWork, body.ParentBudgetId, body.Name, body.SetAmount);
+      await command.Run();
+      return new JsonResult(new { success = true });
+    }
+
+    [Authorize]
+    [HttpDelete("budget/{id}")]
+    public async Task<JsonResult> RemoveBudget(Guid id)
+    {
+      User currentUser = await this.authService.GetCurrentUser();
+      RemoveBudgetCommand command = new RemoveBudgetCommand(this.unitOfWork, this.asyncQueryService, id, currentUser);
       await command.Run();
       return new JsonResult(new { success = true });
     }

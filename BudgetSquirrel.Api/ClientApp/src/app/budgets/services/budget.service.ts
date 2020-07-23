@@ -32,7 +32,7 @@ export class BudgetService {
       budgetId: budget.id,
       name: newName
     };
-    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root-budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
   public editRootBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
@@ -40,7 +40,7 @@ export class BudgetService {
       budgetId: budget.id,
       setAmount
     };
-    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root-budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
   createBudget(parentBudget: Budget, name: string, setAmount: number): Promise<ApiCommandResponse> {
@@ -50,5 +50,9 @@ export class BudgetService {
       setAmount
     }
     return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+  }
+
+  removeBudget(budget: Budget): Promise<ApiCommandResponse> {
+    return this.http.delete(`${this.baseUrl}${BUDGETS_API}/budget/${budget.id}`).toPromise() as Promise<ApiCommandResponse>;
   }
 }
