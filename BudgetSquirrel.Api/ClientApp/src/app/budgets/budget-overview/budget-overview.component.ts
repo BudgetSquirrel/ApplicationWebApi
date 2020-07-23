@@ -4,6 +4,7 @@ import { Budget, nullBudget } from '../models';
 import { tap } from 'rxjs/operators';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
 import { EditBudgetEvent } from '../budget/budget.component';
+import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
 
 @Component({
   selector: "bs-budget-overview",
@@ -87,6 +88,12 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onCloseDurationEditModal() {
     this.isEditingDuration = false;
+  }
+
+  public async onEditDurationSubmit(input: EditDurationEvent) {
+    this.onCloseDurationEditModal();
+    await this.budgetService.editDuration(this.rootBudget, {...input});
+    await this.loadRootBudget();
   }
 
   public onSaveBudget(args: CreateBudgetEventArguments) {

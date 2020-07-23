@@ -89,7 +89,7 @@
   </div>
 
   <div *ngIf="this.isEditingDuration">
-    <bs-edit-duration-form (onClose)="onCloseDurationEditModal()" [budgetDuration]="this.rootBudget.duration"></bs-edit-duration-form>
+    <bs-edit-duration-form (onClose)="onCloseDurationEditModal()" (onEditSubmit)="this.onEditDurationSubmit($event)" [budgetDuration]="this.rootBudget.duration"></bs-edit-duration-form>
   </div>
 
 </div>

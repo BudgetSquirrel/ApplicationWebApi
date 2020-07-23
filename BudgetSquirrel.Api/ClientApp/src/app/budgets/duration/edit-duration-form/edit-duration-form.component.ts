@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BudgetDuration, DurationType } from '../../models';
+import { BudgetDuration, DurationType, Budget } from '../../models';
+import { BudgetingService } from '../../services/budgeting.service';
 
 export interface EditDurationEvent {
   endDayOfMonth: number,
@@ -16,12 +17,13 @@ export class EditDurationFormComponent implements OnInit {
 
   @Input() budgetDuration: BudgetDuration;
 
+  @Output() public onEditSubmit: EventEmitter<EditDurationEvent> = new EventEmitter();
   @Output() public onClose?: EventEmitter<any> = new EventEmitter();
 
   public isMonthlyBookendedDuration: boolean;
   public isDaySpanDuration: boolean;
 
-  constructor() {}
+  constructor(private budgetService: BudgetingService) {}
 
   ngOnInit() {
     this.isMonthlyBookendedDuration = this.budgetDuration.durationType == "MonthlyBookEnded";
@@ -33,6 +35,6 @@ export class EditDurationFormComponent implements OnInit {
   }
 
   public onEditFormSubmit(input: EditDurationEvent) {
-    console.log(input);
+    this.onEditSubmit.emit(input);
   }
 }

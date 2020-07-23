@@ -1,10 +1,16 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { Budget } from "../models";
+import { Budget, DurationType } from "../models";
 import { Observable } from "rxjs";
 
 const BUDGETS_API = "api/budgeting";
+
+export interface EditDurationRequest {
+  endDayOfMonth: number,
+  rolloverEndDate: boolean,
+  durationType: DurationType
+}
 
 interface ApiCommandResponse {
   success: boolean;
@@ -43,12 +49,20 @@ export class BudgetingService {
     return this.http.patch(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
-  createBudget(parentBudget: Budget, name: string, setAmount: number): Promise<ApiCommandResponse> {
+  public createBudget(parentBudget: Budget, name: string, setAmount: number): Promise<ApiCommandResponse> {
     const requestBody = {
       parentBudgetId: parentBudget.id,
       name,
       setAmount
     }
     return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+  }
+
+  public editDuration(budget: Budget, request: EditDurationRequest): Promise<ApiCommandResponse> {
+    const requestBody = {
+      budgetId: budget.id,
+      ...request
+    };
+    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/duration`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 }

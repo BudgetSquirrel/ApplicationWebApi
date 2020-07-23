@@ -62,8 +62,19 @@ namespace BudgetSquirrel.Api.Controllers
 
     [Authorize]
     [HttpPatch("duration")]
-    public async Task<JsonResult> EditDuration()
+    public async Task<JsonResult> EditDuration([FromBody] EditDurationRequest body)
     {
+      User currentUser = await this.authService.GetCurrentUser();
+      if (body.DurationType == EditDurationRequest.DurationTypeDaySpan)
+      {
+        EditDaySpanBudgetDuration command = new EditDaySpanBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.NumberDays);
+        await command.Run();
+      }
+      else
+      {
+        EditMonthlyBookendedBudgetDuration command = new EditMonthlyBookendedBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.EndDayOfMonth, body.RolloverEndDate);
+        await command.Run();
+      }
       return new JsonResult(new { success = true });
     }
   }

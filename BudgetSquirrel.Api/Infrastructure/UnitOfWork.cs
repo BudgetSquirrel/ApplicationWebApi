@@ -9,13 +9,16 @@ namespace BudgetSquirrel.Api.Infrastructure
   public class UnitOfWork : IUnitOfWork
   {
     private IRepository<Budget> budgetRepository;
+    private IRepository<BudgetDurationBase> budgetDurationRepository;
     private BudgetSquirrelContext dbContext;
 
     public UnitOfWork(
       IRepository<Budget> budgetRepository,
+      IRepository<BudgetDurationBase> budgetDurationRepository,
       BudgetSquirrelContext dbContext)
     {
       this.budgetRepository = budgetRepository;
+      this.budgetDurationRepository = budgetDurationRepository;
       this.dbContext = dbContext;
     }
 
@@ -24,6 +27,10 @@ namespace BudgetSquirrel.Api.Infrastructure
       if (typeof(T) == typeof(Budget))
       {
         return (IRepository<T>) this.budgetRepository;
+      }
+      else if (typeof(T) == typeof(BudgetDurationBase))
+      {
+        return (IRepository<T>) this.budgetDurationRepository;
       }
       else
       {
