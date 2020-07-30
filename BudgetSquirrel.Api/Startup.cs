@@ -99,6 +99,7 @@ namespace BudgetSquirrel.Api
             services.AddDbContext<BudgetSquirrelContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("Default"));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             
             services.AddTransient<IUserRepository, UserRepository>();
