@@ -1,8 +1,8 @@
 @import '../../../../variables';
 
 .notificationError {
-    background-color: mat-color($warn, 100);
-    color: mat-color($warn, 700);
+    background-color: mat-color($danger, 100);
+    color: mat-color($danger, 700);
     padding: 12px;
     width: fit-content;
 }

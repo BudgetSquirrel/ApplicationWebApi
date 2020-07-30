@@ -154,6 +154,15 @@ fieldset {
         }
     }
 
+    &--danger {
+        background-color: mat-color($danger, 500);
+        color: mat-contrast($danger, 500);
+
+        &:hover {
+            background-color: mat-color($danger, 600);
+        }
+    }
+
     &--disabled {
         background-color: mat-color($steel, 300);
 

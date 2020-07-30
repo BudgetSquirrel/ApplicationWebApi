@@ -1,17 +1,11 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { Budget, DurationType } from "../models";
+import { Budget } from "../models";
 import { Observable } from "rxjs";
+import { EditDurationRequest } from './budgeting.service';
 
-const BUDGETS_API = "api/budgeting";
-
-export interface EditDurationRequest {
-  endDayOfMonth?: number;
-  rolloverEndDate?: boolean;
-  durationType: DurationType;
-  numberDays?: number;
-}
+const BUDGETS_API = "api/budgets";
 
 interface ApiCommandResponse {
   success: boolean;
@@ -20,7 +14,7 @@ interface ApiCommandResponse {
 @Injectable({
   providedIn: "root"
 })
-export class BudgetingService {
+export class BudgetService {
 
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
   }
@@ -57,6 +51,10 @@ export class BudgetingService {
       setAmount
     }
     return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+  }
+
+  public removeBudget(budget: Budget): Promise<ApiCommandResponse> {
+    return this.http.delete(`${this.baseUrl}${BUDGETS_API}/budget/${budget.id}`).toPromise() as Promise<ApiCommandResponse>;
   }
 
   public editDuration(budget: Budget, request: EditDurationRequest): Promise<ApiCommandResponse> {

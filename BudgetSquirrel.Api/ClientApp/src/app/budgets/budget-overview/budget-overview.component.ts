@@ -104,6 +104,11 @@ export class BudgetOverviewComponent implements OnInit {
     });
   }
 
+  public async onRemoveBudget(budget: Budget) {
+    await this.budgetService.removeBudget(budget)
+    this.loadRootBudget();
+  }
+
   private loadRootBudget() {
     this.budgetService.getRootBudget().subscribe((rootBudget: Budget) => {
       this.rootBudget = rootBudget;

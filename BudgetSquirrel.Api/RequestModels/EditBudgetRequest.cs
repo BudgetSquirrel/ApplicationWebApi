@@ -2,7 +2,7 @@ using System;
 
 namespace BudgetSquirrel.Api.RequestModels
 {
-  public class EditRootBudgetRequest
+  public class EditBudgetRequest
   {
     public Guid BudgetId { get; set; }
     public string Name { get; set; }
