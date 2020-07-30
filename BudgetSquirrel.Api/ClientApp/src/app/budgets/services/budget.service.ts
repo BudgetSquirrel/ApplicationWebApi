@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import { Budget, DurationType } from "../models";
 import { Observable } from "rxjs";
 
-const BUDGETS_API = "api/budgets";
+const BUDGETS_API = "api/budget";
 
 export interface EditDurationRequest {
   endDayOfMonth?: number;
