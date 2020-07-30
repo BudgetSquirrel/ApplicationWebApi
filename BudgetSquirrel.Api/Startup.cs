@@ -55,7 +55,7 @@ namespace BudgetSquirrel.Api
         protected void ConfigureDomainLayer(IServiceCollection services)
         {
             services.AddTransient<IRepository<Budget>, DefaultRepository<Budget>>();
-            services.AddTransient<IRepository<BudgetDurationBase>, DefaultRepository<BudgetDurationBase>>();
+            services.AddTransient<IRepository<BudgetDurationBase>, BudgetDurationRepository>();
 
             services.AddTransient<IAsyncQueryService, AsyncQueryService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();

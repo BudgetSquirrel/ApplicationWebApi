@@ -68,8 +68,6 @@ namespace BudgetSquirrel.Api.Controllers
       if (body.DurationType == EditDurationRequest.DurationTypeDaySpan)
       {
         EditDaySpanBudgetDuration command = new EditDaySpanBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.NumberDays.Value);
-        // TODO: In order to switch duration types, need to update the discriminator in the database for durations: dbContext.Entry(durationInstance).Property("Discriminator").CurrentValue = instance.GetType().Name
-        throw new Exception("Look in the controller. There is an exception in edit duration. Read this comment above before doing anything else");
         await command.Run();
       }
       else
