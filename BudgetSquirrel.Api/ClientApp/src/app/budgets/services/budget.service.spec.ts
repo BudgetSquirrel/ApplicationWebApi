@@ -1,12 +1,11 @@
 import { TestBed } from "@angular/core/testing";
-
-import { BudgetingService } from "./budgeting.service";
+import { BudgetService } from './budget.service';
 
 describe("BudgetService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it("should be created", () => {
-    const service: BudgetingService = TestBed.get(BudgetingService);
+    const service: BudgetService = TestBed.get(BudgetService);
     expect(service).toBeTruthy();
   });
 });

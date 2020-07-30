@@ -1,11 +1,17 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { Budget } from "../models";
+import { Budget, DurationType } from "../models";
 import { Observable } from "rxjs";
-import { EditDurationRequest } from './budgeting.service';
 
 const BUDGETS_API = "api/budgets";
+
+export interface EditDurationRequest {
+  endDayOfMonth?: number;
+  rolloverEndDate?: boolean;
+  durationType: DurationType;
+  numberDays?: number;
+}
 
 interface ApiCommandResponse {
   success: boolean;

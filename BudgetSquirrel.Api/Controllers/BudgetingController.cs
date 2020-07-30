@@ -6,7 +6,6 @@ using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Business.BudgetPlanning;
-using BudgetSquirrel.Data.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -75,8 +74,9 @@ namespace BudgetSquirrel.Api.Controllers
         EditMonthlyBookendedBudgetDuration command = new EditMonthlyBookendedBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.EndDayOfMonth.Value, body.RolloverEndDate.Value);
         await command.Run();
       }
+      return new JsonResult(new { success = true });
     }
-    
+
     [HttpDelete("budget/{id}")]
     public async Task<JsonResult> RemoveBudget(Guid id)
     {
