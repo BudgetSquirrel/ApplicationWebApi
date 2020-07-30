@@ -21,8 +21,9 @@ export class EditMonthlybookendedDurationFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    const initialRolloverEndDate = this.budgetDuration.rolloverEndDateOnSmallMonths === null ? false : this.budgetDuration.rolloverEndDateOnSmallMonths;
     this.endDayOfMonthValidation = new FormControl(this.budgetDuration.endDayOfMonth, [Validators.required]);
-    this.rollOverEndDateValidation = new FormControl(this.budgetDuration.rolloverEndDateOnSmallMonths, [Validators.required]);
+    this.rollOverEndDateValidation = new FormControl(initialRolloverEndDate, []);
     this.editDurationForm = new FormGroup({
       endDayOfMonth: this.endDayOfMonthValidation,
       rolloverEndDate: this.rollOverEndDateValidation

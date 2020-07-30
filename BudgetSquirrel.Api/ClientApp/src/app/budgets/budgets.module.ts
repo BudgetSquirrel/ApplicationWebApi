@@ -8,6 +8,7 @@ import { AddBudgetFormComponent } from './add-budget-form/add-budget-form.compon
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditDurationFormComponent } from './duration/edit-duration-form/edit-duration-form.component';
 import { EditMonthlybookendedDurationFormComponent } from './duration/edit-monthlybookended-duration-form/edit-monthlybookended-duration-form.component';
+import { EditDayspanDurationFormComponent } from './duration/edit-dayspan-duration-form/edit-dayspan-duration-form.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { EditMonthlybookendedDurationFormComponent } from './duration/edit-month
     BudgetComponent,
     AddBudgetFormComponent,
     EditDurationFormComponent,
-    EditMonthlybookendedDurationFormComponent
+    EditMonthlybookendedDurationFormComponent,
+    EditDayspanDurationFormComponent
   ],
   imports: [
     CommonModule,

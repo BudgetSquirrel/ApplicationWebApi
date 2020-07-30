@@ -3,9 +3,10 @@ import { BudgetDuration, DurationType, Budget } from '../../models';
 import { BudgetingService } from '../../services/budgeting.service';
 
 export interface EditDurationEvent {
-  endDayOfMonth: number,
-  rolloverEndDate: boolean,
-  durationType: DurationType
+  endDayOfMonth?: number;
+  rolloverEndDate?: boolean;
+  durationType: DurationType;
+  numberDays?: number;
 }
 
 @Component({
@@ -36,5 +37,15 @@ export class EditDurationFormComponent implements OnInit {
 
   public onEditFormSubmit(input: EditDurationEvent) {
     this.onEditSubmit.emit(input);
+  }
+
+  public onChangeDurationType(type: DurationType) {
+    if (type == "DaySpan") {
+      this.isDaySpanDuration = true;
+      this.isMonthlyBookendedDuration = false;
+    } else {
+      this.isMonthlyBookendedDuration = true;
+      this.isDaySpanDuration = false;
+    }
   }
 }

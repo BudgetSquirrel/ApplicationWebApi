@@ -13,10 +13,24 @@
     </div>
 
     <div class="modal__content">
+      <div>
+        <button (click)="onChangeDurationType('MonthlyBookEnded')">
+          Ends on Date
+        </button>
+        <button (click)="onChangeDurationType('DaySpan')">
+          Spans Days
+        </button>
+      </div>
+
       <bs-edit-monthlybookended-duration-form *ngIf="this.isMonthlyBookendedDuration"
         [budgetDuration]="this.budgetDuration"
         (submitEditForm)="onEditFormSubmit($event)">
       </bs-edit-monthlybookended-duration-form>
+
+      <bs-edit-dayspan-duration-form *ngIf="this.isDaySpanDuration"
+        [budgetDuration]="this.budgetDuration"
+        (submitEditForm)="onEditFormSubmit($event)">
+      </bs-edit-dayspan-duration-form>
     </div>
 
   </dialog>

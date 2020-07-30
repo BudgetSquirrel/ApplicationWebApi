@@ -7,9 +7,10 @@ import { Observable } from "rxjs";
 const BUDGETS_API = "api/budgeting";
 
 export interface EditDurationRequest {
-  endDayOfMonth: number,
-  rolloverEndDate: boolean,
-  durationType: DurationType
+  endDayOfMonth?: number;
+  rolloverEndDate?: boolean;
+  durationType: DurationType;
+  numberDays?: number;
 }
 
 interface ApiCommandResponse {
@@ -38,7 +39,7 @@ export class BudgetingService {
       budgetId: budget.id,
       name: newName
     };
-    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/root-budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
+    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
   public editBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
