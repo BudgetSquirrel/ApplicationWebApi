@@ -13,13 +13,13 @@ namespace BudgetSquirrel.Api.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]
-  public class BudgetingController : Controller
+  public class BudgetController : Controller
   {
     private readonly IAuthService authService;
     private readonly IAsyncQueryService asyncQueryService;
     private readonly IUnitOfWork unitOfWork;
 
-    public BudgetingController(
+    public BudgetController(
       IAuthService authService,
       IAsyncQueryService asyncQueryService,
       IUnitOfWork unitOfWork)
