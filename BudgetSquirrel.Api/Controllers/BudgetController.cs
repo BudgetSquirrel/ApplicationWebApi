@@ -64,7 +64,7 @@ namespace BudgetSquirrel.Api.Controllers
     public async Task<JsonResult> EditDuration([FromBody] EditDurationRequest body)
     {
       User currentUser = await this.authService.GetCurrentUser();
-      if (body.DurationType == EditDurationRequest.DurationTypeDaySpan)
+      if (body.DurationType == EditDurationDurationType.DaySpan)
       {
         EditDaySpanBudgetDuration command = new EditDaySpanBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.NumberDays.Value);
         await command.Run();
