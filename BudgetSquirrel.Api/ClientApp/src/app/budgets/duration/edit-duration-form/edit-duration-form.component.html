@@ -13,32 +13,23 @@
     </div>
 
     <div class="modal__content">
-      <div local-class="duration-type-selection">
-        <button (click)="onChangeDurationType('MonthlyBookEnded')">
-          Ends on Date
-        </button>
-        <button (click)="onChangeDurationType('DaySpan')">
-          Spans Days
-        </button>
-      </div>
-
-      <bs-switch [optionValues]="this.durationTypes" (onSelect)="this.onChangeDurationType($event)">
-        <template *ngFor="let option of this.durationTypes">
-          <option>
-            {{option}}
-          </option>
-        </template>
+      <bs-switch
+        [optionValues]="this.durationPickerOptions"
+        (onSelect)="this.onChangeDurationType($event)"
+        [activeOption]="this.activeDurationPickerOption">
       </bs-switch>
 
-      <bs-edit-monthlybookended-duration-form *ngIf="this.isMonthlyBookendedDuration"
-        [budgetDuration]="this.budgetDuration"
-        (submitEditForm)="onEditFormSubmit($event)">
-      </bs-edit-monthlybookended-duration-form>
+      <div class="edit-duration-form">
+        <bs-edit-monthlybookended-duration-form *ngIf="this.isMonthlyBookendedDuration"
+          [budgetDuration]="this.budgetDuration"
+          (submitEditForm)="onEditFormSubmit($event)">
+        </bs-edit-monthlybookended-duration-form>
 
-      <bs-edit-dayspan-duration-form *ngIf="this.isDaySpanDuration"
-        [budgetDuration]="this.budgetDuration"
-        (submitEditForm)="onEditFormSubmit($event)">
-      </bs-edit-dayspan-duration-form>
+        <bs-edit-dayspan-duration-form *ngIf="this.isDaySpanDuration"
+          [budgetDuration]="this.budgetDuration"
+          (submitEditForm)="onEditFormSubmit($event)">
+        </bs-edit-dayspan-duration-form>
+      </div>
     </div>
 
   </dialog>
