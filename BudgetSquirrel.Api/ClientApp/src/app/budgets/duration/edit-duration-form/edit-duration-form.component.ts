@@ -21,6 +21,11 @@ export class EditDurationFormComponent implements OnInit {
   @Output() public onEditSubmit: EventEmitter<EditDurationEvent> = new EventEmitter();
   @Output() public onClose?: EventEmitter<any> = new EventEmitter();
 
+  public durationTypes: DurationType[] = [
+    "MonthlyBookEnded",
+    "DaySpan"
+  ];
+
   public isMonthlyBookendedDuration: boolean;
   public isDaySpanDuration: boolean;
 

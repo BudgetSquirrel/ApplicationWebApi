@@ -13,7 +13,7 @@
     </div>
 
     <div class="modal__content">
-      <div>
+      <div local-class="duration-type-selection">
         <button (click)="onChangeDurationType('MonthlyBookEnded')">
           Ends on Date
         </button>
@@ -21,6 +21,14 @@
           Spans Days
         </button>
       </div>
+
+      <bs-switch [optionValues]="this.durationTypes" (onSelect)="this.onChangeDurationType($event)">
+        <template *ngFor="let option of this.durationTypes">
+          <option>
+            {{option}}
+          </option>
+        </template>
+      </bs-switch>
 
       <bs-edit-monthlybookended-duration-form *ngIf="this.isMonthlyBookendedDuration"
         [budgetDuration]="this.budgetDuration"
