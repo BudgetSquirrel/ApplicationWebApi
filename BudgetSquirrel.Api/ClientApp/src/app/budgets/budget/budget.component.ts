@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Budget } from '../models';
-import { BudgetService } from '../services/budget.service';
 
 export interface EditBudgetEvent {
   budget: Budget;

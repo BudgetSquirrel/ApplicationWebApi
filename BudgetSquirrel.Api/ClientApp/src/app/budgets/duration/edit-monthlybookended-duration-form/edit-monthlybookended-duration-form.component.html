@@ -1,0 +1,23 @@
+<form class="edit-monthlybookended-duration" [formGroup]="this.editDurationForm" (ngSubmit)="onSubmitEditForm()">
+  <div>
+    <mat-form-field class="form-field--block" appearance="fill">
+      <input
+        name="endDayOfMonth"
+        matInput
+        placeholder="End Day of Month"
+        formControlName="endDayOfMonth"
+        type="number"
+        min="1"
+        max="31">
+      <mat-error *ngIf="endDayOfMonthValidation.invalid">Please enter an end date for budget periods</mat-error>
+    </mat-form-field>
+
+    <mat-checkbox
+      class="form-field--block fixedAmount-field"
+      formControlName="rolloverEndDate">
+      End Date should roll over to the first day of the next month on short months.
+    </mat-checkbox>
+  </div>
+  
+  <button class="submit-edit button button--primary button--wide" type="submit">Save</button>
+</form>

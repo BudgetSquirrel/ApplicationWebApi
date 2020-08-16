@@ -55,6 +55,7 @@ namespace BudgetSquirrel.Api
         protected void ConfigureDomainLayer(IServiceCollection services)
         {
             services.AddTransient<IRepository<Budget>, DefaultRepository<Budget>>();
+            services.AddTransient<IRepository<BudgetDurationBase>, BudgetDurationRepository>();
 
             services.AddTransient<IAsyncQueryService, AsyncQueryService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -98,6 +99,7 @@ namespace BudgetSquirrel.Api
             services.AddDbContext<BudgetSquirrelContext>(options =>
             {
                 options.UseSqlite(Configuration.GetConnectionString("Default"));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             
             services.AddTransient<IUserRepository, UserRepository>();

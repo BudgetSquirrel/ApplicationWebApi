@@ -6,7 +6,6 @@ using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Business.BudgetPlanning;
-using BudgetSquirrel.Data.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,13 +13,13 @@ namespace BudgetSquirrel.Api.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]
-  public class BudgetsController : Controller
+  public class BudgetController : Controller
   {
     private readonly IAuthService authService;
     private readonly IAsyncQueryService asyncQueryService;
     private readonly IUnitOfWork unitOfWork;
 
-    public BudgetsController(
+    public BudgetController(
       IAuthService authService,
       IAsyncQueryService asyncQueryService,
       IUnitOfWork unitOfWork)
@@ -43,7 +42,7 @@ namespace BudgetSquirrel.Api.Controllers
 
     [Authorize]
     [HttpPatch("budget")]
-    public async Task<JsonResult> EditRootBudget([FromBody] EditRootBudgetRequest body)
+    public async Task<JsonResult> EditBudget([FromBody] EditBudgetRequest body)
     {
       User currentUser = await this.authService.GetCurrentUser();
       EditRootBudgetCommand command = new EditRootBudgetCommand(this.asyncQueryService, this.unitOfWork, body.BudgetId, currentUser, body.Name, body.SetAmount);
@@ -61,6 +60,23 @@ namespace BudgetSquirrel.Api.Controllers
     }
 
     [Authorize]
+    [HttpPatch("duration")]
+    public async Task<JsonResult> EditDuration([FromBody] EditDurationRequest body)
+    {
+      User currentUser = await this.authService.GetCurrentUser();
+      if (body.DurationType == EditDurationDurationType.DaySpan)
+      {
+        EditDaySpanBudgetDuration command = new EditDaySpanBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.NumberDays.Value);
+        await command.Run();
+      }
+      else
+      {
+        EditMonthlyBookendedBudgetDuration command = new EditMonthlyBookendedBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.EndDayOfMonth.Value, body.RolloverEndDate.Value);
+        await command.Run();
+      }
+      return new JsonResult(new { success = true });
+    }
+
     [HttpDelete("budget/{id}")]
     public async Task<JsonResult> RemoveBudget(Guid id)
     {

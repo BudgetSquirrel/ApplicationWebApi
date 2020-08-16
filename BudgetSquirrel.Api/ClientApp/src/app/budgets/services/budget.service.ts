@@ -1,10 +1,17 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { Budget } from "../models";
+import { Budget, DurationType } from "../models";
 import { Observable } from "rxjs";
 
-const BUDGETS_API = "api/budgets";
+const BUDGETS_API = "api/budget";
+
+export interface EditDurationRequest {
+  endDayOfMonth?: number;
+  rolloverEndDate?: boolean;
+  durationType: DurationType;
+  numberDays?: number;
+}
 
 interface ApiCommandResponse {
   success: boolean;
@@ -27,7 +34,7 @@ export class BudgetService {
     );
   }
 
-  public editRootBudgetName(budget: Budget, newName: string): Promise<ApiCommandResponse> {
+  public editBudgetName(budget: Budget, newName: string): Promise<ApiCommandResponse> {
     const requestBody = {
       budgetId: budget.id,
       name: newName
@@ -35,7 +42,7 @@ export class BudgetService {
     return this.http.patch(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
-  public editRootBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
+  public editBudgetSetAmount(budget: Budget, setAmount: number): Promise<ApiCommandResponse> {
     const requestBody = {
       budgetId: budget.id,
       setAmount
@@ -43,7 +50,7 @@ export class BudgetService {
     return this.http.patch(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
-  createBudget(parentBudget: Budget, name: string, setAmount: number): Promise<ApiCommandResponse> {
+  public createBudget(parentBudget: Budget, name: string, setAmount: number): Promise<ApiCommandResponse> {
     const requestBody = {
       parentBudgetId: parentBudget.id,
       name,
@@ -52,7 +59,15 @@ export class BudgetService {
     return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
-  removeBudget(budget: Budget): Promise<ApiCommandResponse> {
+  public removeBudget(budget: Budget): Promise<ApiCommandResponse> {
     return this.http.delete(`${this.baseUrl}${BUDGETS_API}/budget/${budget.id}`).toPromise() as Promise<ApiCommandResponse>;
+  }
+
+  public editDuration(budget: Budget, request: EditDurationRequest): Promise<ApiCommandResponse> {
+    const requestBody = {
+      budgetId: budget.id,
+      ...request
+    };
+    return this.http.patch(`${this.baseUrl}${BUDGETS_API}/duration`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 }

@@ -100,7 +100,7 @@ fieldset {
 .inplace-input__input {
     --inplace-input-font-size: 16px;
     --inplace-input-padding: 4px;
-    display: block;
+    display: inline-block;
     background: none;
     border: 1px solid mat-color($steel, 900);
     font-size: var(--inplace-input-font-size);

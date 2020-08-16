@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { BudgetService } from "../services/budget.service";
 import { Budget, nullBudget } from '../models';
-import { tap } from 'rxjs/operators';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
 import { EditBudgetEvent } from '../budget/budget.component';
+import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
+import { BudgetService } from '../services/budget.service';
 
 @Component({
   selector: "bs-budget-overview",
@@ -16,6 +16,8 @@ export class BudgetOverviewComponent implements OnInit {
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
+  public isEditingDuration = false;
+
   public wasError = false;
 
   public parentBudgetForCreateBudget: Budget | null = null;
@@ -44,14 +46,14 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onEditBudget(event: EditBudgetEvent) {
     if (event.field === "rootAmount") {
-      this.budgetService.editRootBudgetSetAmount(event.budget, parseFloat(event.value)).then(response => {
+      this.budgetService.editBudgetSetAmount(event.budget, parseFloat(event.value)).then(response => {
         this.loadRootBudget();
       });
     } else if (event.field === "rootName") {
       if (!event.value) {
         return;
       }
-      this.budgetService.editRootBudgetName(event.budget, event.value).then(response => {
+      this.budgetService.editBudgetName(event.budget, event.value).then(response => {
         this.loadRootBudget();
       });
     }
@@ -77,6 +79,20 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onCloseAddBudgetModal() {
     this.parentBudgetForCreateBudget = null;
+  }
+
+  public onEditDurationClick() {
+    this.isEditingDuration = true;
+  }
+
+  public onCloseDurationEditModal() {
+    this.isEditingDuration = false;
+  }
+
+  public async onEditDurationSubmit(input: EditDurationEvent) {
+    this.onCloseDurationEditModal();
+    await this.budgetService.editDuration(this.rootBudget, {...input});
+    await this.loadRootBudget();
   }
 
   public onSaveBudget(args: CreateBudgetEventArguments) {

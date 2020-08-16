@@ -14,9 +14,9 @@ export type DurationType = "DaySpan" | "MonthlyBookEnded";
 export class BudgetDuration {
   id: string;
   durationType: DurationType;
-  endDayOfMonth: number;
-  numberDays: number;
-  rolloverEndDateOnSmallMonths: boolean;
+  endDayOfMonth: number | null;
+  numberDays: number | null;
+  rolloverEndDateOnSmallMonths: boolean | null;
 }
 
 export const nullDuration = {} as BudgetDuration;
