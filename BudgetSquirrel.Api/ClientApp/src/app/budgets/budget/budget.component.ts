@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Budget } from '../models';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Budget } from "../models";
 
 export interface EditBudgetEvent {
   budget: Budget;
@@ -8,9 +8,9 @@ export interface EditBudgetEvent {
 }
 
 @Component({
-  selector: 'bs-budget',
-  templateUrl: './budget.component.html',
-  styleUrls: ['./budget.component.scss']
+  selector: "bs-budget",
+  templateUrl: "./budget.component.html",
+  styleUrls: ["./budget.component.scss"]
 })
 export class BudgetComponent implements OnInit {
 
@@ -27,8 +27,8 @@ export class BudgetComponent implements OnInit {
   subBudgetLevel: number;
   hasSubBudgets: boolean;
 
-  amountInLabel: string = "AMOUNT IN";
-  balanceLabel: string = "BALANCE";
+  amountInLabel = "AMOUNT IN";
+  balanceLabel = "BALANCE";
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
@@ -45,7 +45,7 @@ export class BudgetComponent implements OnInit {
     this.shouldShowAddBudgetButton = this.level < 3;
     this.shouldShowActionsAbove = this.level < 3;
     this.shouldShowActionsToRight = this.level == 3;
-    
+
     if (this.level == 3) {
       this.amountInLabel = "In:";
     }

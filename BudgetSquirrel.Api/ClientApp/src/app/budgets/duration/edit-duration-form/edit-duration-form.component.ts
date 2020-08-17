@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BudgetDuration, DurationType, Budget } from '../../models';
-import { BudgetService } from '../../services/budget.service';
-import { SwitchOption } from 'src/app/shared/components/switch/switch.component';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { BudgetDuration, DurationType, Budget } from "../../models";
+import { BudgetService } from "../../services/budget.service";
+import { SwitchOption } from "src/app/shared/components/switch/switch.component";
 
 export interface EditDurationEvent {
   endDayOfMonth?: number;
@@ -11,9 +11,9 @@ export interface EditDurationEvent {
 }
 
 @Component({
-  selector: 'bs-edit-duration-form',
-  templateUrl: './edit-duration-form.component.html',
-  styleUrls: ['./edit-duration-form.component.scss']
+  selector: "bs-edit-duration-form",
+  templateUrl: "./edit-duration-form.component.html",
+  styleUrls: ["./edit-duration-form.component.scss"]
 })
 export class EditDurationFormComponent implements OnInit {
 

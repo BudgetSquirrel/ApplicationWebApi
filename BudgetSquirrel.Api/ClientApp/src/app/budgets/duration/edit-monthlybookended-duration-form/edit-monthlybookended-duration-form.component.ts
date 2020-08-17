@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BudgetDuration } from '../../models';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { EditDurationEvent } from '../edit-duration-form/edit-duration-form.component';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { BudgetDuration } from "../../models";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { EditDurationEvent } from "../edit-duration-form/edit-duration-form.component";
 
 @Component({
-  selector: 'bs-edit-monthlybookended-duration-form',
-  templateUrl: './edit-monthlybookended-duration-form.component.html',
-  styleUrls: ['./edit-monthlybookended-duration-form.component.scss']
+  selector: "bs-edit-monthlybookended-duration-form",
+  templateUrl: "./edit-monthlybookended-duration-form.component.html",
+  styleUrls: ["./edit-monthlybookended-duration-form.component.scss"]
 })
 export class EditMonthlybookendedDurationFormComponent implements OnInit {
 
@@ -34,11 +34,11 @@ export class EditMonthlybookendedDurationFormComponent implements OnInit {
 
   public onSubmitEditForm() {
     if (this.editDurationForm.valid) {
-      const submitValues = <EditDurationEvent> {
+      const submitValues = {
         durationType: "MonthlyBookEnded",
         endDayOfMonth: this.editDurationForm.value.endDayOfMonth,
         rolloverEndDate: this.editDurationForm.value.rolloverEndDate,
-      };
+      } as EditDurationEvent;
       this.submitEditForm.emit(submitValues);
     }
   }

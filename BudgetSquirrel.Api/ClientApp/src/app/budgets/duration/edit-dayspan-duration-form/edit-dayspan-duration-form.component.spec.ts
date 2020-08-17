@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { EditDayspanDurationFormComponent } from './edit-dayspan-duration-form.component';
+import { EditDayspanDurationFormComponent } from "./edit-dayspan-duration-form.component";
 
-describe('EditDayspanDurationFormComponent', () => {
+describe("EditDayspanDurationFormComponent", () => {
   let component: EditDayspanDurationFormComponent;
   let fixture: ComponentFixture<EditDayspanDurationFormComponent>;
 
@@ -19,7 +19,7 @@ describe('EditDayspanDurationFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -55,7 +55,7 @@ export class BudgetService {
       parentBudgetId: parentBudget.id,
       name,
       setAmount
-    }
+    };
     return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 

@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { EditMonthlybookendedDurationFormComponent } from './edit-monthlybookended-duration-form.component';
+import { EditMonthlybookendedDurationFormComponent } from "./edit-monthlybookended-duration-form.component";
 
-describe('EditMonthlybookendedDurationFormComponent', () => {
+describe("EditMonthlybookendedDurationFormComponent", () => {
   let component: EditMonthlybookendedDurationFormComponent;
   let fixture: ComponentFixture<EditMonthlybookendedDurationFormComponent>;
 
@@ -19,7 +19,7 @@ describe('EditMonthlybookendedDurationFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, ContentChildren, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ContentChildren, TemplateRef } from "@angular/core";
 
 export interface SwitchOption<T> {
   identifier: T;
   text: string;
-};
+}
 
 @Component({
-  selector: 'bs-switch',
+  selector: "bs-switch",
   template: `
     <div local-class="switch">
       <button
@@ -18,7 +18,7 @@ export interface SwitchOption<T> {
       </button>
     </div>
   `,
-  styleUrls: ['./switch.component.scss']
+  styleUrls: ["./switch.component.scss"]
 })
 export class SwitchComponent implements OnInit {
 

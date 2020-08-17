@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { Budget, nullBudget } from '../models';
-import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
-import { EditBudgetEvent } from '../budget/budget.component';
-import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
-import { BudgetService } from '../services/budget.service';
+import { Budget, nullBudget } from "../models";
+import { CreateBudgetEventArguments } from "../add-budget-form/add-budget-form.component";
+import { EditBudgetEvent } from "../budget/budget.component";
+import { EditDurationEvent } from "../duration/edit-duration-form/edit-duration-form.component";
+import { BudgetService } from "../services/budget.service";
 
 @Component({
   selector: "bs-budget-overview",
@@ -97,14 +97,14 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onSaveBudget(args: CreateBudgetEventArguments) {
     const self = this;
-    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
+    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(() => {
       self.loadRootBudget();
       self.parentBudgetForCreateBudget = null;
     });
   }
 
   public async onRemoveBudget(budget: Budget) {
-    await this.budgetService.removeBudget(budget)
+    await this.budgetService.removeBudget(budget);
     this.loadRootBudget();
   }
 

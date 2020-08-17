@@ -5,7 +5,7 @@ import { MatToolbarModule, MatButtonModule } from "@angular/material";
 import { RouterModule } from "@angular/router";
 import { IsAuthenticatedDirective } from "./directives/is-authenticated.directive";
 import { NotificationBannerComponent } from "./components/notification-banner/notification-banner.component";
-import { SwitchComponent } from './components/switch/switch.component';
+import { SwitchComponent } from "./components/switch/switch.component";
 
 @NgModule({
   declarations: [

@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AddBudgetFormComponent } from './add-budget-form.component';
+import { AddBudgetFormComponent } from "./add-budget-form.component";
 
-describe('AddBudgetFormComponent', () => {
+describe("AddBudgetFormComponent", () => {
   let component: AddBudgetFormComponent;
   let fixture: ComponentFixture<AddBudgetFormComponent>;
 
@@ -19,7 +19,7 @@ describe('AddBudgetFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

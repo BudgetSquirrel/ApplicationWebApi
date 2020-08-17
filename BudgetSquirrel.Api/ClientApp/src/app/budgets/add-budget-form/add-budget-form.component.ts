@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Budget } from '../models';
-import { BudgetService } from '../services/budget.service';
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
+import { FormControl, Validators, FormGroup, FormBuilder } from "@angular/forms";
+import { Budget } from "../models";
+import { MatBottomSheet } from '@angular/material';
+import { ConfirmAmountBottomSheetComponent } from './confirm-amount-bottom-sheet.component';
 
 export interface CreateBudgetEventArguments {
   parentBudget: Budget;
@@ -10,9 +11,9 @@ export interface CreateBudgetEventArguments {
 }
 
 @Component({
-  selector: 'bs-add-budget-form',
+  selector: "bs-add-budget-form",
   templateUrl: "add-budget-form.component.html",
-  styleUrls: ['./add-budget-form.component.scss']
+  styleUrls: ["./add-budget-form.component.scss"]
 })
 export class AddBudgetFormComponent implements OnInit {
 
@@ -25,7 +26,7 @@ export class AddBudgetFormComponent implements OnInit {
   nameValidation = new FormControl("", [Validators.required]);
   fixedAmountValidation = new FormControl("", [Validators.required]);
 
-  constructor(private formBuilder: FormBuilder, private budgetService: BudgetService) { }
+  constructor(private formBuilder: FormBuilder, private bottomSheet: MatBottomSheet) { }
 
   ngOnInit() {
     this.newBudgetForm = this.formBuilder.group({
@@ -37,7 +38,7 @@ export class AddBudgetFormComponent implements OnInit {
   }
 
   public onCloseClicked() {
-    this.onClose.emit('close');
+    this.onClose.emit("close");
   }
 
   public onCreateBudgetSubmit() {
@@ -45,9 +46,26 @@ export class AddBudgetFormComponent implements OnInit {
     if (this.newBudgetForm.valid) {
       const name = this.newBudgetForm.value.name;
       const setAmount = this.newBudgetForm.value.fixedAmount;
-      console.log(name, setAmount, this);
-      
-      this.onSaveClicked.emit(<CreateBudgetEventArguments>{ parentBudget: this.parentBudget, name, setAmount });
+
+      // Check if the user wants to increase the parent budget
+      this.checkParentForUpdate(setAmount);
+
+      this.onSaveClicked.emit({ parentBudget: this.parentBudget, name, setAmount } as CreateBudgetEventArguments);
+    }
+  }
+
+  private checkParentForUpdate(amount: number) {
+    console.log(this.parentBudget);
+
+    let combinedBudgetAmounts = amount;
+
+    this.parentBudget.subBudgets.forEach(x => combinedBudgetAmounts = combinedBudgetAmounts + x.setAmount);
+
+    if (combinedBudgetAmounts > this.parentBudget.setAmount) {
+      // Combined sub budgets is greater than paren't set amount.
+
+      const difference = combinedBudgetAmounts - this.parentBudget.setAmount;
+      this.bottomSheet.open(ConfirmAmountBottomSheetComponent, { data: { amount: difference, parent: this.parentBudget } });
     }
   }
 }

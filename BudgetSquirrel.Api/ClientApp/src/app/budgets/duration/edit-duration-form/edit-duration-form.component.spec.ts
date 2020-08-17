@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { EditDurationFormComponent } from './edit-duration-form.component';
+import { EditDurationFormComponent } from "./edit-duration-form.component";
 
-describe('EditDurationFormComponent', () => {
+describe("EditDurationFormComponent", () => {
   let component: EditDurationFormComponent;
   let fixture: ComponentFixture<EditDurationFormComponent>;
 
@@ -19,7 +19,7 @@ describe('EditDurationFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
