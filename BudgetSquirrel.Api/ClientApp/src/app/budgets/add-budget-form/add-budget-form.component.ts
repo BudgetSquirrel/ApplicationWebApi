@@ -55,8 +55,6 @@ export class AddBudgetFormComponent implements OnInit {
   }
 
   private checkParentForUpdate(amount: number) {
-    console.log(this.parentBudget);
-
     let combinedBudgetAmounts = amount;
 
     this.parentBudget.subBudgets.forEach(x => combinedBudgetAmounts = combinedBudgetAmounts + x.setAmount);

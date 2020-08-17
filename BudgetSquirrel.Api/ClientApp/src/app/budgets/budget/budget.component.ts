@@ -81,8 +81,6 @@ export class BudgetComponent implements OnInit {
   public onEditBudget(event: EditBudgetEvent) {
     this.checkParentForUpdate(parseInt(event.value));
 
-    console.log(parseInt(event.value));
-
     this.editBudget.emit(event);
   }
 
