@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Budget } from "../models";
+import { MatBottomSheet } from '@angular/material';
+import { ConfirmAmountBottomSheetComponent } from '../add-budget-form/confirm-amount-bottom-sheet.component';
 
 export interface EditBudgetEvent {
   budget: Budget;
@@ -32,6 +34,8 @@ export class BudgetComponent implements OnInit {
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
+
+  constructor(private bottomSheet: MatBottomSheet) { }
 
   getHasSubBudgets(): boolean {
     return !(this.budget.subBudgets === null ||
@@ -75,6 +79,10 @@ export class BudgetComponent implements OnInit {
   }
 
   public onEditBudget(event: EditBudgetEvent) {
+    this.checkParentForUpdate(parseInt(event.value));
+
+    console.log(parseInt(event.value));
+
     this.editBudget.emit(event);
   }
 
@@ -89,6 +97,19 @@ export class BudgetComponent implements OnInit {
       this.isEditingRootAmount = false;
     } else if (field === "rootName") {
       this.isEditingRootName = false;
+    }
+  }
+
+  private checkParentForUpdate(amount: number) {
+    let combinedBudgetAmounts = amount;
+
+    this.budget.subBudgets.forEach(x => combinedBudgetAmounts = combinedBudgetAmounts + x.setAmount);
+
+    if (combinedBudgetAmounts > this.budget.setAmount) {
+      // Combined sub budgets is greater than paren't set amount.
+
+      const difference = combinedBudgetAmounts - this.budget.setAmount;
+      this.bottomSheet.open(ConfirmAmountBottomSheetComponent, { data: { amount: difference, parent: this.budget } });
     }
   }
 }
