@@ -4,6 +4,8 @@ import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.c
 import { EditBudgetEvent } from '../budget/budget.component';
 import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
 import { BudgetService } from '../services/budget.service';
+import { CurrentBudgetPeriod, nullCurrentBudgetPeriod } from 'src/app/shared/models/tracking';
+import { TrackingService } from 'src/app/shared/services/tracking.service';
 
 @Component({
   selector: "bs-budget-overview",
@@ -13,6 +15,7 @@ import { BudgetService } from '../services/budget.service';
 export class BudgetOverviewComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
+  public currentBudgetPeriod: CurrentBudgetPeriod = nullCurrentBudgetPeriod;
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
@@ -26,10 +29,13 @@ export class BudgetOverviewComponent implements OnInit {
     return this.parentBudgetForCreateBudget != null;
   }
 
-  constructor(private budgetService: BudgetService) { }
+  constructor(private budgetService: BudgetService,
+              private trackingService: TrackingService)
+  { }
 
   public ngOnInit() {
     this.loadRootBudget();
+    this.loadCurrentBudgetPeriod();
   }
 
   public onOpenInplaceEdit(field: string, event: MouseEvent) {
@@ -112,7 +118,19 @@ export class BudgetOverviewComponent implements OnInit {
     this.budgetService.getRootBudget().subscribe((rootBudget: Budget) => {
       this.rootBudget = rootBudget;
     }, (error) => {
+      console.error("Error when fetching root budget");
+      console.error(error);
       this.wasError = true;
     });
+  }
+
+  private loadCurrentBudgetPeriod() {
+    this.trackingService.getCurrentBudgetPeriod().subscribe((currentPeriod: CurrentBudgetPeriod) => {
+      this.currentBudgetPeriod = currentPeriod;
+    }, (error) => {
+      console.error("Error when fetching current budget period");
+      console.error(error);
+      this.wasError = true;
+    })
   }
 }

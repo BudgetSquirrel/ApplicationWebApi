@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../services/account.service";
 import { ROUTES } from "src/app/route-constants";
-import { EMPTY_USER, User } from "../../models/accounts";
+import { nullUser, User } from "../../models/accounts";
 
 @Component({
   selector: "bs-top-nav-bar",
@@ -58,7 +58,7 @@ export class TopNavBarComponent implements OnInit {
   public ngOnInit() {
     this.accountService.getUser().subscribe((user: User) => {
       this.user = user;
-      this.isAuthenticated = user !== EMPTY_USER;
+      this.isAuthenticated = user !== nullUser;
     });
   }
 

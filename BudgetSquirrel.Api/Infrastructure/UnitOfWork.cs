@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.BudgetPlanning;
+using BudgetSquirrel.Business.Tracking;
 using BudgetSquirrel.Data.EntityFramework;
 
 namespace BudgetSquirrel.Api.Infrastructure
@@ -10,15 +11,18 @@ namespace BudgetSquirrel.Api.Infrastructure
   {
     private IRepository<Budget> budgetRepository;
     private IRepository<BudgetDurationBase> budgetDurationRepository;
+    private IRepository<BudgetPeriod> budgetPeriodRepository;
     private BudgetSquirrelContext dbContext;
 
     public UnitOfWork(
       IRepository<Budget> budgetRepository,
       IRepository<BudgetDurationBase> budgetDurationRepository,
+      IRepository<BudgetPeriod> budgetPeriodRepository,
       BudgetSquirrelContext dbContext)
     {
       this.budgetRepository = budgetRepository;
       this.budgetDurationRepository = budgetDurationRepository;
+      this.budgetPeriodRepository = budgetPeriodRepository;
       this.dbContext = dbContext;
     }
 
@@ -31,6 +35,10 @@ namespace BudgetSquirrel.Api.Infrastructure
       else if (typeof(T) == typeof(BudgetDurationBase))
       {
         return (IRepository<T>) this.budgetDurationRepository;
+      }
+      else if (typeof(T) == typeof(BudgetPeriod))
+      {
+        return (IRepository<T>) this.budgetPeriodRepository;
       }
       else
       {
