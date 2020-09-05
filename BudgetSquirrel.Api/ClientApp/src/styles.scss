@@ -114,7 +114,8 @@ fieldset {
 }
 
 .inplace-input--short {
-    width: 100px;
+    min-width: 100px;
+    width: initial;
 
     &.inplace-input__input {
         width: 98px;
@@ -185,5 +186,9 @@ fieldset {
     &__label {
         font-size: 0.6em;
         font-weight: bold;
+    }
+
+    &--danger {
+        color: mat-color($danger, 500) !important;
     }
 }

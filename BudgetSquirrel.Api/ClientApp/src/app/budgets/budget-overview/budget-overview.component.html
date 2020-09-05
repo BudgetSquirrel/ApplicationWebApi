@@ -51,6 +51,7 @@
         <ng-template #notEditingRootAmount>
           <span
             class="inplace-input inplace-input--short inplace-input__focusable"
+            [ngClass]="{'stat--danger': isSubBudgetTotalPlannedAmountTooHigh}"
             (mousedown)="onOpenInplaceEdit('rootAmount', $event)">
             {{this.rootBudget.setAmount | currency}}
           </span>

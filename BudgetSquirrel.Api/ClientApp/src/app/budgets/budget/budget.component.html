@@ -45,8 +45,10 @@
           <ng-template #notEditingRootAmount>
             <span
               class="inplace-input inplace-input--short inplace-input__focusable stat stat--editable"
+              [ngClass]="{'stat--danger': isSubBudgetTotalPlannedAmountTooHigh}"
               (mousedown)="onOpenInplaceEdit('rootAmount', $event)">
               {{this.budget.setAmount | currency}}
+              Should show update this parent budget modal: {{shouldShowUpdateParentAmountModal}}
             </span>
           </ng-template>
         </span>

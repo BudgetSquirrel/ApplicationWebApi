@@ -13,6 +13,7 @@ import { BudgetService } from '../services/budget.service';
 export class BudgetOverviewComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
+  public isSubBudgetTotalPlannedAmountTooHigh: boolean;
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
@@ -111,8 +112,13 @@ export class BudgetOverviewComponent implements OnInit {
   private loadRootBudget() {
     this.budgetService.getRootBudget().subscribe((rootBudget: Budget) => {
       this.rootBudget = rootBudget;
+      this.syncRootBudgetState();
     }, (error) => {
       this.wasError = true;
     });
+  }
+
+  private syncRootBudgetState() {
+    this.isSubBudgetTotalPlannedAmountTooHigh = this.rootBudget.subBudgetTotalPlannedAmount > this.rootBudget.setAmount;
   }
 }
