@@ -1,11 +1,11 @@
 import { TestBed } from "@angular/core/testing";
-import { BudgetService } from './budget.service';
+import { BudgetApi } from './budget-api.service';
 
-describe("BudgetService", () => {
+describe("BudgetApi", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it("should be created", () => {
-    const service: BudgetService = TestBed.get(BudgetService);
+    const service: BudgetApi = TestBed.get(BudgetApi);
     expect(service).toBeTruthy();
   });
 });

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { Budget } from '../models';
+import { BudgetPlanningService } from '../services/budget-planning.service';
 
 export interface EditBudgetEvent {
   budget: Budget;
@@ -21,6 +22,8 @@ export class BudgetComponent implements OnInit, OnChanges {
   @Output() public editBudget?: EventEmitter<any> = new EventEmitter();
   @Output() public removeBudget?: EventEmitter<any> = new EventEmitter();
 
+  public constructor(private budgetPlanningService: BudgetPlanningService) {}
+
   /* ===== Budget Display Properties ===== */
 
   public shouldShowAddBudgetButton: boolean;
@@ -28,12 +31,30 @@ export class BudgetComponent implements OnInit, OnChanges {
   public shouldShowActionsToRight: boolean;
   public subBudgetLevel: number;
   public hasSubBudgets: boolean;
+
+  get shouldCheckSubBudgetParentBudgetAmounts() {
+    if (!this.lastModifiedBudget) {
+      return false;
+    }
+    const hasBeenEdited = this.budgetPlanningService.getBudgetState(this.budget).hasBeenEdited;
+    const wasEditForSubBudget = this.lastModifiedBudget.id == this.budget.id;
+
+    return !wasEditForSubBudget && hasBeenEdited;
+  }
+
+  get lastModifiedBudget(): Budget | null {
+    return this.budgetPlanningService.getBudgetState(this.budget).lastModifiedBudget;
+  }
+  set lastModifiedBudget(value: Budget | null) {
+    this.budgetPlanningService.setBudgetState(this.budget, "lastModifiedBudget", value);
+  }
+
   /**
    * Whether or not we should ask the user if they want to update
    * this budgets parent budget because it's planned amount is less
    * than the planned amounts of it's sub budgets.
    */
-  public isSubBudgetTotalPlannedAmountTooHigh: boolean;
+  public isSubBudgetTotalPlannedAmountTooHigh: boolean = false;
 
   amountInLabel: string = "AMOUNT IN";
   balanceLabel: string = "BALANCE";
@@ -68,7 +89,9 @@ export class BudgetComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     const budgetChange = changes.budget;
-    this.updateShouldShowUpdateParentAmountModal(budgetChange);
+    if (this.shouldCheckSubBudgetParentBudgetAmounts) {
+      this.updateShouldShowUpdateParentAmountModal(budgetChange);
+    }
   }
 
   public onAddBudgetClicked(budget: Budget) {
@@ -91,7 +114,9 @@ export class BudgetComponent implements OnInit, OnChanges {
     this.removeBudget.emit(budget);
   }
 
-  public onEditBudget(event: EditBudgetEvent) {
+  public onEditBudget(event: EditBudgetEvent, modifiedBudget: Budget) {
+    this.lastModifiedBudget = modifiedBudget;
+    this.budgetPlanningService.setBudgetState(this.budget, "hasBeenEdited", true);
     this.editBudget.emit(event);
   }
 
@@ -101,13 +126,20 @@ export class BudgetComponent implements OnInit, OnChanges {
       budget: this.budget,
       field,
       value
-    });
+    },
+    this.budget);
     if (field === "rootAmount") {
       this.isEditingRootAmount = false;
     } else if (field === "rootName") {
       this.isEditingRootName = false;
     }
   }
+
+  public onCloseUpdateParentBudgetAmountClicked() {
+    this.shouldShowUpdateParentAmountModal = false;
+    this.lastModifiedBudget = null;
+  }
+
   /**
    * Show update parent modal if the child sub budgets set amounts total up
    * to be greater than this budgets set amount.

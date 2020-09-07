@@ -3,7 +3,7 @@ import { Budget, nullBudget } from '../models';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
 import { EditBudgetEvent } from '../budget/budget.component';
 import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
-import { BudgetService } from '../services/budget.service';
+import { BudgetApi } from '../services/budget-api.service';
 
 @Component({
   selector: "bs-budget-overview",
@@ -27,7 +27,7 @@ export class BudgetOverviewComponent implements OnInit {
     return this.parentBudgetForCreateBudget != null;
   }
 
-  constructor(private budgetService: BudgetService) { }
+  constructor(private budgetService: BudgetApi) { }
 
   public ngOnInit() {
     this.loadRootBudget();

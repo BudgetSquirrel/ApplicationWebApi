@@ -48,7 +48,6 @@
               [ngClass]="{'stat--danger': isSubBudgetTotalPlannedAmountTooHigh}"
               (mousedown)="onOpenInplaceEdit('rootAmount', $event)">
               {{this.budget.setAmount | currency}}
-              Should show update this parent budget modal: {{shouldShowUpdateParentAmountModal}}
             </span>
           </ng-template>
         </span>
@@ -59,6 +58,7 @@
           </span>
           <span class="stat">
             {{this.budget.fundBalance | currency}}
+            {{this.shouldShowUpdateParentAmountModal}}
           </span>
         </span>
       </div>
@@ -79,10 +79,35 @@
         [level]="subBudgetLevel"
         (addBudget)="onAddBudgetClicked($event)"
         (removeBudget)="onRemoveBudgetClicked($event)"
-        (editBudget)="onEditBudget($event)">
+        (editBudget)="onEditBudget($event, subBudget)">
       </bs-budget>
     </div>
   </ng-template>
   <ng-template #hasNoSubBudgets>
   </ng-template>
+
+  <ng-template [ngIf]="this.shouldShowUpdateParentAmountModal" [ngIfElse]="noUpdateParentBudgetModal">
+    <div class="modal__background">
+      <dialog class="modal" open="true">
+        <div class="modal__content">
+          <p>
+            You changed the planned amount of <b>{{this.lastModifiedBudget.name}}</b> which made it so that
+            <b>{{this.budget.name}}</b>'s sub budgets have planned amounts that total up to be more
+            than it's own planned amount ({{this.budget.setAmount | currency}}).
+          </p>
+          <p>
+            Would you like to update <b>{{this.budget.name}}</b> from {{this.budget.setAmount | currency}}
+            to {{this.budget.subBudgetTotalPlannedAmount | currency}}
+            so that it's planned amount matches it's sub budgets' planned amounts?
+          </p>
+          <div>
+            <button class="button" (click)="onCloseUpdateParentBudgetAmountClicked()">
+              No
+            </button>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  </ng-template>
+  <ng-template #noUpdateParentBudgetModal></ng-template>
 </div>

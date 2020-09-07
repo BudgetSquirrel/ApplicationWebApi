@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Budget } from '../models';
-import { BudgetService } from '../services/budget.service';
+import { BudgetApi } from '../services/budget-api.service';
 
 export interface CreateBudgetEventArguments {
   parentBudget: Budget;
@@ -25,7 +25,7 @@ export class AddBudgetFormComponent implements OnInit {
   nameValidation = new FormControl("", [Validators.required]);
   fixedAmountValidation = new FormControl("", [Validators.required]);
 
-  constructor(private formBuilder: FormBuilder, private budgetService: BudgetService) { }
+  constructor(private formBuilder: FormBuilder, private budgetService: BudgetApi) { }
 
   ngOnInit() {
     this.newBudgetForm = this.formBuilder.group({
