@@ -101,6 +101,39 @@ $md-danger: (
     )
 );
 
+$md-warning: (
+    50 : #fffaed,
+    100 : #fff4d1,
+    200 : #ffecb3,
+    300 : #ffe494,
+    400 : #ffdf7d,
+    500 : #ffd966,
+    600 : #ffd55e,
+    700 : #ffcf53,
+    800 : #ffca49,
+    900 : #ffc038,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #fff5e1,
+    A700 : #ffedc8,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
 $md-steel: (
     50 : #ededed,
     100 : #d3d3d3,
@@ -171,6 +204,7 @@ $md-info: (
 $primary: mat-palette($md-brown, 500, 500, 50);
 $accent: mat-palette($md-russian-green, 500, 500, 50);
 $danger: mat-palette($md-danger);
+$warning: mat-palette($md-warning);
 $steel: mat-palette($md-steel);
 $info: mat-palette($md-info);
 

@@ -135,6 +135,7 @@ fieldset {
 
     &:hover {
         cursor: pointer;
+        background-color: mat-color($steel, 100);
     }
 
     &--wide {
@@ -152,6 +153,15 @@ fieldset {
 
         &:hover {
             background-color: mat-color($accent, 600);
+        }
+    }
+
+    &--warning {
+        background-color: mat-color($warning, 500);
+        color: mat-contrast($warning, 500);
+
+        &:hover {
+            background-color: mat-color($warning, 600);
         }
     }
 

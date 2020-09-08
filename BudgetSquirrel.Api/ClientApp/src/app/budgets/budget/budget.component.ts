@@ -2,9 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { Budget } from '../models';
 import { BudgetPlanningService } from '../services/budget-planning.service';
 
+export type EditBudgetFieldName = "setAmount" | "name";
+
 export interface EditBudgetEvent {
   budget: Budget;
-  field: string;
+  field: EditBudgetFieldName;
   value: string;
 }
 
@@ -103,9 +105,9 @@ export class BudgetComponent implements OnInit, OnChanges {
       return;
     }
 
-    if (field === "rootAmount") {
+    if (field === "setAmount") {
       this.isEditingRootAmount = true;
-    } else if (field === "rootName") {
+    } else if (field === "name") {
       this.isEditingRootName = true;
     }
   }
@@ -120,7 +122,7 @@ export class BudgetComponent implements OnInit, OnChanges {
     this.editBudget.emit(event);
   }
 
-  public onBlurInplaceEdit(field: string, event: MouseEvent) {
+  public onBlurInplaceEdit(field: EditBudgetFieldName, event: MouseEvent) {
     const value = (event.target as HTMLInputElement).value;
     this.onEditBudget({
       budget: this.budget,
@@ -128,9 +130,9 @@ export class BudgetComponent implements OnInit, OnChanges {
       value
     },
     this.budget);
-    if (field === "rootAmount") {
+    if (field === "setAmount") {
       this.isEditingRootAmount = false;
-    } else if (field === "rootName") {
+    } else if (field === "name") {
       this.isEditingRootName = false;
     }
   }
@@ -138,6 +140,16 @@ export class BudgetComponent implements OnInit, OnChanges {
   public onCloseUpdateParentBudgetAmountClicked() {
     this.shouldShowUpdateParentAmountModal = false;
     this.lastModifiedBudget = null;
+  }
+
+  public onUpdateBudgetPlannedAmountToSubBudgetsClicked() {
+    const newSetAmount = this.budget.subBudgetTotalPlannedAmount;
+    this.onEditBudget({
+      budget: this.budget,
+      field: "setAmount",
+      value: newSetAmount.toString()
+    },
+    this.budget);
   }
 
   /**

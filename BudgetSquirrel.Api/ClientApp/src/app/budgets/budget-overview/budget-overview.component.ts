@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Budget, nullBudget } from '../models';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
-import { EditBudgetEvent } from '../budget/budget.component';
+import { EditBudgetEvent, EditBudgetFieldName } from '../budget/budget.component';
 import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
 import { BudgetApi } from '../services/budget-api.service';
 
@@ -38,19 +38,19 @@ export class BudgetOverviewComponent implements OnInit {
       return;
     }
 
-    if (field === "rootAmount") {
+    if (field === "setAmount") {
       this.isEditingRootAmount = true;
-    } else if (field === "rootName") {
+    } else if (field === "name") {
       this.isEditingRootName = true;
     }
   }
 
   public onEditBudget(event: EditBudgetEvent) {
-    if (event.field === "rootAmount") {
+    if (event.field === "setAmount") {
       this.budgetService.editBudgetSetAmount(event.budget, parseFloat(event.value)).then(response => {
         this.loadRootBudget();
       });
-    } else if (event.field === "rootName") {
+    } else if (event.field === "name") {
       if (!event.value) {
         return;
       }
@@ -60,16 +60,16 @@ export class BudgetOverviewComponent implements OnInit {
     }
   }
 
-  public onBlurInplaceEdit(field: string, event: MouseEvent) {
+  public onBlurInplaceEdit(field: EditBudgetFieldName, event: MouseEvent) {
     const value = (event.target as HTMLInputElement).value;
     this.onEditBudget({
       budget: this.rootBudget,
       field,
       value
     });
-    if (field === "rootAmount") {
+    if (field === "setAmount") {
       this.isEditingRootAmount = false;
-    } else if (field === "rootName") {
+    } else if (field === "name") {
       this.isEditingRootName = false;
     }
   }

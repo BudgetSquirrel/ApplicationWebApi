@@ -13,13 +13,13 @@
           class="inplace-input inplace-input__input inplace-input--large"
           name="root-budget-name"
           aria-label="Root Budget Name"
-          (blur)="onBlurInplaceEdit('rootName', $event)"
+          (blur)="onBlurInplaceEdit('name', $event)"
           (mouseup)="$event.target.focus();" />
       </ng-template>
       <ng-template #notEditingRootName>
         <h2
           class="inplace-input inplace-input__focusable inplace-input--large"
-          (mousedown)="onOpenInplaceEdit('rootName', $event)">
+          (mousedown)="onOpenInplaceEdit('name', $event)">
           {{this.rootBudget.name}}
         </h2>
       </ng-template>
@@ -37,22 +37,22 @@
 
     <div class="root-budget-details">
       <div class="root-budget-stat">
-        <h5 id="rootAmountLabel">Planned Income</h5>
+        <h5 id="setAmountLabel">Planned Income</h5>
 
         <ng-template [ngIf]="this.isEditingRootAmount" [ngIfElse]="notEditingRootAmount">
           <input
             class="inplace-input inplace-input__input inplace-input--short"
             type="number"
             step="0.01"
-            aria-labelledby="rootAmountLabel"
-            (blur)="onBlurInplaceEdit('rootAmount', $event)"
+            aria-labelledby="setAmountLabel"
+            (blur)="onBlurInplaceEdit('setAmount', $event)"
             (mouseup)="$event.target.focus();" />
         </ng-template>
         <ng-template #notEditingRootAmount>
           <span
             class="inplace-input inplace-input--short inplace-input__focusable"
             [ngClass]="{'stat--danger': isSubBudgetTotalPlannedAmountTooHigh}"
-            (mousedown)="onOpenInplaceEdit('rootAmount', $event)">
+            (mousedown)="onOpenInplaceEdit('setAmount', $event)">
             {{this.rootBudget.setAmount | currency}}
           </span>
         </ng-template>

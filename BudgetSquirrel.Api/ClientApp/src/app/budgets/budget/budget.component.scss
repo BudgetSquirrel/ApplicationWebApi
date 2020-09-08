@@ -131,4 +131,23 @@
       margin-right: 0;
     }
   }
+
+  &__container .update-parent-budget-amount-modal {
+    width: 75vw;
+
+    &__line {
+      margin-top: 1em;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    &__actions {
+      margin-top: 1em;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
 }
