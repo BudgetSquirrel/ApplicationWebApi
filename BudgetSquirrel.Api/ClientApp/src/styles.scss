@@ -114,7 +114,8 @@ fieldset {
 }
 
 .inplace-input--short {
-    width: 100px;
+    min-width: 100px;
+    width: initial;
 
     &.inplace-input__input {
         width: 98px;
@@ -134,6 +135,7 @@ fieldset {
 
     &:hover {
         cursor: pointer;
+        background-color: mat-color($steel, 100);
     }
 
     &--wide {
@@ -151,6 +153,15 @@ fieldset {
 
         &:hover {
             background-color: mat-color($accent, 600);
+        }
+    }
+
+    &--warning {
+        background-color: mat-color($warning, 500);
+        color: mat-contrast($warning, 500);
+
+        &:hover {
+            background-color: mat-color($warning, 600);
         }
     }
 
@@ -185,5 +196,9 @@ fieldset {
     &__label {
         font-size: 0.6em;
         font-weight: bold;
+    }
+
+    &--danger {
+        color: mat-color($danger, 500) !important;
     }
 }

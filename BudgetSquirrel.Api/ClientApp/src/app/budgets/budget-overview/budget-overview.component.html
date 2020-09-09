@@ -13,13 +13,13 @@
           class="inplace-input inplace-input__input inplace-input--large"
           name="root-budget-name"
           aria-label="Root Budget Name"
-          (blur)="onBlurInplaceEdit('rootName', $event)"
+          (blur)="onBlurInplaceEdit('name', $event)"
           (mouseup)="$event.target.focus();" />
       </ng-template>
       <ng-template #notEditingRootName>
         <h2
           class="root-budget-name inplace-input inplace-input__focusable inplace-input--large"
-          (mousedown)="onOpenInplaceEdit('rootName', $event)">
+          (mousedown)="onOpenInplaceEdit('name', $event)">
           {{this.rootBudget.name}}
         </h2>
       </ng-template>
@@ -42,29 +42,34 @@
 
     <div class="root-budget-details">
       <div class="root-budget-stat">
-        <h5 id="rootAmountLabel">Planned Income</h5>
+        <h5 id="setAmountLabel" class="{{this.plannedAmountColorClass}}">Planned Income</h5>
 
         <ng-template [ngIf]="this.isEditingRootAmount" [ngIfElse]="notEditingRootAmount">
           <input
             class="inplace-input inplace-input__input inplace-input--short"
             type="number"
             step="0.01"
-            aria-labelledby="rootAmountLabel"
-            (blur)="onBlurInplaceEdit('rootAmount', $event)"
+            aria-labelledby="setAmountLabel"
+            (blur)="onBlurInplaceEdit('setAmount', $event)"
             (mouseup)="$event.target.focus();" />
         </ng-template>
         <ng-template #notEditingRootAmount>
           <span
-            class="inplace-input inplace-input--short inplace-input__focusable"
-            (mousedown)="onOpenInplaceEdit('rootAmount', $event)">
+            class="inplace-input inplace-input--short inplace-input__focusable root-budget-stat__stat {{this.plannedAmountColorClass}}"
+            (mousedown)="onOpenInplaceEdit('setAmount', $event)">
             {{this.rootBudget.setAmount | currency}}
           </span>
         </ng-template>
       </div>
 
       <div class="root-budget-stat">
+        <h5>Allocated So Far</h5>
+        <span class="root-budget-stat__stat">{{this.rootBudget.subBudgetTotalPlannedAmount | currency}}</span>
+      </div>
+
+      <div class="root-budget-stat">
         <h5>Current Balance</h5>
-        <span>{{this.rootBudget.fundBalance | currency}}</span>
+        <span class="root-budget-stat__stat">{{this.rootBudget.fundBalance | currency}}</span>
       </div>
     </div>
   </ng-template>
@@ -84,14 +89,14 @@
       *ngFor="let budget of rootBudget.subBudgets"
       [budget]="budget"
       [level]=1
-      (addBudget)="onAddBudgetClick($event)"
+      (createSubBudget)="onSaveBudget($event)"
       (editBudget)="onEditBudget($event)"
       (removeBudget)="onRemoveBudget($event)">
     </bs-budget>
   </div>
 
   <div *ngIf="this.isAddingBudget">
-    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" (onSaveClicked)="onSaveBudget($event)" [parentBudget]="parentBudgetForCreateBudget"></bs-add-budget-form>
+    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" (onSaveClicked)="onSaveBudget($event)" [parentBudget]="this.rootBudget"></bs-add-budget-form>
   </div>
 
   <div *ngIf="this.isEditingDuration">

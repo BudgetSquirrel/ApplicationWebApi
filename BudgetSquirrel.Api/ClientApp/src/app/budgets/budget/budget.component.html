@@ -7,20 +7,26 @@
             class="inplace-input inplace-input__input inplace-input--large"
             name="root-budget-name"
             aria-label="Root Budget Name"
-            (blur)="onBlurInplaceEdit('rootName', $event)"
+            (blur)="onBlurInplaceEdit('name', $event)"
             (mouseup)="$event.target.focus();" />
         </ng-template>
         <ng-template #notEditingRootName>
           <h2
             class="inplace-input inplace-input__focusable inplace-input--large"
-            (mousedown)="onOpenInplaceEdit('rootName', $event)">
+            (mousedown)="onOpenInplaceEdit('name', $event)">
             {{this.budget.name}}
           </h2>
         </ng-template>
 
         <div *ngIf="shouldShowActionsAbove" class="budget-item__action-container">
-          <button *ngIf="shouldShowAddBudgetButton" class="button button--small button--primary budget-item__action" (click)="onAddBudgetClicked(this.budget)">
+          <button *ngIf="shouldShowAddBudgetButton" class="button button--small button--primary budget-item__action" (click)="onAddBudgetClicked()">
             Add SubBudget
+          </button>
+          <button
+            *ngIf="this.isSubBudgetTotalPlannedAmountTooHigh"
+            class="button button--primary button--small budget-item__action"
+            (click)="this.onUpdateBudgetPlannedAmountToSubBudgetsClicked()">
+            Resolve Amount
           </button>
           <button class="button button--small button--danger budget-item__action" (click)="onRemoveBudgetClicked(this.budget)">
             Remove
@@ -38,14 +44,15 @@
               class="inplace-input inplace-input__input inplace-input--short stat stat--editing"
               type="number"
               step="0.01"
-              aria-labelledby="rootAmountLabel"
-              (blur)="onBlurInplaceEdit('rootAmount', $event)"
+              aria-labelledby="setAmountLabel"
+              (blur)="onBlurInplaceEdit('setAmount', $event)"
               (mouseup)="$event.target.focus();" />
           </ng-template>
           <ng-template #notEditingRootAmount>
             <span
               class="inplace-input inplace-input--short inplace-input__focusable stat stat--editable"
-              (mousedown)="onOpenInplaceEdit('rootAmount', $event)">
+              [ngClass]="{'stat--danger': isSubBudgetTotalPlannedAmountTooHigh}"
+              (mousedown)="onOpenInplaceEdit('setAmount', $event)">
               {{this.budget.setAmount | currency}}
             </span>
           </ng-template>
@@ -57,6 +64,7 @@
           </span>
           <span class="stat">
             {{this.budget.fundBalance | currency}}
+            {{this.shouldShowUpdateParentAmountModal}}
           </span>
         </span>
       </div>
@@ -75,12 +83,46 @@
         *ngFor="let subBudget of budget.subBudgets"
         [budget]="subBudget"
         [level]="subBudgetLevel"
-        (addBudget)="onAddBudgetClicked($event)"
+        (createSubBudget)="onFinalizeCreateBudget($event)"
         (removeBudget)="onRemoveBudgetClicked($event)"
-        (editBudget)="onEditBudget($event)">
+        (editBudget)="onEditBudget($event, subBudget)">
       </bs-budget>
     </div>
   </ng-template>
   <ng-template #hasNoSubBudgets>
   </ng-template>
+
+  <ng-template [ngIf]="this.shouldShowUpdateParentAmountModal" [ngIfElse]="noUpdateParentBudgetModal">
+    <div class="modal__background">
+      <dialog class="modal update-parent-budget-amount-modal" open="true">
+        <div class="modal__content">
+          <p class="update-parent-budget-amount-modal__line">
+            You changed the planned amount of <b>{{this.lastModifiedBudget.name}}</b> which made it so that
+            <b>{{this.budget.name}}</b>'s sub budgets have planned amounts that total up to be more
+            than it's own planned amount ({{this.budget.setAmount | currency}}).
+          </p>
+          <p class="update-parent-budget-amount-modal__line">
+            Would you like to update <b>{{this.budget.name}}</b> from {{this.budget.setAmount | currency}}
+            to {{this.budget.subBudgetTotalPlannedAmount | currency}}
+            so that it's planned amount matches it's sub budgets' planned amounts?
+          </p>
+          <div class="update-parent-budget-amount-modal__actions">
+            <button class="button button-small" (click)="onCloseUpdateParentBudgetAmountClicked()">
+              No
+            </button>
+            <button
+              class="button button-small button--primary"
+              (click)="this.onUpdateBudgetPlannedAmountToSubBudgetsClicked()">
+              Yes
+            </button>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  </ng-template>
+  <ng-template #noUpdateParentBudgetModal></ng-template>
+
+  <div *ngIf="this.isAddingBudget">
+    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" (onSaveClicked)="onFinalizeCreateBudget($event)" [parentBudget]="this.budget"></bs-add-budget-form>
+  </div>
 </div>

@@ -13,9 +13,11 @@ namespace BudgetSquirrel.Api.ResponseModels
 
     public double? PercentAmount { get; private set; }
 
-    public decimal? SetAmount { get; private set; }
+    public decimal SetAmount { get; private set; }
 
     public decimal FundBalance { get; private set; }
+
+    public decimal SubBudgetTotalPlannedAmount { get; private set; }
 
     public BudgetDurationResponse Duration { get; set; }
 
@@ -30,6 +32,7 @@ namespace BudgetSquirrel.Api.ResponseModels
       PercentAmount = budget.PercentAmount;
       SetAmount = budget.SetAmount;
       FundBalance = budget.FundBalance;
+      SubBudgetTotalPlannedAmount = budget.SubBudgetTotalPlannedAmount;
       Duration = new BudgetDurationResponse(budget.Duration);
       BudgetStart = budget.BudgetStart;
       SubBudgets = budget.SubBudgets.Select(b => new RootBudgetResponse(b));

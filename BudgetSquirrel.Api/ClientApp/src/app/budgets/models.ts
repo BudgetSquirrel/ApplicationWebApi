@@ -6,6 +6,7 @@ export class Budget {
   fundBalance: number;
   percentAmount?: number;
   setAmount: number;
+  subBudgetTotalPlannedAmount: number;
   subBudgets: Budget[];
 }
 

@@ -19,16 +19,16 @@
 
         .root-budget-stat {
             margin: 0 1em;
+
+            &__stat {
+                font-size: 15px;
+                line-height: 150%;
+                color: #687F83;
+            }
         }
 
         h5 {
             margin: 4px 0;
-        }
-
-        span {
-            font-size: 15px;
-            line-height: 150%;
-            color: #687F83;
         }
     }
 
@@ -60,6 +60,16 @@
 
         &:hover svg {
             fill: mat-color($accent, 900);
+        }
+    }
+
+    .root-budget-allocated {
+        &--high {
+            color: mat-color($danger, 900) !important;
+        }
+
+        &--low {
+            color: mat-color($accent, "A700") !important;
         }
     }
 }

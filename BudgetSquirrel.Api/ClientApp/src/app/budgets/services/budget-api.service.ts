@@ -20,7 +20,7 @@ interface ApiCommandResponse {
 @Injectable({
   providedIn: "root"
 })
-export class BudgetService {
+export class BudgetApi {
 
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
   }

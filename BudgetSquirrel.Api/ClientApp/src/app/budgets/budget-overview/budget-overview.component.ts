@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Budget, nullBudget } from '../models';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
-import { EditBudgetEvent } from '../budget/budget.component';
+import { EditBudgetEvent, EditBudgetFieldName } from '../budget/budget.component';
 import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
-import { BudgetService } from '../services/budget.service';
+import { BudgetApi } from '../services/budget-api.service';
 import { CurrentBudgetPeriod, nullCurrentBudgetPeriod } from 'src/app/shared/models/tracking';
 import { TrackingService } from 'src/app/shared/services/tracking.service';
 
@@ -15,21 +15,18 @@ import { TrackingService } from 'src/app/shared/services/tracking.service';
 export class BudgetOverviewComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
+  public isSubBudgetTotalPlannedAmountTooHigh: boolean;
   public currentBudgetPeriod: CurrentBudgetPeriod = nullCurrentBudgetPeriod;
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
   public isEditingDuration = false;
+  public isAddingBudget = false;
 
   public wasError = false;
+  public plannedAmountColorClass: string;
 
-  public parentBudgetForCreateBudget: Budget | null = null;
-
-  get isAddingBudget(): boolean {
-    return this.parentBudgetForCreateBudget != null;
-  }
-
-  constructor(private budgetService: BudgetService,
+  constructor(private budgetService: BudgetApi,
               private trackingService: TrackingService)
   { }
 
@@ -43,19 +40,19 @@ export class BudgetOverviewComponent implements OnInit {
       return;
     }
 
-    if (field === "rootAmount") {
+    if (field === "setAmount") {
       this.isEditingRootAmount = true;
-    } else if (field === "rootName") {
+    } else if (field === "name") {
       this.isEditingRootName = true;
     }
   }
 
   public onEditBudget(event: EditBudgetEvent) {
-    if (event.field === "rootAmount") {
+    if (event.field === "setAmount") {
       this.budgetService.editBudgetSetAmount(event.budget, parseFloat(event.value)).then(response => {
         this.loadRootBudget();
       });
-    } else if (event.field === "rootName") {
+    } else if (event.field === "name") {
       if (!event.value) {
         return;
       }
@@ -65,26 +62,26 @@ export class BudgetOverviewComponent implements OnInit {
     }
   }
 
-  public onBlurInplaceEdit(field: string, event: MouseEvent) {
+  public onBlurInplaceEdit(field: EditBudgetFieldName, event: MouseEvent) {
     const value = (event.target as HTMLInputElement).value;
     this.onEditBudget({
       budget: this.rootBudget,
       field,
       value
     });
-    if (field === "rootAmount") {
+    if (field === "setAmount") {
       this.isEditingRootAmount = false;
-    } else if (field === "rootName") {
+    } else if (field === "name") {
       this.isEditingRootName = false;
     }
   }
 
   public onAddBudgetClick(budget: Budget) {
-    this.parentBudgetForCreateBudget = budget;
+    this.isAddingBudget = true;
   }
 
   public onCloseAddBudgetModal() {
-    this.parentBudgetForCreateBudget = null;
+    this.isAddingBudget = true;
   }
 
   public onEditDurationClick() {
@@ -103,9 +100,9 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onSaveBudget(args: CreateBudgetEventArguments) {
     const self = this;
+    this.isAddingBudget = false;
     this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
       self.loadRootBudget();
-      self.parentBudgetForCreateBudget = null;
     });
   }
 
@@ -117,11 +114,23 @@ export class BudgetOverviewComponent implements OnInit {
   private loadRootBudget() {
     this.budgetService.getRootBudget().subscribe((rootBudget: Budget) => {
       this.rootBudget = rootBudget;
+      this.syncRootBudgetState();
     }, (error) => {
       console.error("Error when fetching root budget");
       console.error(error);
       this.wasError = true;
     });
+  }
+
+  private syncRootBudgetState() {
+    this.isSubBudgetTotalPlannedAmountTooHigh = this.rootBudget.subBudgetTotalPlannedAmount > this.rootBudget.setAmount;
+    if (this.isSubBudgetTotalPlannedAmountTooHigh) {
+      this.plannedAmountColorClass = "root-budget-allocated--high";
+    } else if (this.rootBudget.subBudgetTotalPlannedAmount < this.rootBudget.setAmount) {
+      this.plannedAmountColorClass = "root-budget-allocated--high";
+    } else {
+      this.plannedAmountColorClass = "";
+    }
   }
 
   private loadCurrentBudgetPeriod() {
