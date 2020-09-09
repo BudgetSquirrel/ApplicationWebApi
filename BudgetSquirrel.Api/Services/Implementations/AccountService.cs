@@ -55,6 +55,7 @@ namespace BudgetSquirrel.Api.Services.Implementations
             userRootBudgetRelationship.RootBudget.SetOwner(createdUser.Id);
             
             this.context.Budgets.Add(userRootBudgetRelationship.RootBudget);
+            this.context.BudgetPeriods.Add(userRootBudgetRelationship.FirstPeriod);
             await this.context.SaveChangesAsync();
         }
 

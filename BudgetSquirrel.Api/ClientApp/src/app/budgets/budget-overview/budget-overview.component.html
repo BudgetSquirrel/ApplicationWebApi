@@ -2,7 +2,7 @@
 
   <!-- Was an error loading the budget-->
   <ng-template [ngIf]="this.wasError" [ngIfElse]="notWasError">
-    <div ngIf="this.wasError">
+    <div>
       <span>There was an error loading your budgets, please try again.</span>
     </div>
   </ng-template>
@@ -18,14 +18,19 @@
       </ng-template>
       <ng-template #notEditingRootName>
         <h2
-          class="inplace-input inplace-input__focusable inplace-input--large"
+          class="root-budget-name inplace-input inplace-input__focusable inplace-input--large"
           (mousedown)="onOpenInplaceEdit('rootName', $event)">
           {{this.rootBudget.name}}
         </h2>
       </ng-template>
 
       <div class="budget-period-info">
-        <!-- TODO: When adding budget period information, put it here. -->
+        <h2 class="budget-period-info__dates">
+          ({{this.currentBudgetPeriod.startDate | date:'MMM d'}}
+          -
+          {{this.currentBudgetPeriod.endDate | date:'MMM d'}})
+        </h2>
+
         <button class="edit-duration" (click)="this.onEditDurationClick()">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0z" fill="none"/>

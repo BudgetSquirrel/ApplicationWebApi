@@ -1,8 +1,8 @@
 import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { tap, share, map } from "rxjs/operators";
-import { Credentials, NewUser, User, EMPTY_USER } from "../models/accounts";
+import { tap, share } from "rxjs/operators";
+import { Credentials, NewUser, User, nullUser } from "../models/accounts";
 
 const AUTHENTICATION_API = "api/authentication";
 
@@ -13,7 +13,7 @@ export class AccountService {
   private userSubject: BehaviorSubject<User>;
 
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) {
-    this.userSubject = new BehaviorSubject(EMPTY_USER);
+    this.userSubject = new BehaviorSubject(nullUser);
   }
 
   public login(credentials: Credentials): Observable<User> {
@@ -23,12 +23,12 @@ export class AccountService {
   }
 
   public getUser(): Observable<User> {
-    if (this.userSubject.value === EMPTY_USER) {
+    if (this.userSubject.value === nullUser) {
       this.getUserFromApi().subscribe((user: User) => {
         this.userSubject.next(user);
       },
       e => {
-        this.userSubject.next(EMPTY_USER);
+        this.userSubject.next(nullUser);
       });
     }
     return this.userSubject.asObservable().pipe(share());
@@ -39,7 +39,7 @@ export class AccountService {
   }
 
   public logout()  {
-    this.userSubject.next(EMPTY_USER);
+    this.userSubject.next(nullUser);
 
     this.http.get(`${this.baseUrl}${AUTHENTICATION_API}/logout`).toPromise().then(() => {
       console.log("Logged out");
@@ -53,7 +53,7 @@ export class AccountService {
   }
 
   public isAuthenticated(): boolean {
-    return !(this.userSubject.value === EMPTY_USER);
+    return !(this.userSubject.value === nullUser);
   }
 
   private getUserFromApi() {

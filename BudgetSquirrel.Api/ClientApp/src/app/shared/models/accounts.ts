@@ -20,7 +20,7 @@ export interface User {
     email: string;
 }
 
-export const EMPTY_USER: User = {
+export const nullUser: User = {
     id: null,
     firstName: null,
     lastName: null,
