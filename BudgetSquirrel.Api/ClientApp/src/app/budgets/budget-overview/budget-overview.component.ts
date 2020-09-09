@@ -18,9 +18,10 @@ export class BudgetOverviewComponent implements OnInit {
   public isEditingRootName = false;
   public isEditingRootAmount = false;
   public isEditingDuration = false;
+  public isAddingBudget = false;
 
   public wasError = false;
-  public isAddingBudget = false;
+  public plannedAmountColorClass: string;
 
   constructor(private budgetService: BudgetApi) { }
 
@@ -115,5 +116,12 @@ export class BudgetOverviewComponent implements OnInit {
 
   private syncRootBudgetState() {
     this.isSubBudgetTotalPlannedAmountTooHigh = this.rootBudget.subBudgetTotalPlannedAmount > this.rootBudget.setAmount;
+    if (this.isSubBudgetTotalPlannedAmountTooHigh) {
+      this.plannedAmountColorClass = "root-budget-allocated--high";
+    } else if (this.rootBudget.subBudgetTotalPlannedAmount < this.rootBudget.setAmount) {
+      this.plannedAmountColorClass = "root-budget-allocated--high";
+    } else {
+      this.plannedAmountColorClass = "";
+    }
   }
 }
