@@ -19,6 +19,7 @@ using BudgetSquirrel.Business;
 using BudgetSquirrel.Api.Infrastructure;
 using BudgetSquirrel.Business.BudgetPlanning;
 using BudgetSquirrel.Data.EntityFramework.Repositories;
+using BudgetSquirrel.Business.Tracking;
 
 namespace BudgetSquirrel.Api
 {
@@ -56,6 +57,7 @@ namespace BudgetSquirrel.Api
         {
             services.AddTransient<IRepository<Budget>, DefaultRepository<Budget>>();
             services.AddTransient<IRepository<BudgetDurationBase>, BudgetDurationRepository>();
+            services.AddTransient<IRepository<BudgetPeriod>, DefaultRepository<BudgetPeriod>>();
 
             services.AddTransient<IAsyncQueryService, AsyncQueryService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();

@@ -4,6 +4,8 @@ import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.c
 import { EditBudgetEvent, EditBudgetFieldName } from '../budget/budget.component';
 import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
 import { BudgetApi } from '../services/budget-api.service';
+import { CurrentBudgetPeriod, nullCurrentBudgetPeriod } from 'src/app/shared/models/tracking';
+import { TrackingService } from 'src/app/shared/services/tracking.service';
 
 @Component({
   selector: "bs-budget-overview",
@@ -14,6 +16,7 @@ export class BudgetOverviewComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
   public isSubBudgetTotalPlannedAmountTooHigh: boolean;
+  public currentBudgetPeriod: CurrentBudgetPeriod = nullCurrentBudgetPeriod;
 
   public isEditingRootName = false;
   public isEditingRootAmount = false;
@@ -23,10 +26,13 @@ export class BudgetOverviewComponent implements OnInit {
   public wasError = false;
   public plannedAmountColorClass: string;
 
-  constructor(private budgetService: BudgetApi) { }
+  constructor(private budgetService: BudgetApi,
+              private trackingService: TrackingService)
+  { }
 
   public ngOnInit() {
     this.loadRootBudget();
+    this.loadCurrentBudgetPeriod();
   }
 
   public onOpenInplaceEdit(field: string, event: MouseEvent) {
@@ -110,6 +116,8 @@ export class BudgetOverviewComponent implements OnInit {
       this.rootBudget = rootBudget;
       this.syncRootBudgetState();
     }, (error) => {
+      console.error("Error when fetching root budget");
+      console.error(error);
       this.wasError = true;
     });
   }
@@ -123,5 +131,15 @@ export class BudgetOverviewComponent implements OnInit {
     } else {
       this.plannedAmountColorClass = "";
     }
+  }
+
+  private loadCurrentBudgetPeriod() {
+    this.trackingService.getCurrentBudgetPeriod().subscribe((currentPeriod: CurrentBudgetPeriod) => {
+      this.currentBudgetPeriod = currentPeriod;
+    }, (error) => {
+      console.error("Error when fetching current budget period");
+      console.error(error);
+      this.wasError = true;
+    })
   }
 }

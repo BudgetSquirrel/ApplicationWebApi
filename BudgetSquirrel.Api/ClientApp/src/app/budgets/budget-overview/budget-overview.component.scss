@@ -6,6 +6,10 @@
     padding-top: 16px;
     padding-bottom: 32px;
 
+    .root-budget-name {
+        width: initial;
+    }
+
     .root-budget-details {
         margin-top: 1em;
         background-color: mat-color($steel, 50);
@@ -39,6 +43,10 @@
     .budget-period-info {
         margin-left: 15px;
         display: inline-block;
+
+        &__dates {
+            display: inline-block;
+        }
     }
 
     .edit-duration {
