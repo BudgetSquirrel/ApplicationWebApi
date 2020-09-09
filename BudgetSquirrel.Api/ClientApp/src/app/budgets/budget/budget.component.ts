@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { Budget } from '../models';
 import { BudgetPlanningService } from '../services/budget-planning.service';
+import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
 
 export type EditBudgetFieldName = "setAmount" | "name";
 
@@ -20,7 +21,7 @@ export class BudgetComponent implements OnInit, OnChanges {
   @Input() budget: Budget;
   @Input() level: number;
 
-  @Output() public addBudget?: EventEmitter<any> = new EventEmitter();
+  @Output() public createSubBudget?: EventEmitter<CreateBudgetEventArguments> = new EventEmitter();
   @Output() public editBudget?: EventEmitter<any> = new EventEmitter();
   @Output() public removeBudget?: EventEmitter<any> = new EventEmitter();
 
@@ -66,6 +67,7 @@ export class BudgetComponent implements OnInit, OnChanges {
   public isEditingRootName = false;
   public isEditingRootAmount = false;
   public shouldShowUpdateParentAmountModal = false;
+  public isAddingBudget = false;
 
   getHasSubBudgets(): boolean {
     return !(this.budget.subBudgets === null ||
@@ -96,8 +98,18 @@ export class BudgetComponent implements OnInit, OnChanges {
     }
   }
 
-  public onAddBudgetClicked(budget: Budget) {
-    this.addBudget.emit(budget);
+  public onAddBudgetClicked() {
+    this.isAddingBudget = true;
+  }
+
+  public onCloseAddBudgetModal() {
+    this.isAddingBudget = false;
+  }
+
+  public onFinalizeCreateBudget(args: CreateBudgetEventArguments) {
+    this.budgetPlanningService.setHasBeenEdited(this.budget, { name: args.name } as any as Budget);
+    this.isAddingBudget = false;
+    this.createSubBudget.emit(args);
   }
 
   public onOpenInplaceEdit(field: string, event: MouseEvent) {
@@ -117,8 +129,7 @@ export class BudgetComponent implements OnInit, OnChanges {
   }
 
   public onEditBudget(event: EditBudgetEvent, modifiedBudget: Budget) {
-    this.lastModifiedBudget = modifiedBudget;
-    this.budgetPlanningService.setBudgetState(this.budget, "hasBeenEdited", true);
+    this.budgetPlanningService.setHasBeenEdited(this.budget, modifiedBudget);
     this.editBudget.emit(event);
   }
 

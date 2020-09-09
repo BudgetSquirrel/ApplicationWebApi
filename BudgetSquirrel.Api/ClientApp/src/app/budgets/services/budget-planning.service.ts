@@ -45,4 +45,9 @@ export class BudgetPlanningService {
 
     state[stateName] = value;
   }
+
+  public setHasBeenEdited(budgetComponentId: Budget, modifiedBudget: Budget) {
+    this.setBudgetState(budgetComponentId, "lastModifiedBudget", modifiedBudget);
+    this.setBudgetState(budgetComponentId, "hasBeenEdited", true);
+  }
 }

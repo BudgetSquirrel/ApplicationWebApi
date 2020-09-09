@@ -20,12 +20,7 @@ export class BudgetOverviewComponent implements OnInit {
   public isEditingDuration = false;
 
   public wasError = false;
-
-  public parentBudgetForCreateBudget: Budget | null = null;
-
-  get isAddingBudget(): boolean {
-    return this.parentBudgetForCreateBudget != null;
-  }
+  public isAddingBudget = false;
 
   constructor(private budgetService: BudgetApi) { }
 
@@ -75,11 +70,11 @@ export class BudgetOverviewComponent implements OnInit {
   }
 
   public onAddBudgetClick(budget: Budget) {
-    this.parentBudgetForCreateBudget = budget;
+    this.isAddingBudget = true;
   }
 
   public onCloseAddBudgetModal() {
-    this.parentBudgetForCreateBudget = null;
+    this.isAddingBudget = true;
   }
 
   public onEditDurationClick() {
@@ -98,9 +93,9 @@ export class BudgetOverviewComponent implements OnInit {
 
   public onSaveBudget(args: CreateBudgetEventArguments) {
     const self = this;
+    this.isAddingBudget = false;
     this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
       self.loadRootBudget();
-      self.parentBudgetForCreateBudget = null;
     });
   }
 

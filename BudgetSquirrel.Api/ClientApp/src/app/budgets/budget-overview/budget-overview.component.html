@@ -80,14 +80,14 @@
       *ngFor="let budget of rootBudget.subBudgets"
       [budget]="budget"
       [level]=1
-      (addBudget)="onAddBudgetClick($event)"
+      (createSubBudget)="onSaveBudget($event)"
       (editBudget)="onEditBudget($event)"
       (removeBudget)="onRemoveBudget($event)">
     </bs-budget>
   </div>
 
   <div *ngIf="this.isAddingBudget">
-    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" (onSaveClicked)="onSaveBudget($event)" [parentBudget]="parentBudgetForCreateBudget"></bs-add-budget-form>
+    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" (onSaveClicked)="onSaveBudget($event)" [parentBudget]="this.rootBudget"></bs-add-budget-form>
   </div>
 
   <div *ngIf="this.isEditingDuration">

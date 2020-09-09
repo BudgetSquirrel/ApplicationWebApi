@@ -19,7 +19,7 @@
         </ng-template>
 
         <div *ngIf="shouldShowActionsAbove" class="budget-item__action-container">
-          <button *ngIf="shouldShowAddBudgetButton" class="button button--small button--primary budget-item__action" (click)="onAddBudgetClicked(this.budget)">
+          <button *ngIf="shouldShowAddBudgetButton" class="button button--small button--primary budget-item__action" (click)="onAddBudgetClicked()">
             Add SubBudget
           </button>
           <button
@@ -83,7 +83,7 @@
         *ngFor="let subBudget of budget.subBudgets"
         [budget]="subBudget"
         [level]="subBudgetLevel"
-        (addBudget)="onAddBudgetClicked($event)"
+        (createSubBudget)="onFinalizeCreateBudget($event)"
         (removeBudget)="onRemoveBudgetClicked($event)"
         (editBudget)="onEditBudget($event, subBudget)">
       </bs-budget>
@@ -121,4 +121,8 @@
     </div>
   </ng-template>
   <ng-template #noUpdateParentBudgetModal></ng-template>
+
+  <div *ngIf="this.isAddingBudget">
+    <bs-add-budget-form (onClose)="onCloseAddBudgetModal()" (onSaveClicked)="onFinalizeCreateBudget($event)" [parentBudget]="this.budget"></bs-add-budget-form>
+  </div>
 </div>
