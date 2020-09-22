@@ -1,6 +1,6 @@
 @import '../../../variables.scss';
 
-#budgets {
+.budget-overview {
     padding-left: var(--page-side-padding);
     padding-right: var(--page-side-padding);
     padding-top: 16px;
@@ -17,18 +17,18 @@
         justify-content: flex-start;
         padding: 1em 0;
 
-        .root-budget-stat {
-            margin: 0 1em;
-
-            &__stat {
-                font-size: 15px;
-                line-height: 150%;
-                color: #687F83;
-            }
-        }
-
         h5 {
             margin: 4px 0;
+        }
+    }
+
+    .root-budget-stat {
+        margin: 0 1em;
+
+        &__stat {
+            font-size: 15px;
+            line-height: 150%;
+            color: #687F83;
         }
     }
 
@@ -68,7 +68,7 @@
             color: mat-color($danger, 900) !important;
         }
 
-        &--low {
+        &--good * {
             color: mat-color($accent, "A700") !important;
         }
     }

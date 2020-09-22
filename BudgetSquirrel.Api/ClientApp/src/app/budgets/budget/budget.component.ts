@@ -57,9 +57,9 @@ export class BudgetComponent implements OnInit, OnChanges {
    * this budgets parent budget because it's planned amount is less
    * than the planned amounts of it's sub budgets.
    */
-  public isSubBudgetTotalPlannedAmountTooHigh: boolean = false;
+  public isPlannedDifferentThanAllocated: boolean = false;
 
-  amountInLabel: string = "AMOUNT IN";
+  amountInLabel: string = "PLANNED";
   balanceLabel: string = "BALANCE";
 
   /* ===== Component Interactions State ===== */
@@ -81,10 +81,10 @@ export class BudgetComponent implements OnInit, OnChanges {
     this.shouldShowAddBudgetButton = this.level < 3;
     this.shouldShowActionsAbove = this.level < 3;
     this.shouldShowActionsToRight = this.level == 3;
-    this.isSubBudgetTotalPlannedAmountTooHigh = this.budget.subBudgetTotalPlannedAmount > this.budget.setAmount;
+    this.isPlannedDifferentThanAllocated = this.hasSubBudgets && (this.budget.subBudgetTotalPlannedAmount != this.budget.setAmount);
     
     if (this.level == 3) {
-      this.amountInLabel = "In:";
+      this.amountInLabel = "Planned:";
     }
     if (this.level == 3) {
       this.balanceLabel = "Remaining:";
@@ -172,8 +172,8 @@ export class BudgetComponent implements OnInit, OnChanges {
   private updateShouldShowUpdateParentAmountModal(budgetChange: SimpleChange) {
     const updatedBudget: Budget = budgetChange.currentValue;
     
-    const isSubBudgetTotalPlannedAmountTooHigh = updatedBudget.subBudgetTotalPlannedAmount > updatedBudget.setAmount;
-    if (isSubBudgetTotalPlannedAmountTooHigh) {
+    const isPlannedDifferentThanAllocated = updatedBudget.subBudgetTotalPlannedAmount != updatedBudget.setAmount;
+    if (isPlannedDifferentThanAllocated) {
       this.shouldShowUpdateParentAmountModal = true;
     }
   }

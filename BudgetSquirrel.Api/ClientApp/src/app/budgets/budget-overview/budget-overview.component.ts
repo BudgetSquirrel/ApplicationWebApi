@@ -15,7 +15,8 @@ import { TrackingService } from 'src/app/shared/services/tracking.service';
 export class BudgetOverviewComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
-  public isSubBudgetTotalPlannedAmountTooHigh: boolean;
+  public plannedIncomeComparedToAmountBudgeted: number;
+  public leftToBudgetLabel: string;
   public currentBudgetPeriod: CurrentBudgetPeriod = nullCurrentBudgetPeriod;
 
   public isEditingRootName = false;
@@ -24,7 +25,7 @@ export class BudgetOverviewComponent implements OnInit {
   public isAddingBudget = false;
 
   public wasError = false;
-  public plannedAmountColorClass: string;
+  public leftToBudgetClassName: string;
 
   constructor(private budgetService: BudgetApi,
               private trackingService: TrackingService)
@@ -123,13 +124,18 @@ export class BudgetOverviewComponent implements OnInit {
   }
 
   private syncRootBudgetState() {
-    this.isSubBudgetTotalPlannedAmountTooHigh = this.rootBudget.subBudgetTotalPlannedAmount > this.rootBudget.setAmount;
-    if (this.isSubBudgetTotalPlannedAmountTooHigh) {
-      this.plannedAmountColorClass = "root-budget-allocated--high";
+    if (this.rootBudget.subBudgetTotalPlannedAmount > this.rootBudget.setAmount) {
+      this.leftToBudgetClassName = "root-budget-allocated--high";
+      this.leftToBudgetLabel = "Over Budget";
+      this.plannedIncomeComparedToAmountBudgeted = -1;
     } else if (this.rootBudget.subBudgetTotalPlannedAmount < this.rootBudget.setAmount) {
-      this.plannedAmountColorClass = "root-budget-allocated--high";
+      this.leftToBudgetClassName = "";
+      this.leftToBudgetLabel = "Left to Budget";
+      this.plannedIncomeComparedToAmountBudgeted = 1;
     } else {
-      this.plannedAmountColorClass = "";
+      this.leftToBudgetClassName = "";
+      this.leftToBudgetLabel = "Left to Budget";
+      this.plannedIncomeComparedToAmountBudgeted = 0;
     }
   }
 

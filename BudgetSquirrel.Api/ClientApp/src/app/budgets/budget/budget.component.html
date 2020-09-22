@@ -23,7 +23,7 @@
             Add SubBudget
           </button>
           <button
-            *ngIf="this.isSubBudgetTotalPlannedAmountTooHigh"
+            *ngIf="this.isPlannedDifferentThanAllocated"
             class="button button--primary button--small budget-item__action"
             (click)="this.onUpdateBudgetPlannedAmountToSubBudgetsClicked()">
             Resolve Amount
@@ -51,7 +51,7 @@
           <ng-template #notEditingRootAmount>
             <span
               class="inplace-input inplace-input--short inplace-input__focusable stat stat--editable"
-              [ngClass]="{'stat--danger': isSubBudgetTotalPlannedAmountTooHigh}"
+              [ngClass]="{'stat--danger': isPlannedDifferentThanAllocated}"
               (mousedown)="onOpenInplaceEdit('setAmount', $event)">
               {{this.budget.setAmount | currency}}
             </span>
@@ -64,7 +64,6 @@
           </span>
           <span class="stat">
             {{this.budget.fundBalance | currency}}
-            {{this.shouldShowUpdateParentAmountModal}}
           </span>
         </span>
       </div>
@@ -97,9 +96,9 @@
       <dialog class="modal update-parent-budget-amount-modal" open="true">
         <div class="modal__content">
           <p class="update-parent-budget-amount-modal__line">
-            You changed the planned amount of <b>{{this.lastModifiedBudget.name}}</b> which made it so that
-            <b>{{this.budget.name}}</b>'s sub budgets have planned amounts that total up to be more
-            than it's own planned amount ({{this.budget.setAmount | currency}}).
+            <b>{{this.budget.name}}</b>'s planned amount ({{this.budget.setAmount | currency}}) is
+            different than the amount you've allocated in it's sub budgets
+            ({{this.budget.subBudgetTotalPlannedAmount | currency}}).
           </p>
           <p class="update-parent-budget-amount-modal__line">
             Would you like to update <b>{{this.budget.name}}</b> from {{this.budget.setAmount | currency}}
