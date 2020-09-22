@@ -15,6 +15,7 @@ import { TrackingService } from 'src/app/shared/services/tracking.service';
 export class BudgetOverviewComponent implements OnInit {
 
   public rootBudget: Budget = nullBudget;
+  public plannedIncomeDiffAmountBudgeted: number;
   public plannedIncomeComparedToAmountBudgeted: number;
   public leftToBudgetLabel: string;
   public currentBudgetPeriod: CurrentBudgetPeriod = nullCurrentBudgetPeriod;
@@ -124,6 +125,7 @@ export class BudgetOverviewComponent implements OnInit {
   }
 
   private syncRootBudgetState() {
+    this.plannedIncomeDiffAmountBudgeted = Math.abs(this.rootBudget.setAmount - this.rootBudget.subBudgetTotalPlannedAmount);
     if (this.rootBudget.subBudgetTotalPlannedAmount > this.rootBudget.setAmount) {
       this.leftToBudgetClassName = "root-budget-allocated--high";
       this.leftToBudgetLabel = "Over Budget";
