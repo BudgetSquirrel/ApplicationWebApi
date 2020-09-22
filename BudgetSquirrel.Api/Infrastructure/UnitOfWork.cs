@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.BudgetPlanning;
+using BudgetSquirrel.Business.Infrastructure;
 using BudgetSquirrel.Business.Tracking;
 using BudgetSquirrel.Data.EntityFramework;
 
@@ -26,7 +27,7 @@ namespace BudgetSquirrel.Api.Infrastructure
       this.dbContext = dbContext;
     }
 
-    public IRepository<T> GetRepository<T>()
+    public IRepository<T> GetRepository<T>() where T : class
     {
       if (typeof(T) == typeof(Budget))
       {

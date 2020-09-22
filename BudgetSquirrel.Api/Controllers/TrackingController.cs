@@ -14,16 +14,13 @@ namespace BudgetSquirrel.Api.Controllers
     public class TrackingController : Controller
     {
         private readonly IAuthService authService;
-        private readonly IAsyncQueryService asyncQueryService;
         private readonly IUnitOfWork unitOfWork;
 
         public TrackingController(
             IAuthService authService,
-            IAsyncQueryService asyncQueryService,
             IUnitOfWork unitOfWork)
         {
             this.authService = authService;
-            this.asyncQueryService = asyncQueryService;
             this.unitOfWork = unitOfWork;
         }
 
@@ -32,7 +29,7 @@ namespace BudgetSquirrel.Api.Controllers
         public async Task<JsonResult> GetCurrentBudgetPeriod()
         {
             User currentUser = await this.authService.GetCurrentUser();
-            GetCurrentBudgetPeriodQuery query = new GetCurrentBudgetPeriodQuery(this.unitOfWork, this.asyncQueryService, currentUser.Id);
+            GetCurrentBudgetPeriodQuery query = new GetCurrentBudgetPeriodQuery(this.unitOfWork, currentUser.Id);
             BudgetPeriod current = await query.Run();
             CurrentBudgetPeriodResponse response = new CurrentBudgetPeriodResponse(current);
             return new JsonResult(response);

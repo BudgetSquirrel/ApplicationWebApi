@@ -16,16 +16,13 @@ namespace BudgetSquirrel.Api.Controllers
   public class BudgetController : Controller
   {
     private readonly IAuthService authService;
-    private readonly IAsyncQueryService asyncQueryService;
     private readonly IUnitOfWork unitOfWork;
 
     public BudgetController(
       IAuthService authService,
-      IAsyncQueryService asyncQueryService,
       IUnitOfWork unitOfWork)
     {
       this.authService = authService;
-      this.asyncQueryService = asyncQueryService;
       this.unitOfWork = unitOfWork;
     }
 
@@ -34,7 +31,7 @@ namespace BudgetSquirrel.Api.Controllers
     public async Task<JsonResult> GetRootBudget()
     {
       User currentUser = await this.authService.GetCurrentUser();
-      GetRootBudgetQuery query = new GetRootBudgetQuery(this.unitOfWork, this.asyncQueryService, currentUser.Id);
+      GetRootBudgetQuery query = new GetRootBudgetQuery(this.unitOfWork, currentUser.Id);
       Budget budget = await query.Run();
       RootBudgetResponse response = new RootBudgetResponse(budget);
       return new JsonResult(response);
@@ -45,7 +42,7 @@ namespace BudgetSquirrel.Api.Controllers
     public async Task<JsonResult> EditBudget([FromBody] EditBudgetRequest body)
     {
       User currentUser = await this.authService.GetCurrentUser();
-      EditRootBudgetCommand command = new EditRootBudgetCommand(this.asyncQueryService, this.unitOfWork, body.BudgetId, currentUser, body.Name, body.SetAmount);
+      EditRootBudgetCommand command = new EditRootBudgetCommand(this.unitOfWork, body.BudgetId, currentUser, body.Name, body.SetAmount);
       await command.Run();
       return new JsonResult(new { success = true });
     }
@@ -66,12 +63,12 @@ namespace BudgetSquirrel.Api.Controllers
       User currentUser = await this.authService.GetCurrentUser();
       if (body.DurationType == EditDurationDurationType.DaySpan)
       {
-        EditDaySpanBudgetDuration command = new EditDaySpanBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.NumberDays.Value);
+        EditDaySpanBudgetDuration command = new EditDaySpanBudgetDuration(this.unitOfWork, body.BudgetId, currentUser, body.NumberDays.Value);
         await command.Run();
       }
       else
       {
-        EditMonthlyBookendedBudgetDuration command = new EditMonthlyBookendedBudgetDuration(this.unitOfWork, this.asyncQueryService, body.BudgetId, currentUser, body.EndDayOfMonth.Value, body.RolloverEndDate.Value);
+        EditMonthlyBookendedBudgetDuration command = new EditMonthlyBookendedBudgetDuration(this.unitOfWork, body.BudgetId, currentUser, body.EndDayOfMonth.Value, body.RolloverEndDate.Value);
         await command.Run();
       }
       return new JsonResult(new { success = true });
@@ -81,7 +78,7 @@ namespace BudgetSquirrel.Api.Controllers
     public async Task<JsonResult> RemoveBudget(Guid id)
     {
       User currentUser = await this.authService.GetCurrentUser();
-      RemoveBudgetCommand command = new RemoveBudgetCommand(this.unitOfWork, this.asyncQueryService, id, currentUser);
+      RemoveBudgetCommand command = new RemoveBudgetCommand(this.unitOfWork, id, currentUser);
       await command.Run();
       return new JsonResult(new { success = true });
     }

@@ -42,7 +42,7 @@
 
     <div class="root-budget-details">
       <div class="root-budget-stat">
-        <h5 id="setAmountLabel" class="{{this.plannedAmountColorClass}}">Planned Income</h5>
+        <h5 id="setAmountLabel">Planned Income</h5>
 
         <ng-template [ngIf]="this.isEditingRootAmount" [ngIfElse]="notEditingRootAmount">
           <input
@@ -55,7 +55,7 @@
         </ng-template>
         <ng-template #notEditingRootAmount>
           <span
-            class="inplace-input inplace-input--short inplace-input__focusable root-budget-stat__stat {{this.plannedAmountColorClass}}"
+            class="inplace-input inplace-input--short inplace-input__focusable root-budget-stat__stat"
             (mousedown)="onOpenInplaceEdit('setAmount', $event)">
             {{this.rootBudget.setAmount | currency}}
           </span>
@@ -63,8 +63,8 @@
       </div>
 
       <div class="root-budget-stat">
-        <h5>Allocated So Far</h5>
-        <span class="root-budget-stat__stat">{{this.rootBudget.subBudgetTotalPlannedAmount | currency}}</span>
+        <h5 class="{{this.plannedAmountColorClass}}">Allocated So Far</h5>
+        <span class="root-budget-stat__stat {{this.plannedAmountColorClass}}">{{this.rootBudget.subBudgetTotalPlannedAmount | currency}}</span>
       </div>
 
       <div class="root-budget-stat">

@@ -17,15 +17,13 @@ namespace BudgetSquirrel.Api.Services.Implementations
     {
         private readonly IUserRepository userRepository;
         private readonly BudgetSquirrelContext context;
-        private readonly IAsyncQueryService asyncQueryService;
         private readonly ICryptor cryptor;
         private GateKeeperConfig gateKeeperConfig;
 
-        public AccountService(IUserRepository userRepository, BudgetSquirrelContext context, IAsyncQueryService asyncQueryService, ICryptor cryptor, GateKeeperConfig gateKeeperConfig)
+        public AccountService(IUserRepository userRepository, BudgetSquirrelContext context, ICryptor cryptor, GateKeeperConfig gateKeeperConfig)
         {
             this.userRepository = userRepository;
             this.context = context;
-            this.asyncQueryService = asyncQueryService;
             this.cryptor = cryptor;
             this.gateKeeperConfig = gateKeeperConfig;
         }
@@ -42,7 +40,6 @@ namespace BudgetSquirrel.Api.Services.Implementations
             }
 
             var command = new CreateUserCommand(
-                                this.asyncQueryService,
                                 newUser.Username,
                                 newUser.FirstName,
                                 newUser.LastName,
