@@ -55,7 +55,7 @@ export class BudgetApi {
       parentBudgetId: parentBudget.id,
       name,
       setAmount
-    }
+    };
     return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
@@ -70,4 +70,8 @@ export class BudgetApi {
     };
     return this.http.patch(`${this.baseUrl}${BUDGETS_API}/duration`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
-}
+
+  public finzlizeBudget(id: string): Promise<ApiCommandResponse> {
+    return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget/finalize/${id}`, {}).toPromise() as Promise<ApiCommandResponse>;
+  }
+ }

@@ -6,6 +6,7 @@ using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Business.BudgetPlanning;
+using BudgetSquirrel.Business.Tracking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,12 +78,24 @@ namespace BudgetSquirrel.Api.Controllers
       return new JsonResult(new { success = true });
     }
 
+    [Authorize]
     [HttpDelete("budget/{id}")]
     public async Task<JsonResult> RemoveBudget(Guid id)
     {
       User currentUser = await this.authService.GetCurrentUser();
       RemoveBudgetCommand command = new RemoveBudgetCommand(this.unitOfWork, this.asyncQueryService, id, currentUser);
       await command.Run();
+      return new JsonResult(new { success = true });
+    }
+
+    [Authorize]
+    [HttpPost("budget/finalize/{id}")]
+    public async Task<JsonResult> FinalizeBudget(Guid id)
+    {
+      User currentUser = await this.authService.GetCurrentUser();
+      FinalizeBudgetPeriodCommand command = new FinalizeBudgetPeriodCommand(this.unitOfWork, id, currentUser);
+      await command.Run();
+
       return new JsonResult(new { success = true });
     }
   }

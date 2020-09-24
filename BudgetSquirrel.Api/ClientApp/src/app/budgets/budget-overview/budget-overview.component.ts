@@ -80,6 +80,15 @@ export class BudgetOverviewComponent implements OnInit {
     this.isAddingBudget = true;
   }
 
+  public onFinalizeBudget(budget: Budget) {
+    this.budgetService.finzlizeBudget(budget.id).then(() => {
+      this.loadRootBudget();
+      this.loadCurrentBudgetPeriod();
+    }).catch(() => {
+      // TODO: Should we something with an error?
+    });
+  }
+
   public onCloseAddBudgetModal() {
     this.isAddingBudget = true;
   }
@@ -101,13 +110,13 @@ export class BudgetOverviewComponent implements OnInit {
   public onSaveBudget(args: CreateBudgetEventArguments) {
     const self = this;
     this.isAddingBudget = false;
-    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
+    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(() => {
       self.loadRootBudget();
     });
   }
 
   public async onRemoveBudget(budget: Budget) {
-    await this.budgetService.removeBudget(budget)
+    await this.budgetService.removeBudget(budget);
     this.loadRootBudget();
   }
 
@@ -140,6 +149,6 @@ export class BudgetOverviewComponent implements OnInit {
       console.error("Error when fetching current budget period");
       console.error(error);
       this.wasError = true;
-    })
+    });
   }
 }
