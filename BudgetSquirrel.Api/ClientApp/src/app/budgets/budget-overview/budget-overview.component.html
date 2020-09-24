@@ -81,13 +81,21 @@
     </div>
   </ng-template>
   
-  <div class="root-budget-controls">
+  <div class="root-budget-control__container">
     <button
       class="button button--primary button--wide"
       [ngClass]="{'button--disabled': isAddingBudget}"
       [disabled]="isAddingBudget"
       (click)="onAddBudgetClick(rootBudget)">
       Add Budget
+    </button>
+
+    <button
+      class="button button--primary button--wide root-budget-control"
+      [ngClass]="{'button--disabled': isAddingBudget}"
+      [disabled]="isAddingBudget"
+      (click)="onFinalizeBudget(rootBudget)">
+      Finalize
     </button>
   </div>
 
