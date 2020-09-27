@@ -59,6 +59,7 @@ namespace BudgetSquirrel.Api
             services.AddTransient<IRepository<Budget>, DefaultRepository<Budget>>();
             services.AddTransient<IRepository<BudgetDurationBase>, BudgetDurationRepository>();
             services.AddTransient<IRepository<BudgetPeriod>, DefaultRepository<BudgetPeriod>>();
+            services.AddTransient<IRepository<Fund>, DefaultRepository<Fund>>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }

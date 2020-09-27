@@ -1,5 +1,4 @@
 export class Budget {
-  budgetStart: Date;
   id: string;
   name: string;
   duration: BudgetDuration;
