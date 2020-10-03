@@ -62,6 +62,8 @@ namespace BudgetSquirrel.Api
             services.AddTransient<IRepository<Fund>, DefaultRepository<Fund>>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddTransient<BudgetLoader>();
         }
 
         protected void ConfigureAuthenticationServices(IServiceCollection services)

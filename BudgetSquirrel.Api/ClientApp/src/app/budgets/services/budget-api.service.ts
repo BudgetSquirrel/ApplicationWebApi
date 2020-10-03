@@ -27,10 +27,7 @@ export class BudgetApi {
 
   public getRootBudget(): Observable<Budget> {
     return this.http.get(`${this.baseUrl}${BUDGETS_API}/root-budget`).pipe(
-      map((budget: Budget) => {
-        budget.budgetStart = new Date(budget.budgetStart);
-        return budget;
-      })
+      map((budget: Budget) => budget)
     );
   }
 

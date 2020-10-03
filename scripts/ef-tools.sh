@@ -1,8 +1,8 @@
 #!/bin/bash
 
-$BUSINESS_REPO="BudgetTracker"
-$DATA_PROJ="$BUSINESS_REPO/BudgetSquirrel.Data.EntityFramework"
-$API_PROJ="BudgetSquirrel.Api"
+BUSINESS_REPO="BudgetTracker"
+DATA_PROJ="$BUSINESS_REPO/BudgetSquirrel.Data.EntityFramework"
+API_PROJ="BudgetSquirrel.Api"
 
 alias rm_db="rm $API_PROJ/dev.db"
 
