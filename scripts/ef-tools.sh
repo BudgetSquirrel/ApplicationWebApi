@@ -16,3 +16,9 @@ add_migration() {
   dotnet ef database update --startup-project ../../$API_PROJ/$API_PROJ.csproj --configuration Development
   cd ../..
 }
+
+migrate() {
+  cd $DATA_PROJ
+  dotnet ef database update --startup-project ../../$API_PROJ/$API_PROJ.csproj --configuration Development
+  cd ../..
+}
