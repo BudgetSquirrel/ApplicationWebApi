@@ -21,21 +21,19 @@ namespace BudgetSquirrel.Api.ResponseModels
 
     public BudgetDurationResponse Duration { get; set; }
 
-    public DateTime BudgetStart { get; private set; }
-
     public IEnumerable<RootBudgetResponse> SubBudgets { get; private set; }
 
-    public RootBudgetResponse(Budget budget)
+    public RootBudgetResponse(Fund fund)
     {
+      Budget budget = fund.CurrentBudget;
       Id = budget.Id;
-      Name = budget.Name;
+      Name = fund.Name;
       PercentAmount = budget.PercentAmount;
       SetAmount = budget.SetAmount;
-      FundBalance = budget.FundBalance;
+      FundBalance = fund.FundBalance;
       SubBudgetTotalPlannedAmount = budget.SubBudgetTotalPlannedAmount;
-      Duration = new BudgetDurationResponse(budget.Duration);
-      BudgetStart = budget.BudgetStart;
-      SubBudgets = budget.SubBudgets.Select(b => new RootBudgetResponse(b));
+      Duration = new BudgetDurationResponse(fund.Duration);
+      SubBudgets = fund.SubFunds.Select(f => new RootBudgetResponse(f));
     }
   }
 }

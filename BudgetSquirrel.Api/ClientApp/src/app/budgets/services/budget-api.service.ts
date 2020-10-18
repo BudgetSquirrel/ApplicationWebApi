@@ -27,10 +27,7 @@ export class BudgetApi {
 
   public getRootBudget(): Observable<Budget> {
     return this.http.get(`${this.baseUrl}${BUDGETS_API}/root-budget`).pipe(
-      map((budget: Budget) => {
-        budget.budgetStart = new Date(budget.budgetStart);
-        return budget;
-      })
+      map((budget: Budget) => budget)
     );
   }
 
@@ -55,7 +52,7 @@ export class BudgetApi {
       parentBudgetId: parentBudget.id,
       name,
       setAmount
-    }
+    };
     return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
 
@@ -70,4 +67,8 @@ export class BudgetApi {
     };
     return this.http.patch(`${this.baseUrl}${BUDGETS_API}/duration`, requestBody).toPromise() as Promise<ApiCommandResponse>;
   }
-}
+
+  public finzlizeBudget(id: string): Promise<ApiCommandResponse> {
+    return this.http.post(`${this.baseUrl}${BUDGETS_API}/budget/finalize/${id}`, {}).toPromise() as Promise<ApiCommandResponse>;
+  }
+ }

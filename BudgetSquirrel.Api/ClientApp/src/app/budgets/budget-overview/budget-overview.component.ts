@@ -24,6 +24,8 @@ export class BudgetOverviewComponent implements OnInit {
   public isEditingRootAmount = false;
   public isEditingDuration = false;
   public isAddingBudget = false;
+  public isBudgetFinalized = false;
+  public shouldShowFinalizingErrorModal = false;
 
   public wasError = false;
   public leftToBudgetClassName: string;
@@ -82,8 +84,17 @@ export class BudgetOverviewComponent implements OnInit {
     this.isAddingBudget = true;
   }
 
+  public onFinalizeBudget(budget: Budget) {
+    this.budgetService.finzlizeBudget(budget.id).then(() => {
+      this.loadRootBudget();
+      this.loadCurrentBudgetPeriod();
+    }).catch(() => {
+      this.shouldShowFinalizingErrorModal = true;
+    });
+  }
+
   public onCloseAddBudgetModal() {
-    this.isAddingBudget = true;
+    this.isAddingBudget = false;
   }
 
   public onEditDurationClick() {
@@ -103,14 +114,18 @@ export class BudgetOverviewComponent implements OnInit {
   public onSaveBudget(args: CreateBudgetEventArguments) {
     const self = this;
     this.isAddingBudget = false;
-    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(function() {
+    this.budgetService.createBudget(args.parentBudget, args.name, args.setAmount).then(() => {
       self.loadRootBudget();
     });
   }
 
   public async onRemoveBudget(budget: Budget) {
-    await this.budgetService.removeBudget(budget)
+    await this.budgetService.removeBudget(budget);
     this.loadRootBudget();
+  }
+
+  public onCloseFinalizeErrorModal() {
+    this.shouldShowFinalizingErrorModal = false;
   }
 
   private loadRootBudget() {
@@ -144,10 +159,11 @@ export class BudgetOverviewComponent implements OnInit {
   private loadCurrentBudgetPeriod() {
     this.trackingService.getCurrentBudgetPeriod().subscribe((currentPeriod: CurrentBudgetPeriod) => {
       this.currentBudgetPeriod = currentPeriod;
+      this.isBudgetFinalized = this.currentBudgetPeriod.dateFinalized !== undefined;
     }, (error) => {
       console.error("Error when fetching current budget period");
       console.error(error);
       this.wasError = true;
-    })
+    });
   }
 }

@@ -6,6 +6,7 @@ using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Business.BudgetPlanning;
+using BudgetSquirrel.Business.Tracking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +17,16 @@ namespace BudgetSquirrel.Api.Controllers
   public class BudgetController : Controller
   {
     private readonly IAuthService authService;
+    private readonly BudgetLoader budgetLoader;
     private readonly IUnitOfWork unitOfWork;
 
     public BudgetController(
       IAuthService authService,
+      BudgetLoader budgetLoader,
       IUnitOfWork unitOfWork)
     {
       this.authService = authService;
+      this.budgetLoader = budgetLoader;
       this.unitOfWork = unitOfWork;
     }
 
@@ -31,9 +35,9 @@ namespace BudgetSquirrel.Api.Controllers
     public async Task<JsonResult> GetRootBudget()
     {
       User currentUser = await this.authService.GetCurrentUser();
-      GetRootBudgetQuery query = new GetRootBudgetQuery(this.unitOfWork, currentUser.Id);
-      Budget budget = await query.Run();
-      RootBudgetResponse response = new RootBudgetResponse(budget);
+      GetRootBudgetQuery query = new GetRootBudgetQuery(this.unitOfWork, this.budgetLoader, currentUser.Id);
+      Fund rootFund = await query.Run();
+      RootBudgetResponse response = new RootBudgetResponse(rootFund);
       return new JsonResult(response);
     }
 
@@ -74,12 +78,24 @@ namespace BudgetSquirrel.Api.Controllers
       return new JsonResult(new { success = true });
     }
 
+    [Authorize]
     [HttpDelete("budget/{id}")]
     public async Task<JsonResult> RemoveBudget(Guid id)
     {
       User currentUser = await this.authService.GetCurrentUser();
       RemoveBudgetCommand command = new RemoveBudgetCommand(this.unitOfWork, id, currentUser);
       await command.Run();
+      return new JsonResult(new { success = true });
+    }
+
+    [Authorize]
+    [HttpPost("budget/finalize/{id}")]
+    public async Task<JsonResult> FinalizeBudget(Guid id)
+    {
+      User currentUser = await this.authService.GetCurrentUser();
+      FinalizeBudgetPeriodCommand command = new FinalizeBudgetPeriodCommand(this.unitOfWork, this.budgetLoader, id, currentUser);
+      await command.Run();
+
       return new JsonResult(new { success = true });
     }
   }

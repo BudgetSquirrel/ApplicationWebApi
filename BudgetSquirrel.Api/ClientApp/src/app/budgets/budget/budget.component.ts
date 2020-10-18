@@ -40,7 +40,7 @@ export class BudgetComponent implements OnInit, OnChanges {
       return false;
     }
     const hasBeenEdited = this.budgetPlanningService.getBudgetState(this.budget).hasBeenEdited;
-    const wasEditForSubBudget = this.lastModifiedBudget.id == this.budget.id;
+    const wasEditForSubBudget = this.lastModifiedBudget.id === this.budget.id;
 
     return !wasEditForSubBudget && hasBeenEdited;
   }
@@ -82,7 +82,7 @@ export class BudgetComponent implements OnInit, OnChanges {
     this.shouldShowActionsAbove = this.level < 3;
     this.shouldShowActionsToRight = this.level == 3;
     this.isPlannedDifferentThanAllocated = this.hasSubBudgets && (this.budget.subBudgetTotalPlannedAmount != this.budget.setAmount);
-    
+
     if (this.level == 3) {
       this.amountInLabel = "Planned:";
     }

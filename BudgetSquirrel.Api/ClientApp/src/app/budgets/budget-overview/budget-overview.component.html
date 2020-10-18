@@ -81,13 +81,21 @@
     </div>
   </ng-template>
   
-  <div class="root-budget-controls">
+  <div class="root-budget-control__container">
     <button
       class="button button--primary button--wide"
       [ngClass]="{'button--disabled': isAddingBudget}"
       [disabled]="isAddingBudget"
       (click)="onAddBudgetClick(rootBudget)">
       Add Budget
+    </button>
+
+    <button
+      class="button button--primary button--wide root-budget-control"
+      [ngClass]="{'button--disabled': isBudgetFinalized}"
+      [disabled]="isBudgetFinalized"
+      (click)="onFinalizeBudget(rootBudget)">
+      Finalize
     </button>
   </div>
 
@@ -109,5 +117,23 @@
   <div *ngIf="this.isEditingDuration">
     <bs-edit-duration-form (onClose)="onCloseDurationEditModal()" (onEditSubmit)="this.onEditDurationSubmit($event)" [budgetDuration]="this.rootBudget.duration"></bs-edit-duration-form>
   </div>
+
+  <ng-template [ngIf]="this.shouldShowFinalizingErrorModal" [ngIfElse]="noFinalizingError">
+    <div class="modal__background">
+      <dialog class="modal error-finalizing-budget-modal" open="true">
+        <div class="modal__content">
+          <p class="error-finalizing-budget-modal__line">
+            Budgets must be fully allocated to be finalized. Please make sure that all budgets have their entire planned amounts allocated in their child budgets.
+          </p>
+          <div class="error-finalizing-budget-modal__actions">
+            <button class="button button-small" (click)="onCloseFinalizeErrorModal()">
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  </ng-template>
+  <ng-template #noFinalizingError></ng-template>
 
 </div>
