@@ -19,6 +19,10 @@ namespace BudgetSquirrel.Api.ResponseModels
 
     public decimal SubBudgetTotalPlannedAmount { get; private set; }
 
+    public DateTime? DateFinalized { get; private set; }
+
+    public CurrentBudgetPeriodResponse BudgetPeriod { get; private set; }
+
     public BudgetDurationResponse Duration { get; set; }
 
     public IEnumerable<RootBudgetResponse> SubBudgets { get; private set; }
@@ -31,7 +35,9 @@ namespace BudgetSquirrel.Api.ResponseModels
       PercentAmount = budget.PercentAmount;
       SetAmount = budget.SetAmount;
       FundBalance = fund.FundBalance;
+      DateFinalized = budget.DateFinalizedTo;
       SubBudgetTotalPlannedAmount = budget.SubBudgetTotalPlannedAmount;
+      BudgetPeriod = new CurrentBudgetPeriodResponse(budget.BudgetPeriod);
       Duration = new BudgetDurationResponse(fund.Duration);
       SubBudgets = fund.SubFunds.Select(f => new RootBudgetResponse(f));
     }

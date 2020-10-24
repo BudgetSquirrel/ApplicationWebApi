@@ -4,8 +4,7 @@ import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.c
 import { EditBudgetEvent, EditBudgetFieldName } from '../budget/budget.component';
 import { EditDurationEvent } from '../duration/edit-duration-form/edit-duration-form.component';
 import { BudgetApi } from '../services/budget-api.service';
-import { CurrentBudgetPeriod, nullCurrentBudgetPeriod } from 'src/app/shared/models/tracking';
-import { TrackingService } from 'src/app/shared/services/tracking.service';
+import { CurrentBudgetPeriod, nullCurrentBudgetPeriod } from 'src/app/shared/models/core';
 
 @Component({
   selector: "bs-budget-overview",
@@ -30,13 +29,11 @@ export class BudgetOverviewComponent implements OnInit {
   public wasError = false;
   public leftToBudgetClassName: string;
 
-  constructor(private budgetService: BudgetApi,
-              private trackingService: TrackingService)
+  constructor(private budgetService: BudgetApi)
   { }
 
   public ngOnInit() {
     this.loadRootBudget();
-    this.loadCurrentBudgetPeriod();
   }
 
   public onOpenInplaceEdit(field: string, event: MouseEvent) {
@@ -87,7 +84,6 @@ export class BudgetOverviewComponent implements OnInit {
   public onFinalizeBudget(budget: Budget) {
     this.budgetService.finzlizeBudget(budget.id).then(() => {
       this.loadRootBudget();
-      this.loadCurrentBudgetPeriod();
     }).catch(() => {
       this.shouldShowFinalizingErrorModal = true;
     });
@@ -131,6 +127,8 @@ export class BudgetOverviewComponent implements OnInit {
   private loadRootBudget() {
     this.budgetService.getRootBudget().subscribe((rootBudget: Budget) => {
       this.rootBudget = rootBudget;
+      this.isBudgetFinalized = this.rootBudget.dateFinalized !== undefined;
+      this.currentBudgetPeriod = rootBudget.budgetPeriod;
       this.syncRootBudgetState();
     }, (error) => {
       console.error("Error when fetching root budget");
@@ -154,16 +152,5 @@ export class BudgetOverviewComponent implements OnInit {
       this.leftToBudgetLabel = "Left to Budget";
       this.plannedIncomeComparedToAmountBudgeted = 0;
     }
-  }
-
-  private loadCurrentBudgetPeriod() {
-    this.trackingService.getCurrentBudgetPeriod().subscribe((currentPeriod: CurrentBudgetPeriod) => {
-      this.currentBudgetPeriod = currentPeriod;
-      this.isBudgetFinalized = this.currentBudgetPeriod.dateFinalized !== undefined;
-    }, (error) => {
-      console.error("Error when fetching current budget period");
-      console.error(error);
-      this.wasError = true;
-    });
   }
 }
