@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { Budget, nullBudget } from '../models';
 import { CreateBudgetEventArguments } from '../add-budget-form/add-budget-form.component';
 import { EditBudgetEvent, EditBudgetFieldName } from '../budget/budget.component';
@@ -12,6 +12,8 @@ import { CurrentBudgetPeriod, nullCurrentBudgetPeriod } from 'src/app/shared/mod
   styleUrls: ["./budget-overview.component.scss"]
 })
 export class BudgetOverviewComponent implements OnInit {
+
+  @Output() onBudgetFinalized: EventEmitter<void> = new EventEmitter();
 
   public rootBudget: Budget = nullBudget;
   public plannedIncomeDiffAmountBudgeted: number;
@@ -86,6 +88,8 @@ export class BudgetOverviewComponent implements OnInit {
       this.loadRootBudget();
     }).catch(() => {
       this.shouldShowFinalizingErrorModal = true;
+    }).finally(() => {
+      this.onBudgetFinalized.emit();
     });
   }
 
@@ -127,7 +131,7 @@ export class BudgetOverviewComponent implements OnInit {
   private loadRootBudget() {
     this.budgetService.getRootBudget().subscribe((rootBudget: Budget) => {
       this.rootBudget = rootBudget;
-      this.isBudgetFinalized = this.rootBudget.dateFinalized !== undefined;
+      this.isBudgetFinalized = this.rootBudget.dateFinalized !== undefined && this.rootBudget.dateFinalized !== null;
       this.currentBudgetPeriod = rootBudget.budgetPeriod;
       this.syncRootBudgetState();
     }, (error) => {

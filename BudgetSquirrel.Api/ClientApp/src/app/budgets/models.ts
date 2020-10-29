@@ -5,7 +5,7 @@ export class Budget {
   name: string;
   duration: BudgetDuration;
   budgetPeriod: CurrentBudgetPeriod;
-  dateFinalized: Date;
+  dateFinalized?: Date | null;
   fundBalance: number;
   percentAmount?: number;
   setAmount: number;
