@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.BudgetPlanning;
 
 namespace BudgetSquirrel.Api.ResponseModels

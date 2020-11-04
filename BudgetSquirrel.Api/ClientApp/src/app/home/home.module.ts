@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "../shared/shared.module";
 import { BudgetsModule } from "../budgets/budgets.module";
 import { HomeComponent } from "./home/home.component";
+import { TrackingModule } from '../tracking/tracking.module';
 
 
 
@@ -17,7 +18,8 @@ import { HomeComponent } from "./home/home.component";
     CommonModule,
     RouterModule,
     SharedModule,
-    BudgetsModule
+    BudgetsModule,
+    TrackingModule
   ]
 })
 export class HomeModule { }
