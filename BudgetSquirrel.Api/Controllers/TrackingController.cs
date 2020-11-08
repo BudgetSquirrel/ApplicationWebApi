@@ -36,7 +36,7 @@ namespace BudgetSquirrel.Api.Controllers
       User currentUser = await this.authService.GetCurrentUser();
       GetRootFundForTrackingQuery query = new GetRootFundForTrackingQuery(this.unitOfWork, this.budgetLoader, currentUser.Id, date);
       Fund rootFund = await query.Run();
-      RootFundResponse response = new RootFundResponse(rootFund);
+      RootFundForTrackingResponse response = new RootFundForTrackingResponse(rootFund);
       return new JsonResult(response);
     }
   }
