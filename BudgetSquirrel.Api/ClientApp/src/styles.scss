@@ -48,7 +48,7 @@ fieldset {
     }
 }
 
-// Forms
+/***** Forms *****/
 .form {
     &__inputs {
         margin-top: 60px;
@@ -66,8 +66,9 @@ fieldset {
         margin-top: 60px;
     }
 }
+/***** End Forms *****/
 
-// Form controls
+/***** Form controls *****/
 .form-field {
     display: inline-block;
     width: 480px;
@@ -182,6 +183,7 @@ fieldset {
         }
     }
 }
+/***** End Form controls *****/
 
 .stat {
     font-size: 22px;
@@ -200,5 +202,16 @@ fieldset {
 
     &--danger {
         color: mat-color($danger, 500) !important;
+    }
+}
+
+.model-detail {
+    &__label {
+        font-size: 0.83em;
+        font-weight: bold;
+    }
+    
+    &__container {
+        background-color: mat-color($steel, 50);
     }
 }

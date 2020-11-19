@@ -1,4 +1,4 @@
-<div class="budget-overview">
+<div class="budget-overview page-column">
 
   <!-- Was an error loading the budget-->
   <ng-template [ngIf]="this.wasError" [ngIfElse]="notWasError">
@@ -10,7 +10,7 @@
     <div>
       <ng-template [ngIf]="this.isEditingRootName" [ngIfElse]="notEditingRootName">
         <input
-          class="inplace-input inplace-input__input inplace-input--large"
+          class="page-header inplace-input inplace-input__input inplace-input--large"
           name="root-budget-name"
           aria-label="Root Budget Name"
           (blur)="onBlurInplaceEdit('name', $event)"
@@ -18,14 +18,14 @@
       </ng-template>
       <ng-template #notEditingRootName>
         <h2
-          class="root-budget-name inplace-input inplace-input__focusable inplace-input--large"
+          class="page-header inplace-input inplace-input__focusable inplace-input--short"
           (mousedown)="onOpenInplaceEdit('name', $event)">
           {{this.rootBudget.name}}
         </h2>
       </ng-template>
 
-      <div class="budget-period-info">
-        <h2 class="budget-period-info__dates">
+      <div class="page-header__extra">
+        <h2>
           ({{this.currentBudgetPeriod.startDate | date:'MMM d'}}
           -
           {{this.currentBudgetPeriod.endDate | date:'MMM d'}})
@@ -41,11 +41,11 @@
       </div>
     </div>
 
-    <div class="root-budget-details">
+    <div class="model-detail__container">
       <div
-        class="root-budget-stat"
+        class="model-detail"
         [ngClass]="{'root-budget-allocated--good': plannedIncomeComparedToAmountBudgeted == 0}">
-        <h5 id="setAmountLabel">Planned Income</h5>
+        <h5 class="model-detail__label" id="setAmountLabel">Planned Income</h5>
 
         <ng-template [ngIf]="this.isEditingRootAmount" [ngIfElse]="notEditingRootAmount">
           <input
@@ -58,32 +58,32 @@
         </ng-template>
         <ng-template #notEditingRootAmount>
           <span
-            class="inplace-input inplace-input--short inplace-input__focusable root-budget-stat__stat"
+            class="inplace-input inplace-input--short inplace-input__focusable model-detail__value"
             (mousedown)="onOpenInplaceEdit('setAmount', $event)">
             {{this.rootBudget.setAmount | currency}}
           </span>
         </ng-template>
       </div>
 
-      <div *ngIf="this.plannedIncomeComparedToAmountBudgeted != 0" class="root-budget-stat">
-        <h5 class="{{this.leftToBudgetClassName}}">
+      <div *ngIf="this.plannedIncomeComparedToAmountBudgeted != 0" class="model-detail">
+        <h5 class="model-detail__label {{this.leftToBudgetClassName}}">
           {{this.leftToBudgetLabel}}
         </h5>
-        <span class="root-budget-stat__stat {{this.leftToBudgetClassName}}">
+        <span class="model-detail__value {{this.leftToBudgetClassName}}">
           {{plannedIncomeDiffAmountBudgeted | currency}}
         </span>
       </div>
 
-      <div class="root-budget-stat">
-        <h5>Current Balance</h5>
-        <span class="root-budget-stat__stat">{{this.rootBudget.fundBalance | currency}}</span>
+      <div class="model-detail">
+        <h5 class="model-detail__label">Current Balance</h5>
+        <span class="model-detail__value">{{this.rootBudget.fundBalance | currency}}</span>
       </div>
     </div>
   </ng-template>
   
-  <div class="root-budget-control__container">
+  <div class="model-control__container">
     <button
-      class="button button--primary button--wide"
+      class="model-control button button--primary button--wide"
       [ngClass]="{'button--disabled': isAddingBudget}"
       [disabled]="isAddingBudget"
       (click)="onAddBudgetClick(rootBudget)">
@@ -91,7 +91,7 @@
     </button>
 
     <button
-      class="button button--primary button--wide root-budget-control"
+      class="button button--primary button--wide model-control"
       [ngClass]="{'button--disabled': isBudgetFinalized}"
       [disabled]="isBudgetFinalized"
       (click)="onFinalizeBudget(rootBudget)">

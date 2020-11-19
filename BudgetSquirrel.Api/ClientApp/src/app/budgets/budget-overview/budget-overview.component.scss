@@ -1,62 +1,23 @@
 @import '../../../variables.scss';
 
 .budget-overview {
-    padding-left: var(--page-side-padding);
-    padding-right: var(--page-side-padding);
-    padding-top: 16px;
-    padding-bottom: 32px;
 
-    .root-budget-name {
-        width: initial;
-    }
+    // .root-budget-control {
+    //     margin-left: 16px;
 
-    .root-budget-details {
-        margin-top: 1em;
-        background-color: mat-color($steel, 50);
-        display: flex;
-        justify-content: flex-start;
-        padding: 1em 0;
+    //     &:first-of-type {
+    //         margin-left: 0;
+    //     }
 
-        h5 {
-            margin: 4px 0;
-        }
-    }
+    //     &__container {
+    //         margin-top: 1em;
 
-    .root-budget-stat {
-        margin: 0 1em;
-
-        &__stat {
-            font-size: 15px;
-            line-height: 150%;
-            color: #687F83;
-        }
-    }
-
-    .root-budget-control {
-        margin-left: 16px;
-
-        &:first-of-type {
-            margin-left: 0;
-        }
-
-        &__container {
-            margin-top: 1em;
-
-            display: flex;
-        }
-    }
+    //         display: flex;
+    //     }
+    // }
 
     .budget-list {
         margin-top: 16px;
-    }
-
-    .budget-period-info {
-        margin-left: 15px;
-        display: inline-block;
-
-        &__dates {
-            display: inline-block;
-        }
     }
 
     .edit-duration {
