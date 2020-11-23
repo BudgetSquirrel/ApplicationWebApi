@@ -1,0 +1,33 @@
+<div
+  class="tree__node"
+  [ngClass]="{
+    'tree__branch': this.isLeaf == false,
+    'tree__leaf': this.isLeaf,
+    'fund--level-1': this.level == 1,
+    'fund--level-2': this.level == 2,
+    'fund--level-3': this.level == 3
+  }">
+  <div class="fund tree__node-content">
+    <span class="fund__name">{{this.fund.name}}</span>
+
+    <div class="fund__stat stat__container">
+      <p class="stat__label">BUDGET</p>
+      <p class="stat">{{this.fund.budgetedAmount | currency}}</p>
+    </div>
+
+    <div class="fund__stat stat__container">
+      <p class="stat__label">BALANCE</p>
+      <p class="stat">{{this.fund.balance | currency}}</p>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!this.isLeaf"
+    class="tree__branch-children">
+    <bs-tracking-fund
+      *ngFor="let fund of this.fund.subFunds"
+      [level]="this.childrenLevel"
+      [fund]="fund">
+    </bs-tracking-fund>
+  </div>
+</div>

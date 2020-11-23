@@ -215,3 +215,11 @@ fieldset {
         background-color: mat-color($steel, 50);
     }
 }
+
+.tree__node {
+    border: 1px solid mat-color($steel, 50);
+
+    &-content {
+        padding: 15px;
+    }
+}

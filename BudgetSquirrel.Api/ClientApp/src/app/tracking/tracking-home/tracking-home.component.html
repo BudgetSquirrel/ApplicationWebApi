@@ -14,7 +14,7 @@
 
     <div class="model-detail__container">
       <div class="model-detail">
-        <h5 class="model-detail__label">Total Budget</h5>
+        <h5 class="model-detail__label">Total Budgeted</h5>
         <span class="model-detail__value">{{this.rootFund.budgetedAmount | currency}}</span>
       </div>
 
@@ -22,6 +22,14 @@
         <h5 class="model-detail__label">Total Ballance</h5>
         <span class="model-detail__value">{{this.rootFund.balance | currency}}</span>
       </div>
+    </div>
+
+    <div class="tree tree--simple">
+      <bs-tracking-fund
+        *ngFor="let fund of this.rootFund.subFunds"
+        [level]=1
+        [fund]="fund">
+      </bs-tracking-fund>
     </div>
   </div>
 </div>
