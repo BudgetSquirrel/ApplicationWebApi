@@ -1,7 +1,11 @@
+import { CurrentBudgetPeriod } from '../shared/models/core';
+
 export class Budget {
   id: string;
   name: string;
   duration: BudgetDuration;
+  budgetPeriod: CurrentBudgetPeriod;
+  dateFinalized?: Date | null;
   fundBalance: number;
   percentAmount?: number;
   setAmount: number;

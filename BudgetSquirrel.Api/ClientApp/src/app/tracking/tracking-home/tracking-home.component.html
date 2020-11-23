@@ -1,0 +1,27 @@
+<div class="page-column">
+  <div>
+    <div>
+      <h2 class="page-header">{{this.rootFund.name}}</h2>
+
+      <div class="page-header__extra">
+        <h2>
+          ({{this.rootFund.budgetPeriod.startDate | date:'MMM d'}}
+          -
+          {{this.rootFund.budgetPeriod.endDate | date:'MMM d'}})
+        </h2>
+      </div>
+    </div>
+
+    <div class="model-detail__container">
+      <div class="model-detail">
+        <h5 class="model-detail__label">Total Budget</h5>
+        <span class="model-detail__value">{{this.rootFund.budgetedAmount | currency}}</span>
+      </div>
+
+      <div class="model-detail">
+        <h5 class="model-detail__label">Total Ballance</h5>
+        <span class="model-detail__value">{{this.rootFund.balance | currency}}</span>
+      </div>
+    </div>
+  </div>
+</div>

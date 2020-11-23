@@ -1,11 +1,8 @@
-using System;
 using System.Threading.Tasks;
-using BudgetSquirrel.Api.ResponseModels;
 using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Business.BudgetPlanning;
-using BudgetSquirrel.Business.Tracking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,13 +10,13 @@ namespace BudgetSquirrel.Api.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]
-  public class TrackingController : Controller
+  public class ContextController : Controller
   {
     private IAuthService authService;
     private IUnitOfWork unitOfWork;
     private BudgetLoader budgetLoader;
 
-    public TrackingController(
+    public ContextController(
       IAuthService authService,
       IUnitOfWork unitOfWork,
       BudgetLoader budgetLoader)
@@ -28,16 +25,18 @@ namespace BudgetSquirrel.Api.Controllers
       this.unitOfWork = unitOfWork;
       this.budgetLoader = budgetLoader;
     }
-
+    
     [Authorize]
-    [HttpGet("root-fund")]
-    public async Task<JsonResult> GetRootFund([FromQuery] DateTime date)
+    [HttpGet("is-current-budget-finalized")]
+    public async Task<JsonResult> GetIsCurrentBudgetFinalized()
     {
       User currentUser = await this.authService.GetCurrentUser();
-      GetRootFundForTrackingQuery query = new GetRootFundForTrackingQuery(this.unitOfWork, this.budgetLoader, currentUser.Id, date);
-      Fund rootFund = await query.Run();
-      RootFundForTrackingResponse response = new RootFundForTrackingResponse(rootFund);
-      return new JsonResult(response);
+      GetRootBudgetQuery query = new GetRootBudgetQuery(this.unitOfWork, this.budgetLoader, currentUser.Id);
+      Fund currentRootFund = await query.Run();
+
+      return new JsonResult(new {
+        isFinalized = currentRootFund.CurrentBudget.DateFinalizedTo.HasValue
+      });
     }
   }
 }

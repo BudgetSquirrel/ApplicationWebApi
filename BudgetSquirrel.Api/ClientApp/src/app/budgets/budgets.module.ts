@@ -31,7 +31,7 @@ import { EditDayspanDurationFormComponent } from './duration/edit-dayspan-durati
     MatInputModule,
     MatCheckboxModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   exports: [
     BudgetOverviewComponent,

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TrackingService } from './tracking.service';
+import { AppContextService } from './app-context.service';
 
-describe('TrackingServiceService', () => {
+describe('AppContextService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: TrackingService = TestBed.get(TrackingService);
+    const service: AppContextService = TestBed.get(AppContextService);
     expect(service).toBeTruthy();
   });
 });

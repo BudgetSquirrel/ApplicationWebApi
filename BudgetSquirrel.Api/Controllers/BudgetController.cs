@@ -6,7 +6,6 @@ using BudgetSquirrel.Api.Services.Interfaces;
 using BudgetSquirrel.Business;
 using BudgetSquirrel.Business.Auth;
 using BudgetSquirrel.Business.BudgetPlanning;
-using BudgetSquirrel.Business.Tracking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
