@@ -11,6 +11,8 @@ export class TrackingHomeComponent implements OnInit {
 
   rootFund: Fund;
 
+  public isLoading: boolean = true;
+
   constructor(private trackingApi: TrackingApiService) { }
 
   ngOnInit() {
@@ -18,7 +20,9 @@ export class TrackingHomeComponent implements OnInit {
   }
 
   private async refreshRootFund() {
+    this.isLoading = true;
     this.rootFund = await this.trackingApi.getCurrentRootFund();
+    this.isLoading = false;
   }
 
 }

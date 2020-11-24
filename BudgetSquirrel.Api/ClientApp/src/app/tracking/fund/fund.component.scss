@@ -8,6 +8,9 @@
   &__name {
     font-size: 22px;
     color: mat-color($md-steel, 500);
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
   }
 
   &__stat {
@@ -29,4 +32,21 @@
   &--level-3 .fund {
     background-color: white
   }
+}
+
+.fund .collapse-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: -999;
+}
+.fund:hover .collapse-toggle,
+.fund .collapse-toggle:focus {
+  position: initial;
+  width: initial;
+  height: initial;
+  overflow: initial;
+  z-index: initial;
+  margin-right: 15px;
 }
