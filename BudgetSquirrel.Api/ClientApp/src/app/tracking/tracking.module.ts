@@ -4,10 +4,12 @@ import { SharedModule } from "../shared/shared.module";
 import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatCheckboxModule } from "@angular/material";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TrackingHomeComponent } from './tracking-home/tracking-home.component';
+import { FundComponent } from './fund/fund.component';
 
 @NgModule({
   declarations: [
-    TrackingHomeComponent
+    TrackingHomeComponent,
+    FundComponent
   ],
   imports: [
     CommonModule,

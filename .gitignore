@@ -352,5 +352,6 @@ vcs.xml
 
 # DB File
 *.db
+dev.db-*
 
 *.swp
