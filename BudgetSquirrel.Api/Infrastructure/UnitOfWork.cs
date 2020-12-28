@@ -14,6 +14,7 @@ namespace BudgetSquirrel.Api.Infrastructure
     private IRepository<BudgetDurationBase> budgetDurationRepository;
     private IRepository<BudgetPeriod> budgetPeriodRepository;
     private IRepository<Fund> fundRepository;
+    private IRepository<Transaction> transactionRepository;
     private BudgetSquirrelContext dbContext;
 
     public UnitOfWork(
@@ -21,12 +22,14 @@ namespace BudgetSquirrel.Api.Infrastructure
       IRepository<BudgetDurationBase> budgetDurationRepository,
       IRepository<BudgetPeriod> budgetPeriodRepository,
       IRepository<Fund> fundRepository,
+      IRepository<Transaction> transactionRepository,
       BudgetSquirrelContext dbContext)
     {
       this.budgetRepository = budgetRepository;
       this.budgetDurationRepository = budgetDurationRepository;
       this.budgetPeriodRepository = budgetPeriodRepository;
       this.fundRepository = fundRepository;
+      this.transactionRepository = transactionRepository;
       this.dbContext = dbContext;
     }
 
@@ -47,6 +50,10 @@ namespace BudgetSquirrel.Api.Infrastructure
       else if (typeof(T) == typeof(Fund))
       {
         return (IRepository<T>) this.fundRepository;
+      }
+      else if (typeof(T) == typeof(Transaction))
+      {
+        return (IRepository<T>) this.transactionRepository;
       }
       else
       {

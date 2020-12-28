@@ -17,12 +17,12 @@ namespace BudgetSquirrel.Api.Controllers
   {
     private IAuthService authService;
     private IUnitOfWork unitOfWork;
-    private BudgetLoader budgetLoader;
+    private FundLoader budgetLoader;
 
     public TrackingController(
       IAuthService authService,
       IUnitOfWork unitOfWork,
-      BudgetLoader budgetLoader)
+      FundLoader budgetLoader)
     {
       this.authService = authService;
       this.unitOfWork = unitOfWork;

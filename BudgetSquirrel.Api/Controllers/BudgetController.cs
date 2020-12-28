@@ -16,12 +16,12 @@ namespace BudgetSquirrel.Api.Controllers
   public class BudgetController : Controller
   {
     private readonly IAuthService authService;
-    private readonly BudgetLoader budgetLoader;
+    private readonly FundLoader budgetLoader;
     private readonly IUnitOfWork unitOfWork;
 
     public BudgetController(
       IAuthService authService,
-      BudgetLoader budgetLoader,
+      FundLoader budgetLoader,
       IUnitOfWork unitOfWork)
     {
       this.authService = authService;

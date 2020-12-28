@@ -60,10 +60,11 @@ namespace BudgetSquirrel.Api
             services.AddTransient<IRepository<BudgetDurationBase>, BudgetDurationRepository>();
             services.AddTransient<IRepository<BudgetPeriod>, DefaultRepository<BudgetPeriod>>();
             services.AddTransient<IRepository<Fund>, DefaultRepository<Fund>>();
+            services.AddTransient<IRepository<Transaction>, DefaultRepository<Transaction>>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddTransient<BudgetLoader>();
+            services.AddTransient<FundLoader>();
         }
 
         protected void ConfigureAuthenticationServices(IServiceCollection services)
